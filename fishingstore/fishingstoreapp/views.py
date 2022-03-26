@@ -1,5 +1,4 @@
 import json
-from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from fishingstoreapp.models import Product
 
@@ -8,28 +7,29 @@ def index(request: HttpRequest):
     # list of all endpoints
     endpoints = [
         {
-            "name": "add_product",
-            "method": "POST",
-            "url": "/api/v1/products",
-            "description": "Add product to database"
-        },
-        {
-            "name": "get_products",
+            "endpoint": "/api/products",
             "method": "GET",
-            "url": "/api/v1/products",
-            "description": "Get all products from database"
+            "description": "Returns all products in JSON format"
         },
         {
-            "name": "get_product_by_id",
-            "method": "GET",
-            "url": "/api/v1/products/{id}",
-            "description": "Get product by id"
-        },
-        {
-            "name": "add_mockup_products",
+            "endpoint": "/api/products/",
             "method": "POST",
-            "url": "/api/v1/products/mockup",
-            "description": "Add mockup products to database"
+            "description": "Receives product in JSON format and writes it to database"
+        },
+        {
+            "endpoint": "/api/products/<id>",
+            "method": "GET",
+            "description": "Returns product by id in JSON format"
+        },
+        {
+            "endpoint": "/api/products/<id>",
+            "method": "DELETE",
+            "description": "Deletes product by id"
+        },
+        {
+            "endpoint": "/api/mockup",
+            "method": "GET",
+            "description": "Writes 5 mockup products to database"
         }
     ]
 
@@ -37,18 +37,48 @@ def index(request: HttpRequest):
     return HttpResponse(json.dumps(endpoints, indent=4), content_type="application/json")
 
 
-# endpoint receiving product as POST in JSON format and writing it to Django database
-def add_product(request: HttpRequest):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        product = Product(
-            name=data["name"],
-            price=data["price"],
-            description=data["description"],
-            image=data["image"]
+# receiving product as POST in JSON format and writing it to Django database
+def add_product(request: HttpRequest, id: int):
+    try:
+        product_json = json.loads(request.body)
+        product_object = Product(
+            name=product_json["name"],
+            price=product_json["price"],
+            description=product_json["description"],
+            image=product_json["image"]
         )
-        product.save()
+        product_object.save()
         return HttpResponse(status=201)
+    except Exception as error:
+        return HttpResponse(error, status=400)
+
+
+# deleting product by its id
+def delete_product(request: HttpRequest, id: int):
+    product = Product.objects.get(id=id)
+    product.delete()
+    return HttpResponse(status=204)
+
+
+# updating product by its id
+def update_product(request: HttpRequest, id: int):
+    product = Product.objects.get(id=id)
+    product_json = json.loads(request.body)
+    product.name = product_json["name"]
+    product.price = product_json["price"]
+    product.description = product_json["description"]
+    product.image = product_json["image"]
+    product.save()
+    return HttpResponse(status=200)
+
+
+def get_add_update_product(request: HttpRequest, id: int):
+    if request.method == "GET":
+        return add_product(request, id)
+    elif request.method == "POST":
+        return delete_product(request, id)
+    elif request.method == "UPDATE":
+        return update_product(request, id)
     else:
         return HttpResponse(status=405)
 
