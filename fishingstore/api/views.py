@@ -1,103 +1,98 @@
 import json
 from django.http import HttpResponse, HttpRequest
 from .models import Product
+from .serializers import ProductSerializer
+from rest_framework import generics
 
 
-def index(request: HttpRequest):
-    # list of all endpoints
-    endpoints = [
-        {
-            "endpoint": "/api/products",
-            "method": "GET",
-            "description": "Returns all products in JSON format"
-        },
-        {
-            "endpoint": "/api/products/",
-            "method": "POST",
-            "description": "Receives product in JSON format and writes it to database"
-        },
-        {
-            "endpoint": "/api/products/<id>",
-            "method": "GET",
-            "description": "Returns product by id in JSON format"
-        },
-        {
-            "endpoint": "/api/products/<id>",
-            "method": "DELETE",
-            "description": "Deletes product by id"
-        },
-        {
-            "endpoint": "/api/mockup",
-            "method": "GET",
-            "description": "Writes 5 mockup products to database and returns all products in JSON format"
-        }
-    ]
-
-    # returning endpoints as JSON with indentation
-    return HttpResponse(json.dumps(endpoints, indent=4), content_type="application/json")
+class ProductAPIView(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
 
 # receiving product as POST in JSON format and writing it to Django database
 def add_product(request: HttpRequest, id: int):
-    try:
-        product_json = json.loads(request.body)
-        product_object = Product(
-            name=product_json["name"],
-            price=product_json["price"],
-            description=product_json["description"],
-            image=product_json["image"]
-        )
-        product_object.save()
-        return HttpResponse(status=201)
-    except Exception as error:
-        return HttpResponse(error, status=400)
+    if request.method == "POST":
+        product = ProductSerializer(data=request.body)
+        if product.is_valid():
+            product.save()
+            return HttpResponse(status=201)
+        else:
+            return HttpResponse(product.errors, status=400)
 
 
 # deleting product by its id
 def delete_product(request: HttpRequest, id: int):
     product = Product.objects.get(id=id)
-    product.delete()
-    return HttpResponse(status=204)
+    if product:
+        product.delete()
+        return HttpResponse(status=200)
+    else:
+        return HttpResponse(status=404)
 
 
-# updating product by its id
-def update_product(request: HttpRequest, id: int):
+# put product by id using ProductSerializer
+def put_product(request: HttpRequest, id):
     product = Product.objects.get(id=id)
-    product_json = json.loads(request.body)
-    product.name = product_json["name"]
-    product.price = product_json["price"]
-    product.description = product_json["description"]
-    product.image = product_json["image"]
-    product.save()
-    return HttpResponse(status=200)
+    serializer = ProductSerializer(product, data=request.body)
+    if serializer.is_valid():
+        serializer.save()
+        return HttpResponse(status=200)
+    else:
+        return HttpResponse(serializer.errors, status=400)
+
+
+# patch product by id only if field is defined in request body
+def patch_product(request: HttpRequest, id: int):
+    product = Product.objects.get(id=id)
+    if product:
+        updated_product = ProductSerializer(data=request.body)
+        if updated_product.is_valid():
+            if "name" in updated_product.validated_data:
+                product.name = updated_product.validated_data["name"]
+            if "price" in updated_product.validated_data:
+                product.price = updated_product.validated_data["price"]
+            if "description" in updated_product.validated_data:
+                product.description = updated_product.validated_data["description"]
+            if "image" in updated_product.validated_data:
+                product.image = updated_product.validated_data["image"]
+            product.save()
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(updated_product.errors, status=400)
+    else:
+        return HttpResponse(status=404)
 
 
 def get_add_update_product(request: HttpRequest, id: int):
     if request.method == "GET":
-        return add_product(request, id)
-    elif request.method == "POST":
+        return get_product(request, id)
+    elif request.method == "DELETE":
         return delete_product(request, id)
-    elif request.method == "UPDATE":
-        return update_product(request, id)
+    elif request.method == "PUT":
+        return put_product(request, id)
+    elif request.method == "PATCH":
+        return patch_product(request, id)
     else:
         return HttpResponse(status=405)
 
 
-# endpoint returing products in JSON format
-def get_products(request: HttpRequest):
+# endpoint returing products in JSON format using ProductSerializer
+def get_all_products(request: HttpRequest):
     if request.method == "GET":
         products = Product.objects.all()
-        products_json = [product.serialize() for product in products]
-        return HttpResponse(json.dumps(products_json, indent=4), content_type="application/json")
+        serializer = ProductSerializer(products, many=True)
+        return HttpResponse(json.dumps(serializer.data, indent=4), content_type="application/json")
     else:
         return HttpResponse(status=405)
 
 
 # endpoint returing product by its id
-def get_product_by_id(request: HttpRequest, id):
+def get_product(request: HttpRequest, id):
     if request.method == "GET":
         product = Product.objects.get(id=id)
-        return HttpResponse(json.dumps(product.serialize(), indent=4), content_type="application/json")
+        serializer = ProductSerializer(product)
+        return HttpResponse(json.dumps(serializer.data, indent=4), content_type="application/json")
     else:
         return HttpResponse(status=405)
 
@@ -138,12 +133,8 @@ def add_mockup_products(request: HttpRequest):
     ]
 
     for product in products:
-        product_object = Product(
-            name=product["name"],
-            price=product["price"],
-            description=product["description"],
-            image=product["image"]
-        )
-        product_object.save()
+        product_object = ProductSerializer(data=product)
+        if product_object.is_valid():
+            product_object.save()
 
     return HttpResponse(json.dumps(products, indent=4), content_type="application/json")
