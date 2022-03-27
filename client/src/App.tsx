@@ -12,14 +12,12 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <div>
-        <Routes>
-          <Route path={ROUTES.order} element={<OrderView />}></Route>
-          <Route path={ROUTES.products} element={<ProductsView />}></Route>
-          <Route path={ROUTES.cart} element={<ShoppingCartView />}></Route>
-          <Route path={ROUTES.test} element={<TestApiView id={1} />}></Route>
-        </Routes>
-      </div>
+      <Routes>
+        <Route path={ROUTES.order} element={<OrderView />}></Route>
+        <Route path={ROUTES.products} element={<ProductsView />}></Route>
+        <Route path={ROUTES.cart} element={<ShoppingCartView />}></Route>
+        <Route path={ROUTES.test} element={<TestApiView id={3} />}></Route>
+      </Routes>
     </Router>
   );
 };
