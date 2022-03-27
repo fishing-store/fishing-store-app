@@ -89,12 +89,12 @@ def get_all_products(request: HttpRequest):
 
 # endpoint returing product by its id
 def get_product(request: HttpRequest, id):
-    if request.method == "GET":
-        product = Product.objects.get(id=id)
+    product = Product.objects.get(id=id)
+    if product:
         serializer = ProductSerializer(product)
         return HttpResponse(json.dumps(serializer.data, indent=4), content_type="application/json")
     else:
-        return HttpResponse(status=405)
+        return HttpResponse(status=404)
 
 
 # endpoint writing 5 fishingrods as products to Django database
