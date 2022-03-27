@@ -1,6 +1,6 @@
 import json
 from django.http import HttpResponse, HttpRequest
-from fishingstoreapp.models import Product
+from .models import Product
 
 
 def index(request: HttpRequest):
@@ -29,7 +29,7 @@ def index(request: HttpRequest):
         {
             "endpoint": "/api/mockup",
             "method": "GET",
-            "description": "Writes 5 mockup products to database"
+            "description": "Writes 5 mockup products to database and returns all products in JSON format"
         }
     ]
 
@@ -146,4 +146,4 @@ def add_mockup_products(request: HttpRequest):
         )
         product_object.save()
 
-    return HttpResponse(status=201)
+    return HttpResponse(json.dumps(products, indent=4), content_type="application/json")
