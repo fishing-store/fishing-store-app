@@ -1,26 +1,42 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
 
-type Props = {
-  id: number;
-};
-
-const TestApiView = ({ id }: Props) => {
-  const [character, setCharacter] = useState<Character>();
+const TestApiView = () => {
+  const [products, setProducts] = useState<Product[]>();
 
   useEffect(() => {
     const fetchData = () => {
-      api.get(`/character/${id}`).then(({ data }) => setCharacter(data));
+      api.get("/").then(({ data }) => setProducts(data));
     };
     fetchData();
   }, []);
 
   return (
-    <div>
-      <p>Id: {character?.id}</p>
-      <p>Nazwa: {character?.name}</p>
-      <p>Płeć: {character?.gender}</p>
-      <img src={character?.image} />
+    <div style={{ margin: 10 }}>
+      {products?.map((product) => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: 10,
+            border: "2px solid black",
+            marginTop: 10,
+            width: 700,
+          }}
+          key={product.id}
+        >
+          <div>
+            <strong>Id: {product?.id}</strong>
+            <p>Nazwa: {product?.name}</p>
+            <p>Cena: {product?.price}</p>
+            <p>Opis: {product?.description}</p>
+          </div>
+          <div>
+            <img src={product?.image} alt="Zdjęcie produktu" />
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

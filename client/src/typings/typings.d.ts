@@ -1,6 +1,7 @@
-type Character = {
+type Product = {
   id: number;
   name: string;
-  gender: string;
+  price: number;
+  description: string;
   image: string;
 };
