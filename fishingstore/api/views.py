@@ -1,4 +1,6 @@
 import json
+from uuid import UUID
+
 from django.http import HttpResponse, HttpRequest
 from .models import Product
 from .serializers import ProductSerializer
@@ -11,7 +13,7 @@ class ProductAPIView(generics.ListCreateAPIView):
 
 
 # receiving product as POST in JSON format and writing it to Django database
-def add_product(request: HttpRequest, id: int):
+def add_product(request: HttpRequest):
     if request.method == "POST":
         product = ProductSerializer(data=request.body)
         if product.is_valid():
@@ -22,7 +24,7 @@ def add_product(request: HttpRequest, id: int):
 
 
 # deleting product by its id
-def delete_product(request: HttpRequest, id: int):
+def delete_product(request: HttpRequest, id: UUID):
     product = Product.objects.get(id=id)
     if product:
         product.delete()
@@ -32,7 +34,7 @@ def delete_product(request: HttpRequest, id: int):
 
 
 # put product by id using ProductSerializer
-def put_product(request: HttpRequest, id):
+def put_product(request: HttpRequest, id: UUID):
     product = Product.objects.get(id=id)
     serializer = ProductSerializer(product, data=request.body)
     if serializer.is_valid():
@@ -43,7 +45,7 @@ def put_product(request: HttpRequest, id):
 
 
 # patch product by id only if field is defined in request body
-def patch_product(request: HttpRequest, id: int):
+def patch_product(request: HttpRequest, id: UUID):
     product = Product.objects.get(id=id)
     if product:
         updated_product = ProductSerializer(data=request.body)
@@ -64,7 +66,7 @@ def patch_product(request: HttpRequest, id: int):
         return HttpResponse(status=404)
 
 
-def get_add_update_product(request: HttpRequest, id: int):
+def get_add_update_product(request: HttpRequest, id: UUID):
     if request.method == "GET":
         return get_product(request, id)
     elif request.method == "DELETE":

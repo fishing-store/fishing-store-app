@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  postgres:
+    build: services/postgres
+    environment:
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_USER: 'user'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - db-net
+  backend:
+    restart: always
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    env_file:
+      - ./fishingstore/.env.development
+    build: fishingstore
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+    networks:
+      - db-net
+
+volumes:
+  postgres-data: {}
+networks:
+  db-net:
+    driver: bridge
