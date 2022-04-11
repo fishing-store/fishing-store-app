@@ -1,4 +1,4 @@
-import { Nav, Anchor, Sidebar } from "grommet";
+import { Nav, Anchor } from "grommet";
 import { Link, useLocation } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
 
@@ -9,8 +9,8 @@ const Navbar = () => {
   const location = useLocation();
 
   return (
-      <Nav direction="column" pad="medium">
-        <Anchor label={location.pathname} icon={<Icons.Location />} color="accent-2"/>
+      <Nav direction="column" pad="medium" width="small">
+        <Anchor label={location.pathname} icon={<Icons.Location />} color="black" disabled/>
         <Link to={ROUTES.order}>
           <Anchor label="Order" icon={<Icons.List />} />
         </Link>

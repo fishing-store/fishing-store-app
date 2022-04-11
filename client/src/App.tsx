@@ -9,9 +9,10 @@ import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
 
 import "@fontsource/roboto";
-import { Box, Button, Heading, Grommet, Collapsible, ResponsiveContext, Layer, Main, Footer, Text } from 'grommet';
+import { Box, Button, Heading, Grommet, Collapsible, Main, Footer, Text } from 'grommet';
 import { Menu, FormClose } from 'grommet-icons';
 import { useState } from "react";
+import { AppBar } from "./components/AppBar";
 
 const theme = {
   global: {
@@ -23,34 +24,20 @@ const theme = {
   },
 };
 
-const AppBar = (props: any) => (
-  <Box
-    tag='header'
-    direction='row'
-    align='center'
-    justify='between'
-    background='brand'
-    pad={{ left: 'medium', right: 'small', vertical: 'small' }}
-    elevation='medium'
-    style={{ zIndex: '1' }}
-    {...props}
-  />
-);
-
 const App = () => {
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   return (
     <Router>
-            <Grommet theme={theme} full>
+      <Grommet theme={theme} full>
         <Box fill>
-        <AppBar flex={false}>
-            <Heading level='3' margin='none'>Najplepszy sklep wędkarski</Heading>
+          <AppBar flex={false}>
+            <Heading level='3' margin='none'>Fishing Store</Heading>
             <Button icon={!showSidebar ? <Menu /> : <FormClose />} onClick={() => setShowSidebar(!showSidebar)} />
           </AppBar>
 
           <Main overflow="auto" flex={true}>
-            <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
+            <Box direction='row' flex overflow={{ horizontal: 'hidden' }} className="scroll-enabled">
               <Box flex align='center' justify='center'>
                 <Routes>
                   <Route path={ROUTES.order} element={<OrderView />}></Route>
@@ -59,16 +46,16 @@ const App = () => {
                   <Route path={ROUTES.test} element={<TestApiView />}></Route>
                 </Routes>
               </Box>
-          
-          <Collapsible direction='horizontal' open={showSidebar}>
-                  <Navbar />
-                </Collapsible>
+
+              <Collapsible direction='horizontal' open={showSidebar}>
+                <Navbar />
+              </Collapsible>
             </Box>
           </Main>
 
 
           <Footer background="brand" pad="medium" flex={false}>
-            <Text>Copyright</Text>
+            <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </Text>
           </Footer>
         </Box>
       </Grommet>
@@ -76,14 +63,5 @@ const App = () => {
   );
 };
 
-{/* <Router>
-<Navbar />
-<Routes>
-  <Route path={ROUTES.order} element={<OrderView />}></Route>
-  <Route path={ROUTES.products} element={<ProductsView />}></Route>
- <Route path={ROUTES.cart} element={<ShoppingCartView />}></Route>
-  <Route path={ROUTES.test} element={<TestApiView />}></Route>
-</Routes>
-</Router> */}
 
 export default App;

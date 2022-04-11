@@ -20,7 +20,7 @@ body {
 .scroll-enabled {
     overflow-y: scroll;
     overflow-x: hidden;
-    --scrollbar-background: #195ad2;
+    --scrollbar-background: #d219b982;
 }
 
 .scroll-enabled::-webkit-scrollbar {
