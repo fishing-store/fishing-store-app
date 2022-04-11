@@ -1,24 +1,29 @@
-import { Link } from "react-router-dom";
+import { Nav, Anchor, Sidebar } from "grommet";
+import { Link, useLocation } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
 
+import * as Icons from 'grommet-icons';
+
 const Navbar = () => {
+
+  const location = useLocation();
+
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to={ROUTES.order}>Order</Link>
-        </li>
-        <li>
-          <Link to={ROUTES.products}>Products</Link>
-        </li>
-        <li>
-          <Link to={ROUTES.cart}>Cart</Link>
-        </li>
-        <li>
-          <Link to={ROUTES.test}>Test API</Link>
-        </li>
-      </ul>
-    </nav>
+      <Nav direction="column" pad="medium">
+        <Anchor label={location.pathname} icon={<Icons.Location />} color="accent-2"/>
+        <Link to={ROUTES.order}>
+          <Anchor label="Order" icon={<Icons.List />} />
+        </Link>
+        <Link to={ROUTES.products}>
+          <Anchor label="Products" icon={<Icons.ProductHunt />} />
+        </Link>
+        <Link to={ROUTES.cart}>
+          <Anchor label="Cart" icon={<Icons.Cart />} />
+        </Link>
+        <Link to={ROUTES.test}>
+          <Anchor label="Test API" icon={<Icons.Test />} />
+        </Link>
+      </Nav>
   );
 };
 
