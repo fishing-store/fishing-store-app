@@ -2,5 +2,6 @@
   "order": "/order",
   "products": "/products",
   "cart": "/cart",
-  "test": "/test"
+  "test": "/test",
+  "delivery": "/delivery"
 }
