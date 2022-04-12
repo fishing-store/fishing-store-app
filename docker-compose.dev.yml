@@ -18,9 +18,18 @@ services:
       - ./fishingstore/.env.development
     build: fishingstore
     ports:
-      - 8000:8000
+      - "8000:8000"
     depends_on:
       - postgres
+    networks:
+      - db-net
+  frontend:
+    restart: always
+    build: client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
     networks:
       - db-net
 
