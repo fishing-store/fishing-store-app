@@ -31,6 +31,7 @@ const TestApiView = () => {
             <p>Nazwa: {product?.name}</p>
             <p>Cena: {product?.price}</p>
             <p>Opis: {product?.description}</p>
+            <p>Liczba: {product?.count}</p>
           </div>
           <div>
             <img src={product?.image} alt="Zdjęcie produktu" />

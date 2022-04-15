@@ -4,6 +4,7 @@ import {
   ProductsView,
   ShoppingCartView,
   TestApiView,
+  AddProductView
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -13,7 +14,7 @@ import { Box, Button, Heading, Grommet, Collapsible, Main, Footer, Text } from '
 import { Menu, FormClose } from 'grommet-icons';
 import { useState } from "react";
 import { AppBar } from "./components/AppBar";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 const theme = {
   global: {
     font: {
@@ -44,6 +45,7 @@ const App = () => {
                   <Route path={ROUTES.products} element={<ProductsView />}></Route>
                   <Route path={ROUTES.cart} element={<ShoppingCartView />}></Route>
                   <Route path={ROUTES.test} element={<TestApiView />}></Route>
+                  <Route path={ROUTES.addproduct} element={<AddProductView />}></Route>
                 </Routes>
               </Box>
 

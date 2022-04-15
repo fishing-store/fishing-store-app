@@ -23,6 +23,9 @@ const Navbar = () => {
         <Link to={ROUTES.test}>
           <Anchor label="Test API" icon={<Icons.Test />} />
         </Link>
+        <Link to={ROUTES.addproduct}>
+          <Anchor label="Add product" icon={<Icons.Add />} />
+        </Link>
       </Nav>
   );
 };

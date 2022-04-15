@@ -7,6 +7,7 @@ class Product(models.Model):
     price = models.FloatField()
     description = models.CharField(max_length=500)
     image = models.CharField(max_length=200)
+    count = models.IntegerField(default=20)
     
     def __str__(self):
         return self.name
