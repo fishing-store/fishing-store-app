@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpRequest
 from .models import Product
 from .serializers import ProductSerializer
 from rest_framework import generics
-
+from rest_framework.decorators import api_view
 
 class ProductAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
@@ -11,11 +11,10 @@ class ProductAPIView(generics.ListCreateAPIView):
 
 
 # receiving product as POST in JSON format and writing it to Django database
+@api_view(['POST'])
 def add_product(request: HttpRequest):
     if request.method == "POST":
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        product = ProductSerializer(data=body)
+        product = ProductSerializer(data=request.data)
         if product.is_valid():
             product.save()
             return HttpResponse(status=201)

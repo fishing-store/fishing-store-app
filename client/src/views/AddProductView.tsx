@@ -12,7 +12,7 @@ const AddProductView = () => {
         count: 0,
         price: 0,
         description: "",
-        image: "https://www.rei.com/media/product/148527"
+        image: null
       });
 
     const [product, updateFormData] = useState<Product>(initialFormData);
@@ -25,14 +25,30 @@ const AddProductView = () => {
         });
       };
 
+    const handleImage = (e: React.ChangeEvent<any>) => {
+      updateFormData({
+        ...product,
+        // Trimming any whitespace
+        ['image']: e.target.files[0]
+      });
+      product["image"] = e.target.files[0];
+    };
+
     const sendProduct = () => {
+      let formData = new FormData();
+      formData.append("image", product.image);
+      formData.append("name", product.name);
+      formData.append("count", product.count.toString());
+      formData.append("price", product.price.toString());
+      formData.append("description", product.description);
+
         console.log(product)
-        api.post("products/add", product)
+        api.post("products/add", formData)
         .then((res) => {
             productAdded = true;
             console.log(res);
             console.log("product added", productAdded);
-            navigate("/products");
+            navigate("/test");
         });
       };
       return (
@@ -52,10 +68,16 @@ const AddProductView = () => {
             <Form.Control name="count" type="number" placeholder="Enter product count" onChange={handleChange}/>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="productName">
-            <Form.Label>Priduct description</Form.Label>
+          <Form.Group className="mb-3" controlId="productDescription">
+            <Form.Label>Product description</Form.Label>
             <Form.Control name="description" type="text" placeholder="Enter product description" onChange={handleChange}/>
           </Form.Group>
+
+          <Form.Group className="mb-3" controlId="productImage">
+            <Form.Label>Product image</Form.Label>
+            <Form.Control name="image" type="file" onChange={handleImage}/>
+          </Form.Group>
+
           <Button variant="primary" onClick={sendProduct}>
             Add product
           </Button>

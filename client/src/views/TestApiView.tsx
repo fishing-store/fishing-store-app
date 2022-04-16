@@ -34,7 +34,7 @@ const TestApiView = () => {
             <p>Liczba: {product?.count}</p>
           </div>
           <div>
-            <img src={product?.image} alt="Zdjęcie produktu" />
+            <img src={product?.image} alt="Zdjęcie produktu" style={{maxWidth: '400px'}}/>
           </div>
         </div>
       ))}
