@@ -3,7 +3,6 @@ import {
   OrderView,
   ProductsView,
   ShoppingCartView,
-  TestApiView,
   DeliveryView
 } from "./views";
 import Navbar from "./components/Navbar";
@@ -45,7 +44,6 @@ const App = () => {
                   <Route path={ROUTES.order} element={<OrderView />}></Route>
                   <Route path={ROUTES.products} element={<ProductsView />}></Route>
                   <Route path={ROUTES.cart} element={<ShoppingCartView />}></Route>
-                  <Route path={ROUTES.test} element={<TestApiView />}></Route>
                   <Route path={ROUTES.delivery} element={<DeliveryView />}></Route>
                 </Routes>
                 </DeliveryProvider>
