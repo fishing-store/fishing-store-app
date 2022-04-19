@@ -35,9 +35,14 @@ const ProductsView = () => {
             <p>Nazwa: {product?.name}</p>
             <p>Cena: {product?.price}</p>
             <p>Opis: {product?.description}</p>
+            <p>Liczba: {product?.count}</p>
           </div>
           <div>
-            <img src={product?.image} width={100} alt="Zdjęcie produktu" />
+            <img
+              src={`${process.env.REACT_APP_IMG_BASE_URL}${product?.image}`}
+              width={100}
+              alt="Zdjęcie produktu"
+            />
           </div>
         </div>
       ))}
