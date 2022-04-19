@@ -5,7 +5,8 @@ import {
   ShoppingCartView,
   TestApiView,
   AddProductView,
-  DeliveryView
+  DeliveryView,
+  AboutUsView
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -49,6 +50,7 @@ const App = () => {
                   <Route path={ROUTES.test} element={<TestApiView />}></Route>
                   <Route path={ROUTES.addproduct} element={<AddProductView />}></Route>
                   <Route path={ROUTES.delivery} element={<DeliveryView />}></Route>
+                  <Route path={ROUTES.info} element={<AboutUsView />}></Route>
                 </Routes>
                 </DeliveryProvider>
               </Box>

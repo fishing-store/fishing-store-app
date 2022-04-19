@@ -13,3 +13,9 @@ class Product(models.Model):
     
     def __str__(self):
         return self.name
+
+class Info(models.Model):
+    email = models.CharField(max_length=200)
+    phoneNumber = models.CharField(max_length=11)
+    address = models.CharField(max_length=500)
+    openHours = models.CharField(max_length=20)
