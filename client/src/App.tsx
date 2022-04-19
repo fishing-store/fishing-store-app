@@ -4,11 +4,12 @@ import {
   ProductsView,
   ShoppingCartView,
   TestApiView,
-  AddProductView
+  AddProductView,
+  DeliveryView
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
-
+import {DeliveryProvider} from "./DeliveryContext"
 import "@fontsource/roboto";
 import { Box, Button, Heading, Grommet, Collapsible, Main, Footer, Text } from 'grommet';
 import { Menu, FormClose } from 'grommet-icons';
@@ -40,15 +41,17 @@ const App = () => {
           <Main overflow="auto" flex={true}>
             <Box direction='row' flex overflow={{ horizontal: 'hidden' }} className="scroll-enabled">
               <Box flex align='center' justify='center'>
+              <DeliveryProvider>
                 <Routes>
                   <Route path={ROUTES.order} element={<OrderView />}></Route>
                   <Route path={ROUTES.products} element={<ProductsView />}></Route>
                   <Route path={ROUTES.cart} element={<ShoppingCartView />}></Route>
                   <Route path={ROUTES.test} element={<TestApiView />}></Route>
                   <Route path={ROUTES.addproduct} element={<AddProductView />}></Route>
+                  <Route path={ROUTES.delivery} element={<DeliveryView />}></Route>
                 </Routes>
+                </DeliveryProvider>
               </Box>
-
               <Collapsible direction='horizontal' open={showSidebar}>
                 <Navbar />
               </Collapsible>

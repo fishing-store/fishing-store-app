@@ -26,6 +26,9 @@ const Navbar = () => {
         <Link to={ROUTES.addproduct}>
           <Anchor label="Add product" icon={<Icons.Add />} />
         </Link>
+        <Link to={ROUTES.delivery}>
+          <Anchor label="Delivery view" icon={<Icons.Deliver />} />
+        </Link>
       </Nav>
   );
 };
