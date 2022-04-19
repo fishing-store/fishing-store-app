@@ -43,3 +43,8 @@ body {
 .scroll-enabled::-webkit-scrollbar-track {
     background-color: rgba(0,0,0,0);
 }
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #7D4CDB !important;
+    border-color: #7D4CDB !important;
+}
