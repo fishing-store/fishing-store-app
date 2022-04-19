@@ -1,9 +1,11 @@
 import json
 from django.http import HttpResponse, HttpRequest
 from .models import Product
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, MyTokenObtainPairSerializer, RegisterSerializer
 from rest_framework import generics
-
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib.auth.models import User
 
 class ProductAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
@@ -138,3 +140,13 @@ def add_mockup_products(request: HttpRequest):
             product_object.save()
 
     return HttpResponse(json.dumps(products, indent=4), content_type="application/json")
+
+# User login view
+class MyObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
