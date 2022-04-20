@@ -1,7 +1,15 @@
 type Product = {
-  id: number;
+  id?: number;
   name: string;
   price: number;
   description: string;
-  image: string;
+  image: any;
+  count: number;
 };
+
+type Info = {
+  email: string;
+  phoneNumber: string;
+  address: string;
+  openHours: string;
+}
