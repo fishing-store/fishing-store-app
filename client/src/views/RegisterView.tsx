@@ -6,7 +6,7 @@ import { api } from "../api";
 const registerUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const { username, password, password2, email } = e.target as typeof e.target & {
+    var { username, password, password2, email } = e.target as typeof e.target & {
         username: {value: string}
         password: {value: string}
         password2: {value: string}
@@ -22,6 +22,10 @@ const registerUser = async (e: FormEvent<HTMLFormElement>) => {
         email: email.value
     }).then((response) => {
         console.log(response);
+        username.value = ''
+        password.value = ''
+        password2.value = ''
+        email.value = ''
     }, (error) => {
         console.log(error);
     });
