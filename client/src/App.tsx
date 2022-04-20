@@ -4,7 +4,8 @@ import {
   ProductsView,
   ShoppingCartView,
   TestApiView,
-  DeliveryView
+  DeliveryView,
+  RegisterView
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -42,6 +43,7 @@ const App = () => {
               <Box flex align='center' justify='center'>
               <DeliveryProvider>
                 <Routes>
+                  <Route path={ROUTES.register} element={<RegisterView />}></Route>
                   <Route path={ROUTES.order} element={<OrderView />}></Route>
                   <Route path={ROUTES.products} element={<ProductsView />}></Route>
                   <Route path={ROUTES.cart} element={<ShoppingCartView />}></Route>

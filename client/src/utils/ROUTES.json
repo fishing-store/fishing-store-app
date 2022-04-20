@@ -3,5 +3,6 @@
   "products": "/products",
   "cart": "/cart",
   "test": "/test",
-  "delivery": "/delivery"
+  "delivery": "/delivery",
+  "register": "/register"
 }

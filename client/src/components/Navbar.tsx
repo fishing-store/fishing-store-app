@@ -11,6 +11,9 @@ const Navbar = () => {
   return (
       <Nav direction="column" pad="medium" width="small">
         <Anchor label={location.pathname} icon={<Icons.Location />} color="black" disabled/>
+        <Link to={ROUTES.register}>
+          <Anchor label="Register" icon={<Icons.UserNew />} />
+        </Link>
         <Link to={ROUTES.order}>
           <Anchor label="Order" icon={<Icons.List />} />
         </Link>
