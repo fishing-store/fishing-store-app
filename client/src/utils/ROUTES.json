@@ -2,7 +2,6 @@
   "order": "/order",
   "products": "/products",
   "cart": "/cart",
-  "test": "/test",
   "addproduct": "/products/add",
   "delivery": "/delivery",
   "info": "/aboutus"

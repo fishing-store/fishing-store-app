@@ -3,26 +3,34 @@ import {
   OrderView,
   ProductsView,
   ShoppingCartView,
-  TestApiView,
   AddProductView,
   DeliveryView,
-  AboutUsView
+  AboutUsView,
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
-import {DeliveryProvider} from "./DeliveryContext"
+import { DeliveryProvider } from "./DeliveryContext";
 import "@fontsource/roboto";
-import { Box, Button, Heading, Grommet, Collapsible, Main, Footer, Text } from 'grommet';
-import { Menu, FormClose } from 'grommet-icons';
+import {
+  Box,
+  Button,
+  Heading,
+  Grommet,
+  Collapsible,
+  Main,
+  Footer,
+  Text,
+} from "grommet";
+import { Menu, FormClose } from "grommet-icons";
 import { useState } from "react";
 import { AppBar } from "./components/AppBar";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 const theme = {
   global: {
     font: {
-      family: 'Roboto',
-      size: '16px',
-      height: '22px',
+      family: "Roboto",
+      size: "16px",
+      height: "22px",
     },
   },
 };
@@ -35,40 +43,61 @@ const App = () => {
       <Grommet theme={theme} full>
         <Box fill>
           <AppBar flex={false}>
-            <Heading level='3' margin='none'>Fishing Store</Heading>
-            <Button icon={!showSidebar ? <Menu /> : <FormClose />} onClick={() => setShowSidebar(!showSidebar)} />
+            <Heading level="3" margin="none">
+              Fishing Store
+            </Heading>
+            <Button
+              icon={!showSidebar ? <Menu /> : <FormClose />}
+              onClick={() => setShowSidebar(!showSidebar)}
+            />
           </AppBar>
 
           <Main overflow="auto" flex={true}>
-            <Box direction='row' flex overflow={{ horizontal: 'hidden' }} className="scroll-enabled">
-              <Box flex align='center' justify='center'>
-              <DeliveryProvider>
-                <Routes>
-                  <Route path={ROUTES.order} element={<OrderView />}></Route>
-                  <Route path={ROUTES.products} element={<ProductsView />}></Route>
-                  <Route path={ROUTES.cart} element={<ShoppingCartView />}></Route>
-                  <Route path={ROUTES.test} element={<TestApiView />}></Route>
-                  <Route path={ROUTES.addproduct} element={<AddProductView />}></Route>
-                  <Route path={ROUTES.delivery} element={<DeliveryView />}></Route>
-                  <Route path={ROUTES.info} element={<AboutUsView />}></Route>
-                </Routes>
+            <Box
+              direction="row"
+              flex
+              overflow={{ horizontal: "hidden" }}
+              className="scroll-enabled"
+            >
+              <Box flex align="center" justify="center">
+                <DeliveryProvider>
+                  <Routes>
+                    <Route path={ROUTES.order} element={<OrderView />}></Route>
+                    <Route
+                      path={ROUTES.products}
+                      element={<ProductsView />}
+                    ></Route>
+                    <Route
+                      path={ROUTES.cart}
+                      element={<ShoppingCartView />}
+                    ></Route>
+                    <Route
+                      path={ROUTES.addproduct}
+                      element={<AddProductView />}
+                    ></Route>
+                    <Route
+                      path={ROUTES.delivery}
+                      element={<DeliveryView />}
+                    ></Route>
+                    <Route path={ROUTES.info} element={<AboutUsView />}></Route>
+                  </Routes>
                 </DeliveryProvider>
               </Box>
-              <Collapsible direction='horizontal' open={showSidebar}>
+              <Collapsible direction="horizontal" open={showSidebar}>
                 <Navbar />
               </Collapsible>
             </Box>
           </Main>
 
-
           <Footer background="brand" pad="medium" flex={false}>
-            <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </Text>
+            <Text>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
+            </Text>
           </Footer>
         </Box>
       </Grommet>
     </Router>
   );
 };
-
 
 export default App;
