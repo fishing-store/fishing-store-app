@@ -1,7 +1,7 @@
 import json
 from django.http import HttpResponse, HttpRequest
-from .models import Product
-from .serializers import ProductSerializer
+from .models import Product, Info
+from .serializers import ProductSerializer, InfoSerializer
 from rest_framework import generics
 from rest_framework.decorators import api_view
 
@@ -147,3 +147,18 @@ def add_mockup_products(request: HttpRequest):
             product_object.save()
 
     return HttpResponse(json.dumps(products, indent=4), content_type="application/json")
+
+
+class InfoAPIView(generics.ListCreateAPIView):
+    queryset = Info.objects.all()
+    serializer_class = InfoSerializer
+
+
+def get_info(request: HttpRequest):
+    if request.method == 'GET':
+        information = Info.objects.all()
+        if information:
+            information_serializer = InfoSerializer(information, many=True)
+            return HttpResponse(json.dumps(information_serializer.data, indent=4), content_type="application/json")
+        else:
+            return HttpResponse(status=404)

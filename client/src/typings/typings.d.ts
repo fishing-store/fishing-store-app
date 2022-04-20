@@ -6,3 +6,10 @@ type Product = {
   image: any;
   count: number;
 };
+
+type Info = {
+  email: string;
+  phoneNumber: string;
+  address: string;
+  openHours: string;
+}

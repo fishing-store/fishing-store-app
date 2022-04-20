@@ -30,6 +30,9 @@ const Navbar = () => {
       <Link to={ROUTES.delivery}>
         <Anchor label="Delivery view" icon={<Icons.Deliver />} />
       </Link>
+      <Link to={ROUTES.info}>
+        <Anchor label="About Us" icon={<Icons.Info />} />
+      </Link>
     </Nav>
   );
 };
