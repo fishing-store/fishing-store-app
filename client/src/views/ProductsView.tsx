@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import ROUTES from "../utils/ROUTES.json";
 import { useState, useEffect } from "react";
 import { api } from "../api";
 
@@ -17,6 +20,9 @@ const ProductsView = () => {
         justifyContent: "center",
       }}
     >
+      <Link to={ROUTES.addproduct}>
+        <Button variant="primary">Add new product</Button>
+      </Link>
       {products?.map((product) => (
         <div
           style={{
