@@ -3,10 +3,11 @@ import Button from "react-bootstrap/Button";
 import ROUTES from "../utils/ROUTES.json";
 import { useState, useEffect } from "react";
 import { api } from "../api";
+import { useNavigate } from "react-router-dom";
 
 const ProductsView = () => {
   const [products, setProducts] = useState<Product[]>();
-
+  const navigate = useNavigate();
   useEffect(() => {
     api.get("/products/").then(({ data }) => setProducts(data));
   }, []);
@@ -33,8 +34,10 @@ const ProductsView = () => {
             alignContent: "center",
             alignItems: "center",
             justifyContent: "center",
+            cursor: "pointer"
           }}
           key={product.id}
+          onClick={() => { navigate(`/products/${product?.id}`)}}
         >
           <div>
             <strong>Id: {product?.id}</strong>
