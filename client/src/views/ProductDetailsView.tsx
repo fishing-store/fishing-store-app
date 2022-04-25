@@ -22,6 +22,13 @@ const ProductDetailsView = ({ id }: Props) => {
         flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: "center",
+        padding: 10,
+        border: "2px solid black",
+        margin: 10,
+        alignContent: "center",
+        alignItems: "center",
+        cursor: "pointer",
+        overflowWrap: "break-word"
       }}
     >
           <div>

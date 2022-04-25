@@ -5,5 +5,5 @@
   "addproduct": "/products/add",
   "delivery": "/delivery",
   "info": "/aboutus",
-  "product": "/product"
+  "product": "/products/:id"
 }
