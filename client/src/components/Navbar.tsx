@@ -27,6 +27,9 @@ const Navbar = () => {
       <Link to={ROUTES.products}>
         <Anchor label="Products" icon={<Icons.ProductHunt />} />
       </Link>
+      <Link to={ROUTES.users}>
+        <Anchor label="Users" icon={<Icons.User />} />
+      </Link>
       <Link to={ROUTES.cart}>
         <Anchor label="Cart" icon={<Icons.Cart />} />
       </Link>

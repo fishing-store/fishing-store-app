@@ -25,3 +25,7 @@ type LoginForm = {
   username: string;
   password: string;
 }
+
+type User = {
+  name: string;
+}
