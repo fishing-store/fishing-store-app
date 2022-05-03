@@ -4,5 +4,6 @@
   "cart": "/cart",
   "addproduct": "/products/add",
   "delivery": "/delivery",
-  "info": "/aboutus"
+  "info": "/aboutus",
+  "register": "/register"
 }

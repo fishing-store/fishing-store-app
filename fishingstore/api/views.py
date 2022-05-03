@@ -1,9 +1,13 @@
 import json
 from django.http import HttpResponse, HttpRequest
 from .models import Product, Info
-from .serializers import ProductSerializer, InfoSerializer
+from .serializers import ProductSerializer, InfoSerializer, MyTokenObtainPairSerializer, RegisterSerializer
 from rest_framework import generics
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.decorators import api_view
+from django.contrib.auth.models import User
+
 
 class ProductAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
@@ -162,3 +166,13 @@ def get_info(request: HttpRequest):
             return HttpResponse(json.dumps(information_serializer.data, indent=4), content_type="application/json")
         else:
             return HttpResponse(status=404)
+
+# User login view
+class MyObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
