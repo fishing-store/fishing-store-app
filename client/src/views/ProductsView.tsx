@@ -18,6 +18,11 @@ const ProductsView = () => {
   const [defaultProducts, setDefaultProducts] = useState<Product[]>();
   const [isAscending, setIsAscending] = useState(true);
   const [sortType, setSortType] = useState<SortType>();
+  const [searchValue, setSearchValue] = useState("");
+  const [priceMax, setPriceMax] = useState<number | undefined>(undefined);
+  const [priceMin, setPriceMin] = useState<number | undefined>(undefined);
+  const [countMin, setCountMin] = useState<number | undefined>(undefined);
+  const [countMax, setCountMax] = useState<number | undefined>(undefined);
   const navigate = useNavigate();
   useEffect(() => {
     api.get("/products/").then(({ data }) => {setProducts(data); setDefaultProducts([...data ?? []])});
@@ -26,6 +31,7 @@ const ProductsView = () => {
   useEffect(() => {
     sort();
   }, [isAscending, sortType]);
+
   const clearSorting = () => {
     setProducts([...defaultProducts ?? []]);
   }
@@ -50,14 +56,65 @@ const ProductsView = () => {
         isAscending ? products?.sort((a,b) => a.name.localeCompare(b.name)) : products?.sort((a,b) => b.name.localeCompare(a.name));
         break;
       default:
-        clearSorting()
         break;
     }
     setProducts([...products ?? []]);
   }
 
+  const filter = () => {
+    let newProducts = defaultProducts?.filter(product => product.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()));
+    newProducts = newProducts?.filter(product => product.price >= (priceMin ?? 0)  && product.price <= (priceMax ?? 10000000000000))
+    newProducts = newProducts?.filter(product => product.price >= (countMin ?? 0)  && product.price <= (countMax ?? 10000000000000))
+    setProducts([...newProducts ?? []]);
+  }
+
   return (
     <div>
+      <div>
+      <form>
+          <input
+            placeholder="Search for..."
+            style={{margin: 10}} 
+            value={searchValue}
+            onChange={(event) => setSearchValue(event.target.value)}
+          />
+          <input
+            placeholder="Min price"
+            style={{margin: 10}} 
+            value={priceMin}
+            type="number"
+            onChange={(event) => setPriceMin(+event.target.value ? +event.target.value : undefined)}
+          />
+          <input
+            placeholder="Max price"
+            style={{margin: 10}} 
+            type="number"
+            value={priceMax}
+            onChange={(event) => setPriceMax(event.target.value ? +event.target.value : undefined)}
+          />
+          <input
+            placeholder="Min quantity"
+            style={{margin: 10}} 
+            value={countMin}
+            type="number"
+            onChange={(event) => setCountMin(+event.target.value ? +event.target.value : undefined)}
+          />
+          <input
+            placeholder="Max quantity"
+            style={{margin: 10}} 
+            type="number"
+            value={countMax}
+            onChange={(event) => setCountMax(event.target.value ? +event.target.value : undefined)}
+          />
+        <Button variant="primary" 
+          style={{margin: 10}} 
+          onClick={filter}>
+            Filter
+        </Button>
+        </form>
+      </div>
+      <div>
+
         <Button variant="primary" 
           style={{margin: 10}} 
           onClick={() => setSortType(SortType.Price)}>
@@ -78,8 +135,9 @@ const ProductsView = () => {
         <Button variant="primary"
           style={{margin: 10}}
           onClick={clearSorting}>
-            Clear sorting
+            Clear all
         </Button>
+      </div>
       <div
         style={{
           display: "flex",
