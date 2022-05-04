@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from jsonfield import JSONField
 import time
 def upload_path(instance, filename):
     return '/'.join(['images', str(instance.name), str(time.time()) + filename])
@@ -12,6 +13,7 @@ class Product(models.Model):
     description = models.CharField(max_length=500)
     image = models.ImageField(upload_to=upload_path)
     count = models.IntegerField(default=20)
+    categories = JSONField(null=True)
     
     def __str__(self):
         return self.name
@@ -21,3 +23,6 @@ class Info(models.Model):
     phoneNumber = models.CharField(max_length=11)
     address = models.CharField(max_length=500)
     openHours = models.CharField(max_length=20)
+
+class Category(models.Model):    
+    name = models.CharField(max_length=200)

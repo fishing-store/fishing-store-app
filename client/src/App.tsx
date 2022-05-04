@@ -6,6 +6,8 @@ import {
   AddProductView,
   DeliveryView,
   AboutUsView,
+  RegisterView,
+  LoginView,
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -25,6 +27,7 @@ import { Menu, FormClose } from "grommet-icons";
 import { useState } from "react";
 import { AppBar } from "./components/AppBar";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 const theme = {
   global: {
     font: {
@@ -80,6 +83,11 @@ const App = () => {
                       element={<DeliveryView />}
                     ></Route>
                     <Route path={ROUTES.info} element={<AboutUsView />}></Route>
+                    <Route
+                      path={ROUTES.register}
+                      element={<RegisterView />}
+                    ></Route>
+                    <Route path={ROUTES.login} element={<LoginView />}></Route>
                   </Routes>
                 </DeliveryProvider>
               </Box>
