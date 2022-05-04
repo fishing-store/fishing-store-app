@@ -1,6 +1,6 @@
 // import { useState } from "react";
 import React from "react";
-import { Text, Box, Button, Menu, Heading, Tag, Layer, Card, CardHeader, CardBody } from "grommet";
+import { Text, Box, Button, Menu, Heading, Tag, Layer } from "grommet";
 import { DeliveryContext } from "../DeliveryContext";
 import DeliveryForm from "../components/DeliveryForm";
 
@@ -24,7 +24,7 @@ const DeliveryView = () => {
     const win = window as any;
     win.handlePickedPoint = (point: any) => {
       console.log(point);
-      setDeliveryDetails({...deliveryDetails, inpostDetails: point});
+      setDeliveryDetails({...deliveryDetails, inpostDetails: point, deliveryType: DeliveryType.InPost});
       setShow(false);
     }
   }, []);
