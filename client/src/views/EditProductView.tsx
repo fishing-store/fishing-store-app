@@ -20,8 +20,6 @@ const EditProductView = ({ id }: Props) => {
     image: null,
   });
 
-  const [img, setImg] = useState<string>(`${process.env.REACT_APP_IMG_BASE_URL}${product?.image}`);
-
   useEffect(() => {
     const fetchData = () => {
       api.get(`/products/${id}`).then(({ data }) => setProduct(data));
@@ -41,12 +39,10 @@ const EditProductView = ({ id }: Props) => {
       ...product,
       image: e.target.files[0],
     }));
-	const [file] = e.target.files;
-    setImg(URL.createObjectURL(file));
   };
 
   const saveProduct = (e: React.FormEvent) => {
-	e.preventDefault();
+    e.preventDefault();
 
     let formData = new FormData();
     formData.append("image", product.image);
@@ -55,7 +51,7 @@ const EditProductView = ({ id }: Props) => {
     formData.append("price", product.price.toString());
     formData.append("description", product.description);
 
-    api.post("products/save", formData).then(() => {
+    api.put("saveProduct/" + id, formData).then(() => {
       navigate(ROUTES.products);
     });
   };
@@ -108,10 +104,10 @@ const EditProductView = ({ id }: Props) => {
         <Form.Label>Product image</Form.Label>
       </Form.Group>
 
-	  <div>
-        <input type="file" onChange={handleImage} />
-        <img src={img} alt="" width={100} />
-      </div>
+      <Form.Group className="mb-3" controlId="productImage">
+        <Form.Label>Product image</Form.Label>
+        <Form.Control name="image" type="file" onChange={handleImage} />
+      </Form.Group>
 		  
       <Button variant="primary" type="submit">
         Save product
