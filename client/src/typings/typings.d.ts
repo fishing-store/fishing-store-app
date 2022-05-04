@@ -20,3 +20,8 @@ type RegisterForm = {
   password2: string;
   email: string;
 }
+
+type LoginForm = {
+  username: string;
+  password: string;
+}

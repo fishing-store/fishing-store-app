@@ -1,7 +1,7 @@
 import json
 from django.http import HttpResponse, HttpRequest
 from .models import Product, Info
-from .serializers import ProductSerializer, InfoSerializer, MyTokenObtainPairSerializer, RegisterSerializer
+from .serializers import ProductSerializer, InfoSerializer, MyTokenObtainPairSerializer, RegisterSerializer, LoginSerializer
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -176,3 +176,8 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
+
+class LoginView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = LoginSerializer

@@ -15,6 +15,9 @@ const Navbar = () => {
         color="black"
         disabled
       />
+      <Link to={ROUTES.login}>
+        <Anchor label="Login" icon={<Icons.Login />} />
+      </Link>
       <Link to={ROUTES.register}>
         <Anchor label="Register" icon={<Icons.UserNew />} />
       </Link>
