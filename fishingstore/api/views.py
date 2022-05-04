@@ -181,3 +181,11 @@ class LoginView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
+
+
+# Endpoint created for veryfing user authorization
+# Attach access token to get request
+@api_view(['GET'])
+def get_hello(request: HttpRequest):
+    content = json.dumps({'message': 'Hello, World!', 'username': request.user.username, 'is_superuser': request.user.is_superuser})
+    return HttpResponse(content)

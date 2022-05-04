@@ -8,6 +8,7 @@ import {
   AboutUsView,
   RegisterView,
   LoginView,
+  UserView,
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -89,6 +90,10 @@ const App = () => {
                     <Route
                       path={ROUTES.login}
                       element={<LoginView />}
+                    ></Route>
+                    <Route
+                      path={ROUTES.userprofile}
+                      element={<UserView />}
                     ></Route>
                   </Routes>
                 </DeliveryProvider>

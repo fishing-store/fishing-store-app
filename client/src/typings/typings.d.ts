@@ -25,3 +25,8 @@ type LoginForm = {
   username: string;
   password: string;
 }
+
+type UserInfo = {
+  username: string
+  is_superuser: boolean
+}
