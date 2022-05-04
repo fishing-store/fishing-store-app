@@ -28,31 +28,42 @@ python -m pip freeze > requirements.txt
 
 ## Django setup
 
-Install Django apps
-
 ```bash
-python fishingstore/manage.py migrate
+cd fishingstore
+python manage.py makemigrations
+python manage.py makemigrations api
+python manage.py migrate
 ```
 
-If data model has changed update it
-
+### Run
 ```bash
-python fishingstore/manage.py makemigrations fishingstoreapp
+python manage.py runserver
 ```
 
 To generate data model as SQL
-
 ```bash
 python fishingstore/manage.py sqlmigrate fishingstoreapp 0001
 ```
 
-# instalation windows
+# Windows installation
 
-```
+## Setup venv
+```bash
 python -m venv env
 env\Scripts\activate.bat
+```
+
+## Setup Django
+```bash
+cd .\fishingstore
 python -m pip install -r requirements.txt
 python -m pip freeze > requirements.txt
-python .\fishingstore\manage.py migrate
-python .\fishingstore\manage.py runserver
+python manage.py makemigrations
+python manage.py makemigrations api
+python manage.py migrate
+```
+
+## Setup Django
+```bash
+python manage.py runserver
 ```

@@ -99,7 +99,7 @@ const App = () => {
 
           <Footer background="brand" pad="medium" flex={false}>
             <Text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
+            Let's go fishing!
             </Text>
           </Footer>
         </Box>
