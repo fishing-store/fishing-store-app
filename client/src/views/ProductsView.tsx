@@ -7,10 +7,18 @@ import { useNavigate } from "react-router-dom";
 
 const ProductsView = () => {
   const [products, setProducts] = useState<Product[]>();
+  console.log(products);
   const navigate = useNavigate();
   useEffect(() => {
     api.get("/products/").then(({ data }) => setProducts(data));
   }, []);
+
+  products?.forEach((el) => {
+    if (el.categories) {
+      const a = JSON.parse(el.categories.toString());
+      console.log(a);
+    }
+  });
 
   return (
     <div
@@ -34,10 +42,12 @@ const ProductsView = () => {
             alignContent: "center",
             alignItems: "center",
             justifyContent: "center",
-            cursor: "pointer"
+            cursor: "pointer",
           }}
           key={product.id}
-          onClick={() => { navigate(`/products/${product?.id}`)}}
+          onClick={() => {
+            navigate(`/products/${product?.id}`);
+          }}
         >
           <div>
             <strong>Id: {product?.id}</strong>
@@ -45,6 +55,14 @@ const ProductsView = () => {
             <p>Cena: {product?.price}</p>
             <p>Opis: {product?.description}</p>
             <p>Liczba: {product?.count}</p>
+            {product?.categories && (
+              <p>
+                Kategorie: &nbsp;
+                {JSON.parse(product?.categories.toString()).map(
+                  (c: string) => `${c} `
+                )}
+              </p>
+            )}
           </div>
           <div>
             <img

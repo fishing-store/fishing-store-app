@@ -8,7 +8,7 @@ from django.contrib.auth.password_validation import validate_password
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id', 'name', 'price', 'description', 'image', 'count')
+        fields = ('id', 'name', 'price', 'description', 'image', 'count', 'categories')
 
 class InfoSerializer(serializers.ModelSerializer):
     class Meta:
