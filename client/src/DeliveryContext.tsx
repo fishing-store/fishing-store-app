@@ -1,8 +1,32 @@
 import React from "react";
-const initState = { deliveryDetails: { name: "", surname: "", address: "", telephone: "", email: "" }, setDeliveryDetails: (value: any) => { } }
+
+enum DeliveryType {
+    Store = "In store pick-up",
+    InPost = "InPost delivery",
+    Home = "Home delivery",
+};
+
+enum PaymentType {
+    Card = "Visa / Mastercard",
+    Blik = "Blik",
+};
+
+const initState = {
+    deliveryDetails: { 
+        name: "", 
+        surname: "", 
+        address: "", 
+        telephone: "", 
+        email: "", 
+        deliveryType: DeliveryType.Home, 
+        paymentType: PaymentType.Card,
+        inpostDetails: null as any,
+    },
+    setDeliveryDetails: (value: any) => { }
+}
 
 const DeliveryProvider: React.FC = ({ children }) => {
-    const [deliveryDetails, setDeliveryDetails] = React.useState(()=>{
+    const [deliveryDetails, setDeliveryDetails] = React.useState(() => {
         const saved = sessionStorage.getItem("DeliveryDetails");
         return saved ? JSON.parse(saved) : initState.deliveryDetails
     });
@@ -23,4 +47,4 @@ const DeliveryProvider: React.FC = ({ children }) => {
     )
 }
 const DeliveryContext = React.createContext(initState);
-export { DeliveryProvider, DeliveryContext };
+export { DeliveryProvider, DeliveryContext, DeliveryType, PaymentType };
