@@ -23,11 +23,11 @@ const DeliveryView = () => {
   React.useEffect(() => {
     const win = window as any;
     win.handlePickedPoint = (point: any) => {
-      console.log(point);
+      console.log({point, deliveryDetails});
       setDeliveryDetails({ ...deliveryDetails, inpostDetails: point, deliveryType: DeliveryType.InPost });
       setShow(false);
     }
-  }, []);
+  }, [deliveryDetails]);
 
   const deliveryType = deliveryDetails.deliveryType;
   const paymentType = deliveryDetails.paymentType;
@@ -56,7 +56,7 @@ const DeliveryView = () => {
         <DeliveryForm />
       </Box>
 
-      <Box pad="medium" gap="small">
+      <Box pad="medium" gap="small" width="medium">
         <Heading level={2}>Delivery type</Heading>
         <Box direction="row" width="large">
           <Menu
@@ -95,7 +95,7 @@ const DeliveryView = () => {
       </Box>
 
 
-      <Box pad="medium">
+      <Box width="medium" pad="medium">
         <Heading level={2}>Payment method</Heading>
         <Menu
           size="large"
