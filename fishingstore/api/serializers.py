@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Info
+from .models import Product, Info, Category
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
@@ -8,12 +8,17 @@ from django.contrib.auth.password_validation import validate_password
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id', 'name', 'price', 'description', 'image', 'count')
+        fields = ('id', 'name', 'price', 'description', 'image', 'count', 'categories')
 
 class InfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Info
         fields = ('email', 'phoneNumber', 'address', 'openHours')
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('name',)
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
