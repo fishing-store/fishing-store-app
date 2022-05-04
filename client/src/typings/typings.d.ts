@@ -13,3 +13,15 @@ type Info = {
   address: string;
   openHours: string;
 }
+
+type RegisterForm = {
+  username: string;
+  password: string;
+  password2: string;
+  email: string;
+}
+
+type LoginForm = {
+  username: string;
+  password: string;
+}

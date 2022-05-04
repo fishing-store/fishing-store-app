@@ -6,5 +6,7 @@
   "delivery": "/delivery",
   "info": "/aboutus",
   "product": "/products/:id",
-  "editproduct": "/editproduct/:id"
+  "editproduct": "/editproduct/:id",
+  "register": "/register",
+  "login": "/login"
 }

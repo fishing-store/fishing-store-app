@@ -6,3 +6,5 @@ export { default as DeliveryView } from "./DeliveryView";
 export { default as AboutUsView } from "./AboutUsView";
 export { default as ProductDetailsView } from "./ProductDetailsView";
 export { default as EditProductView } from "./EditProductView";
+export { default as RegisterView } from "./RegisterView";
+export { default as LoginView } from "./LoginView";
