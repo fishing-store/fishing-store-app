@@ -7,18 +7,10 @@ import { useNavigate } from "react-router-dom";
 
 const ProductsView = () => {
   const [products, setProducts] = useState<Product[]>();
-  console.log(products);
   const navigate = useNavigate();
   useEffect(() => {
     api.get("/products/").then(({ data }) => setProducts(data));
   }, []);
-
-  products?.forEach((el) => {
-    if (el.categories) {
-      const a = JSON.parse(el.categories.toString());
-      console.log(a);
-    }
-  });
 
   return (
     <div

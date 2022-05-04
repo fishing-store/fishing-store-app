@@ -22,5 +22,5 @@ class Info(models.Model):
     address = models.CharField(max_length=500)
     openHours = models.CharField(max_length=20)
 
-class Category(models.Model):
+class Category(models.Model):    
     name = models.CharField(max_length=200)

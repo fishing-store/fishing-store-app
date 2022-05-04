@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import json
 from django.http import HttpResponse, HttpRequest
 from .models import Category, Product, Info
@@ -21,6 +22,12 @@ def add_product(request: HttpRequest):
         product = ProductSerializer(data=request.data)
         if product.is_valid():
             product.save()
+            categories = json.loads(request.data.get("categories"))
+            for c in categories:
+                categories_db = Category.objects.filter(name=c)
+                if (len(categories_db) == 0):
+                    Category.objects.create(name=c)
+                
             return HttpResponse(status=201)
         else:
             print(product.errors)

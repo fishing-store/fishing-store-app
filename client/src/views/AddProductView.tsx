@@ -106,7 +106,9 @@ const AddProductView = () => {
           onChange={(selectedOptions) =>
             setProduct((product) => ({
               ...product,
-              categories: selectedOptions as string[],
+              categories: selectedOptions.map((o) =>
+                typeof o === "string" ? o : o.label
+              ),
             }))
           }
         />
