@@ -70,7 +70,14 @@ const ProductsView = () => {
 
   return (
     <div>
-      <div>
+      <div
+      style={{
+          marginTop: "150px",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}>
       <form>
           <input
             placeholder="Search for..."
@@ -113,7 +120,13 @@ const ProductsView = () => {
         </Button>
         </form>
       </div>
-      <div>
+      <div 
+      style={{
+        flexDirection: "row",
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+      }}>
 
         <Button variant="primary" 
           style={{margin: 10}} 
