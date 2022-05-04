@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
+import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 type Props = {
   id: number;
@@ -31,6 +33,9 @@ const ProductDetailsView = ({ id }: Props) => {
         overflowWrap: "break-word"
       }}
     >
+          <Link to={`/editproduct/${products?.id}`}>
+            <Button variant="primary">Edit product</Button>
+          </Link>
           <div>
             <strong>Id: {products?.id}</strong>
             <p>Nazwa: {products?.name}</p>

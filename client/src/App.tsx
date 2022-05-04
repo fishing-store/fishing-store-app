@@ -6,7 +6,8 @@ import {
   AddProductView,
   DeliveryView,
   AboutUsView,
-  ProductDetailsView
+  ProductDetailsView,
+  EditProductView
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -42,6 +43,11 @@ const App = () => {
   const ProductWrapper = () => {
     const { id } = useParams();
     return <ProductDetailsView id={Number(id)} />
+  };
+
+  const EditProductWrapper = () => {
+    const { id } = useParams();
+    return <EditProductView id={Number(id)} />
   };
 
   return (
@@ -87,6 +93,7 @@ const App = () => {
                     ></Route>
                     <Route path={ROUTES.info} element={<AboutUsView />}></Route>
                     <Route path={ROUTES.product} element={<ProductWrapper/>}></Route>
+                    <Route path={ROUTES.editproduct} element={<EditProductWrapper/>}></Route>
                   </Routes>
                 </DeliveryProvider>
               </Box>
