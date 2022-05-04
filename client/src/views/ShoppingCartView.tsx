@@ -1,7 +1,13 @@
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import ROUTES from "../utils/ROUTES.json";
+
 const ShoppingCartView = () => {
   return (
     <div>
-      <strong>Shopping Cart View</strong>
+      <Link to={ROUTES.order}>
+        <Button variant="primary">Next</Button>
+      </Link>
     </div>
   );
 };
