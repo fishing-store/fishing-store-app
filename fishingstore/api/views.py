@@ -1,9 +1,11 @@
 import json
 from django.http import HttpResponse, HttpRequest
+from rest_framework.views import APIView
+
 from .models import Product, Info
 from .serializers import ProductSerializer, InfoSerializer, MyTokenObtainPairSerializer, RegisterSerializer, LoginSerializer
 from rest_framework import generics
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
@@ -189,3 +191,12 @@ class LoginView(generics.CreateAPIView):
 def get_hello(request: HttpRequest):
     content = json.dumps({'message': 'Hello, World!', 'username': request.user.username, 'is_superuser': request.user.is_superuser, 'email': request.user.email})
     return HttpResponse(content)
+
+class HelloView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        content = json.dumps(
+            {'message': 'Hello, World!', 'username': request.user.username, 'is_superuser': request.user.is_superuser,
+             'email': request.user.email})
+        return HttpResponse(content)
