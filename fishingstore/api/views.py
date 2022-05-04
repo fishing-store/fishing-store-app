@@ -1,7 +1,7 @@
 import json
 from django.http import HttpResponse, HttpRequest
-from .models import Product, Info
-from .serializers import ProductSerializer, InfoSerializer, MyTokenObtainPairSerializer, RegisterSerializer, LoginSerializer
+from .models import Category, Product, Info
+from .serializers import ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, RegisterSerializer, LoginSerializer
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -164,6 +164,20 @@ def get_info(request: HttpRequest):
         if information:
             information_serializer = InfoSerializer(information, many=True)
             return HttpResponse(json.dumps(information_serializer.data, indent=4), content_type="application/json")
+        else:
+            return HttpResponse(status=404)
+
+class CategoriesApiView(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+def get_categories(request: HttpRequest):
+    if request.method == 'GET':
+        categories = Category.objects.all()
+        if categories:
+            category_serializer = CategorySerializer(categories, many=True)
+            return HttpResponse(json.dumps(category_serializer.data, indent=4), content_type="application/json")
         else:
             return HttpResponse(status=404)
 
