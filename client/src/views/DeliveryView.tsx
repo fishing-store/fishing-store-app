@@ -18,17 +18,17 @@ enum PaymentType {
 const DeliveryView = () => {
   const [show, setShow] = React.useState(false);
 
-  const {deliveryDetails, setDeliveryDetails} = React.useContext(DeliveryContext);
-  
+  const { deliveryDetails, setDeliveryDetails } = React.useContext(DeliveryContext);
+
   React.useEffect(() => {
     const win = window as any;
     win.handlePickedPoint = (point: any) => {
       console.log(point);
-      setDeliveryDetails({...deliveryDetails, inpostDetails: point, deliveryType: DeliveryType.InPost});
+      setDeliveryDetails({ ...deliveryDetails, inpostDetails: point, deliveryType: DeliveryType.InPost });
       setShow(false);
     }
   }, []);
-  
+
   const deliveryType = deliveryDetails.deliveryType;
   const paymentType = deliveryDetails.paymentType;
   const inpostDetails = deliveryDetails.inpostDetails;
@@ -50,66 +50,72 @@ const DeliveryView = () => {
   }, [show]);
 
   return (
-    <Box width="large" pad="large" gap="medium">
-      <Heading level={2}>Delivery</Heading>
-      <Heading level={3}>Enter your details</Heading>
-      <DeliveryForm />
-
-      <Heading level={3}>Choose delivery type</Heading>
-      <Box direction="row" width="large" margin="medium">
-        <Menu
-          size="large"
-          label={deliveryType}
-          items={[
-            { label: DeliveryType.Home, onClick: () => setDeliveryDetails({...deliveryDetails, deliveryType: DeliveryType.Home}) },
-            { label: DeliveryType.InPost, onClick: () => setDeliveryDetails({...deliveryDetails, deliveryType: DeliveryType.InPost}) },
-            { label: DeliveryType.Store, onClick: () => setDeliveryDetails({...deliveryDetails, deliveryType: DeliveryType.Store}) },
-          ]}
-        />
-        {deliveryType === DeliveryType.InPost && <Button label="Pick delivery point" onClick={() => setShow(true)} />}
+    <Box width="large" pad="medium" gap="medium" wrap>
+      <Box pad="medium" width="medium" gap="medium">
+        <Heading level={3}>Enter your details</Heading>
+        <DeliveryForm />
       </Box>
 
-      {deliveryType === DeliveryType.Store && (
-        <Text>
-          You can pick up your order in store at the following address: <br />
-          <strong>Władysława Reymonta 19, 30-059 Kraków</strong>
-        </Text>
-      )}
-
-
-      {deliveryType === DeliveryType.Home && (
-        <Text>
-          Package will be delivered to address entered above.
-        </Text>
-      )}
-
-      {deliveryType === DeliveryType.InPost && inpostDetails && (
-        <Box background="light-1" pad="small" gap="small">
-          <Heading level={3}>Delivery point</Heading>
-          <Tag name="Name" value={inpostDetails.name} />
-          <Tag name="Address" value={`${inpostDetails?.address_details?.city}, ${inpostDetails?.address?.line1}`} />
+      <Box pad="medium" gap="small">
+        <Heading level={2}>Delivery type</Heading>
+        <Box direction="row" width="large">
+          <Menu
+            size="large"
+            label={deliveryType}
+            items={[
+              { label: DeliveryType.Home, onClick: () => setDeliveryDetails({ ...deliveryDetails, deliveryType: DeliveryType.Home }) },
+              { label: DeliveryType.InPost, onClick: () => setDeliveryDetails({ ...deliveryDetails, deliveryType: DeliveryType.InPost }) },
+              { label: DeliveryType.Store, onClick: () => setDeliveryDetails({ ...deliveryDetails, deliveryType: DeliveryType.Store }) },
+            ]}
+          />
+          {deliveryType === DeliveryType.InPost && <Button label="Pick delivery point" onClick={() => setShow(true)} />}
         </Box>
-      )}
 
-      <Heading level={2}>Payment</Heading>
-      <Menu
-      size="large"
-        label={paymentType}
-        items={[
-          { label: PaymentType.Card, onClick: () => setDeliveryDetails({...deliveryDetails, paymentType: PaymentType.Card}) },
-          { label: PaymentType.Blik, onClick: () => setDeliveryDetails({...deliveryDetails, paymentType: PaymentType.Blik}) },
-        ]}
-      />
+        {deliveryType === DeliveryType.Store && (
+          <Text>
+            You can pick up your order in store at the following address: <br />
+            <strong>Władysława Reymonta 19, 30-059 Kraków</strong>
+          </Text>
+        )}
 
-      {show && (
-        <Layer
-          onEsc={() => setShow(false)}
-          onClickOutside={() => setShow(false)}
-          full={true}
-        >
-          <Box id="easypack-map"></Box>
-        </Layer>
-      )}
+
+        {deliveryType === DeliveryType.Home && (
+          <Text>
+            Package will be delivered to address entered above.
+          </Text>
+        )}
+
+        {deliveryType === DeliveryType.InPost && inpostDetails && (
+          <Box gap="small">
+            <Heading level={3}>Delivery point</Heading>
+            <Tag name="Name" value={inpostDetails.name} />
+            <Tag name="Address" value={`${inpostDetails?.address_details?.city}, ${inpostDetails?.address?.line1}`} />
+          </Box>
+        )}
+      </Box>
+
+
+      <Box pad="medium">
+        <Heading level={2}>Payment method</Heading>
+        <Menu
+          size="large"
+          label={paymentType}
+          items={[
+            { label: PaymentType.Card, onClick: () => setDeliveryDetails({ ...deliveryDetails, paymentType: PaymentType.Card }) },
+            { label: PaymentType.Blik, onClick: () => setDeliveryDetails({ ...deliveryDetails, paymentType: PaymentType.Blik }) },
+          ]}
+        />
+
+        {show && (
+          <Layer
+            onEsc={() => setShow(false)}
+            onClickOutside={() => setShow(false)}
+            full={true}
+          >
+            <Box id="easypack-map"></Box>
+          </Layer>
+        )}
+      </Box>
     </Box>
   );
 };
