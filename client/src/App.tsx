@@ -6,6 +6,8 @@ import {
   AddProductView,
   DeliveryView,
   AboutUsView,
+  RegisterView,
+  LoginView,
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -80,6 +82,14 @@ const App = () => {
                       element={<DeliveryView />}
                     ></Route>
                     <Route path={ROUTES.info} element={<AboutUsView />}></Route>
+                    <Route
+                      path={ROUTES.register}
+                      element={<RegisterView />}
+                    ></Route>
+                    <Route
+                      path={ROUTES.login}
+                      element={<LoginView />}
+                    ></Route>
                   </Routes>
                 </DeliveryProvider>
               </Box>
