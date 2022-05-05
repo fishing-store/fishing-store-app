@@ -52,17 +52,18 @@ def delete_product(request: HttpRequest, id: UUID):
     else:
         return HttpResponse(status=404)
 
-
 # put product by id using ProductSerializer
-def put_product(request: HttpRequest, id: UUID):
-    product = Product.objects.get(id=id)
-    serializer = ProductSerializer(product, data=request.body)
-    if serializer.is_valid():
-        serializer.save()
-        return HttpResponse(status=200)
-    else:
-        return HttpResponse(serializer.errors, status=400)
-
+@api_view(['PUT'])
+def put_product(request: HttpRequest, id: int):
+    if request.method == "PUT":
+        product = Product.objects.get(id=id)
+        serializer = ProductSerializer(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return HttpResponse(status=200)
+        else:
+            print(serializer.errors)
+            return HttpResponse(serializer.errors, status=400)
 
 # patch product by id only if field is defined in request body
 def patch_product(request: HttpRequest, id: UUID):
@@ -83,6 +84,7 @@ def patch_product(request: HttpRequest, id: UUID):
             product.save()
             return HttpResponse(status=200)
         else:
+            print(updated_product.errors)
             return HttpResponse(updated_product.errors, status=400)
     else:
         return HttpResponse(status=404)
