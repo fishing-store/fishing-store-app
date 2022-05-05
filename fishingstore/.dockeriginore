@@ -1,0 +1,12 @@
+Dockerfile
+.git*
+.docker*
+.env*
+db.sqlite3
+README.md
+poetry.lock
+pyproject.toml
+celerybeat-schedule
+*.log
+*.pyc
+__pycache__

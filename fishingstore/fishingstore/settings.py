@@ -9,9 +9,26 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import logging
+import sys
 
 import os
 from pathlib import Path
+
+
+def required_env(name: str) -> str:
+    val = os.environ.get(name)
+    assert val, f"{name} is missing"
+    return val
+
+
+def make_logger(name):
+    logging.basicConfig(
+        level=logging.INFO,
+        format="[%(asctime)s %(name)s:%(levelname)s] %(message)s",
+        datefmt="%d/%b/%Y %H:%M:%S",
+    )
+    return logging.getLogger(name)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,17 +38,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!$l+%r)#p2m#t+$)muzv8ui)r=uo#iz2w1k$8nyoej6x((lwl1'
+SECRET_KEY = required_env("DJANGO_API_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DJANGO_API_DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
-CORS_ORIGIN_ALLOW_ALL = True
+ALLOWED_HOSTS = required_env("DJANGO_API_ALLOWED_HOSTS").split()
+CORS_ORIGIN_ALLOW_ALL = os.getenv("CORS_ORIGIN_ALLOW_ALL", "False") == "True"
 # Application definition
 
 INSTALLED_APPS = [
-    'api.apps.ApiConfig',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -77,10 +94,15 @@ WSGI_APPLICATION = 'fishingstore.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+CONN_MAX_AGE = 5
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": required_env("POSTGRES_DBNAME"),
+        "USER": required_env("POSTGRES_USERNAME"),
+        "PASSWORD": required_env("POSTGRES_PASSWORD"),
+        "HOST": required_env("POSTGRES_URL"),
+        "PORT": required_env("POSTGRES_PORT"),
     }
 }
 
@@ -118,8 +140,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
+API_URL = required_env("API_URL")
 
-STATIC_URL = 'static/'
+HOST_URL = "" if DEBUG is True else API_URL
+STATIC_URL = HOST_URL + "/static/"
+STATIC_ROOT = BASE_DIR / "static"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

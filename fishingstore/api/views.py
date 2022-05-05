@@ -1,5 +1,7 @@
-from asyncio.windows_events import NULL
 import json
+from uuid import UUID
+
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpRequest
 from rest_framework.views import APIView
 
@@ -7,9 +9,13 @@ from .models import Category, Product, Info
 from .serializers import ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, RegisterSerializer, LoginSerializer
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.decorators import api_view
-from django.contrib.auth.models import User
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from .models import Category, Product, Info
+from .serializers import ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, \
+    RegisterSerializer, LoginSerializer
 
 
 class ProductAPIView(generics.ListCreateAPIView):
@@ -29,7 +35,7 @@ def add_product(request: HttpRequest):
                 categories_db = Category.objects.filter(name=c)
                 if (len(categories_db) == 0):
                     Category.objects.create(name=c)
-                
+
             return HttpResponse(status=201)
         else:
             print(product.errors)
@@ -37,7 +43,7 @@ def add_product(request: HttpRequest):
 
 
 # deleting product by its id
-def delete_product(request: HttpRequest, id: int):
+def delete_product(request: HttpRequest, id: UUID):
     product = Product.objects.get(id=id)
     if product:
         product.delete()
@@ -47,7 +53,7 @@ def delete_product(request: HttpRequest, id: int):
 
 # put product by id using ProductSerializer
 @api_view(['PUT'])
-def put_product(request: HttpRequest, id: int):
+def put_product(request: HttpRequest, id: UUID):
     if request.method == "PUT":
         product = Product.objects.get(id=id)
         serializer = ProductSerializer(product, data=request.data)
@@ -59,7 +65,7 @@ def put_product(request: HttpRequest, id: int):
             return HttpResponse(serializer.errors, status=400)
 
 # patch product by id only if field is defined in request body
-def patch_product(request: HttpRequest, id: int):
+def patch_product(request: HttpRequest, id: UUID):
     product = Product.objects.get(id=id)
     if product:
         updated_product = ProductSerializer(data=request.body)
@@ -83,7 +89,7 @@ def patch_product(request: HttpRequest, id: int):
         return HttpResponse(status=404)
 
 
-def get_add_update_product(request: HttpRequest, id: int):
+def get_add_update_product(request: HttpRequest, id: UUID):
     if request.method == "GET":
         return get_product(request, id)
     elif request.method == "DELETE":

@@ -16,6 +16,7 @@ enum SortType {
 const ProductsView = () => {
   const [products, setProducts] = useState<Product[]>();
   const [defaultProducts, setDefaultProducts] = useState<Product[]>();
+  const [shoppingCart, setShoppingCart] = useState(JSON.parse(localStorage.getItem('shopping-cart') as string));
   const [isAscending, setIsAscending] = useState(true);
   const [sortType, setSortType] = useState<SortType>();
   const [searchValue, setSearchValue] = useState("");
@@ -32,8 +33,16 @@ const ProductsView = () => {
   }, []);
 
   useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(shoppingCart));
+  }, [shoppingCart]);
+
+  useEffect(() => {
     sort();
   }, [isAscending, sortType]);
+
+  const addProductToShoppingCard = (product: Product) => {
+    setShoppingCart({...product});
+  }
 
   const clearSorting = () => {
     setProducts([...(defaultProducts ?? [])]);
@@ -199,6 +208,7 @@ const ProductsView = () => {
           <Button variant="primary">Add new product</Button>
         </Link>
         {products?.map((product) => (
+            <div>
           <div
             style={{
               flexDirection: "column",
@@ -238,6 +248,14 @@ const ProductsView = () => {
               />
             </div>
           </div>
+              <Button
+                  variant="primary"
+                  style={{ margin: 10 }}
+                  onClick={() => addProductToShoppingCard(product)}
+              >
+                Add to cart
+              </Button>
+            </div>
         ))}
       </div>
     </div>

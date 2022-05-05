@@ -26,6 +26,13 @@ If you added some dependencies this command might be usefull
 python -m pip freeze > requirements.txt
 ```
 
+### Load envs
+
+Copy `.env.example` to `.env.local` for local use then load it with f.e direnv, next copy `.env.example` to `.env.development` for docker
+
+https://direnv.net/
+
+
 ## Django setup
 
 ```bash
@@ -43,6 +50,18 @@ python manage.py runserver
 To generate data model as SQL
 ```bash
 python fishingstore/manage.py sqlmigrate fishingstoreapp 0001
+```
+## Docker
+If we want to run backend + db in docker containers we can use
+```bash
+docker-compose -f docker-compose.dev.yml up -d
+```
+
+## Database
+
+Only run db in docker
+```bash
+docker-compose -f docker-compose.dev.yml up -d postgres
 ```
 
 # Windows installation
