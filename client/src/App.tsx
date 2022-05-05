@@ -10,6 +10,7 @@ import {
   EditProductView,
   RegisterView,
   LoginView,
+  UserView,
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -29,6 +30,7 @@ import { Menu, FormClose } from "grommet-icons";
 import { useState } from "react";
 import { AppBar } from "./components/AppBar";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 const theme = {
   global: {
     font: {
@@ -100,9 +102,10 @@ const App = () => {
                       path={ROUTES.register}
                       element={<RegisterView />}
                     ></Route>
+                    <Route path={ROUTES.login} element={<LoginView />}></Route>
                     <Route
-                      path={ROUTES.login}
-                      element={<LoginView />}
+                      path={ROUTES.userprofile}
+                      element={<UserView />}
                     ></Route>
                   </Routes>
                 </DeliveryProvider>
@@ -114,9 +117,7 @@ const App = () => {
           </Main>
 
           <Footer background="brand" pad="medium" flex={false}>
-            <Text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
-            </Text>
+            <Text>Let's go fishing!</Text>
           </Footer>
         </Box>
       </Grommet>

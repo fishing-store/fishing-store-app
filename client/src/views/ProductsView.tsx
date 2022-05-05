@@ -10,7 +10,7 @@ import * as grommet from "grommet";
 enum SortType {
   Price,
   Quantity,
-  Name
+  Name,
 }
 
 const ProductsView = () => {
@@ -25,7 +25,10 @@ const ProductsView = () => {
   const [countMax, setCountMax] = useState<number | undefined>(undefined);
   const navigate = useNavigate();
   useEffect(() => {
-    api.get("/products/").then(({ data }) => {setProducts(data); setDefaultProducts([...data ?? []])});
+    api.get("/products/").then(({ data }) => {
+      setProducts(data);
+      setDefaultProducts([...(data ?? [])]);
+    });
   }, []);
 
   useEffect(() => {
@@ -33,122 +36,155 @@ const ProductsView = () => {
   }, [isAscending, sortType]);
 
   const clearSorting = () => {
-    setProducts([...defaultProducts ?? []]);
-  }
+    setProducts([...(defaultProducts ?? [])]);
+  };
 
   const setAscending = () => {
     setIsAscending(true);
-  }
+  };
 
-  const setDescending = () =>  {
+  const setDescending = () => {
     setIsAscending(false);
-  }
+  };
 
   const sort = () => {
     switch (sortType) {
       case SortType.Price:
-        isAscending ? products?.sort((a,b) => a.price - b.price) : products?.sort((a,b) => b.price - a.price);
+        isAscending
+          ? products?.sort((a, b) => a.price - b.price)
+          : products?.sort((a, b) => b.price - a.price);
         break;
-       case SortType.Quantity:
-        isAscending ? products?.sort((a,b) => a.count - b.count) : products?.sort((a,b) => b.count - a.count);
+      case SortType.Quantity:
+        isAscending
+          ? products?.sort((a, b) => a.count - b.count)
+          : products?.sort((a, b) => b.count - a.count);
         break;
       case SortType.Name:
-        isAscending ? products?.sort((a,b) => a.name.localeCompare(b.name)) : products?.sort((a,b) => b.name.localeCompare(a.name));
+        isAscending
+          ? products?.sort((a, b) => a.name.localeCompare(b.name))
+          : products?.sort((a, b) => b.name.localeCompare(a.name));
         break;
       default:
         break;
     }
-    setProducts([...products ?? []]);
-  }
+    setProducts([...(products ?? [])]);
+  };
 
   const filter = () => {
-    let newProducts = defaultProducts?.filter(product => product.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()));
-    newProducts = newProducts?.filter(product => product.price >= (priceMin ?? 0)  && product.price <= (priceMax ?? 10000000000000))
-    newProducts = newProducts?.filter(product => product.price >= (countMin ?? 0)  && product.price <= (countMax ?? 10000000000000))
-    setProducts([...newProducts ?? []]);
-  }
+    let newProducts = defaultProducts?.filter((product) =>
+      product.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+    );
+    newProducts = newProducts?.filter(
+      (product) =>
+        product.price >= (priceMin ?? 0) &&
+        product.price <= (priceMax ?? 10000000000000)
+    );
+    newProducts = newProducts?.filter(
+      (product) =>
+        product.price >= (countMin ?? 0) &&
+        product.price <= (countMax ?? 10000000000000)
+    );
+    setProducts([...(newProducts ?? [])]);
+  };
 
   return (
     <div>
       <div
-      style={{
+        style={{
           marginTop: "150px",
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
           justifyContent: "center",
-        }}>
-      <form>
+        }}
+      >
+        <form>
           <input
             placeholder="Search for..."
-            style={{margin: 10}} 
+            style={{ margin: 10 }}
             value={searchValue}
             onChange={(event) => setSearchValue(event.target.value)}
           />
           <input
             placeholder="Min price"
-            style={{margin: 10}} 
+            style={{ margin: 10 }}
             value={priceMin}
             type="number"
-            onChange={(event) => setPriceMin(+event.target.value ? +event.target.value : undefined)}
+            onChange={(event) =>
+              setPriceMin(+event.target.value ? +event.target.value : undefined)
+            }
           />
           <input
             placeholder="Max price"
-            style={{margin: 10}} 
+            style={{ margin: 10 }}
             type="number"
             value={priceMax}
-            onChange={(event) => setPriceMax(event.target.value ? +event.target.value : undefined)}
+            onChange={(event) =>
+              setPriceMax(event.target.value ? +event.target.value : undefined)
+            }
           />
           <input
             placeholder="Min quantity"
-            style={{margin: 10}} 
+            style={{ margin: 10 }}
             value={countMin}
             type="number"
-            onChange={(event) => setCountMin(+event.target.value ? +event.target.value : undefined)}
+            onChange={(event) =>
+              setCountMin(+event.target.value ? +event.target.value : undefined)
+            }
           />
           <input
             placeholder="Max quantity"
-            style={{margin: 10}} 
+            style={{ margin: 10 }}
             type="number"
             value={countMax}
-            onChange={(event) => setCountMax(event.target.value ? +event.target.value : undefined)}
+            onChange={(event) =>
+              setCountMax(event.target.value ? +event.target.value : undefined)
+            }
           />
-        <Button variant="primary" 
-          style={{margin: 10}} 
-          onClick={filter}>
+          <Button variant="primary" style={{ margin: 10 }} onClick={filter}>
             Filter
-        </Button>
+          </Button>
         </form>
       </div>
-      <div 
-      style={{
-        flexDirection: "row",
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-      }}>
-
-        <Button variant="primary" 
-          style={{margin: 10}} 
-          onClick={() => setSortType(SortType.Price)}>
-            Sort by price
-            </Button>
-        <Button variant="primary" 
-          style={{margin: 10}} 
-          onClick={() => setSortType(SortType.Quantity)}>
+      <div
+        style={{
+          flexDirection: "row",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
+        <Button
+          variant="primary"
+          style={{ margin: 10 }}
+          onClick={() => setSortType(SortType.Price)}
+        >
+          Sort by price
+        </Button>
+        <Button
+          variant="primary"
+          style={{ margin: 10 }}
+          onClick={() => setSortType(SortType.Quantity)}
+        >
           Sort by quantity
         </Button>
-        <Button variant="primary" 
-          style={{margin: 10}}
-          onClick={() => setSortType(SortType.Name)}>
+        <Button
+          variant="primary"
+          style={{ margin: 10 }}
+          onClick={() => setSortType(SortType.Name)}
+        >
           Sort by name
         </Button>
-        <grommet.Button icon={<CaretUp />} onClick={setAscending} ></grommet.Button>
-        <grommet.Button icon={<CaretDown />} onClick={setDescending} ></grommet.Button>
-        <Button variant="primary"
-          style={{margin: 10}}
-          onClick={clearSorting}>
-            Clear all
+        <grommet.Button
+          icon={<CaretUp />}
+          onClick={setAscending}
+        ></grommet.Button>
+        <grommet.Button
+          icon={<CaretDown />}
+          onClick={setDescending}
+        ></grommet.Button>
+        <Button variant="primary" style={{ margin: 10 }} onClick={clearSorting}>
+          Clear all
         </Button>
       </div>
       <div
@@ -172,10 +208,12 @@ const ProductsView = () => {
               alignContent: "center",
               alignItems: "center",
               justifyContent: "center",
-              cursor: "pointer"
+              cursor: "pointer",
             }}
             key={product.id}
-            onClick={() => { navigate(`/products/${product?.id}`)}}
+            onClick={() => {
+              navigate(`/products/${product?.id}`);
+            }}
           >
             <div>
               <strong>Id: {product?.id}</strong>
@@ -183,6 +221,14 @@ const ProductsView = () => {
               <p>Cena: {product?.price}</p>
               <p>Opis: {product?.description}</p>
               <p>Liczba: {product?.count}</p>
+              {product?.categories && (
+                <p>
+                  Kategorie: &nbsp;
+                  {JSON.parse(product?.categories.toString()).map(
+                    (c: string) => `${c} `
+                  )}
+                </p>
+              )}
             </div>
             <div>
               <img
