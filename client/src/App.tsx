@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
 import {
   OrderView,
   ProductsView,
@@ -6,6 +6,8 @@ import {
   AddProductView,
   DeliveryView,
   AboutUsView,
+  ProductDetailsView,
+  EditProductView,
   RegisterView,
   LoginView,
   UserView,
@@ -41,6 +43,16 @@ const theme = {
 
 const App = () => {
   const [showSidebar, setShowSidebar] = useState(false);
+
+  const ProductWrapper = () => {
+    const { id } = useParams();
+    return <ProductDetailsView id={Number(id)} />
+  };
+
+  const EditProductWrapper = () => {
+    const { id } = useParams();
+    return <EditProductView id={Number(id)} />
+  };
 
   return (
     <Router>
@@ -84,6 +96,8 @@ const App = () => {
                       element={<DeliveryView />}
                     ></Route>
                     <Route path={ROUTES.info} element={<AboutUsView />}></Route>
+                    <Route path={ROUTES.product} element={<ProductWrapper/>}></Route>
+                    <Route path={ROUTES.editproduct} element={<EditProductWrapper/>}></Route>
                     <Route
                       path={ROUTES.register}
                       element={<RegisterView />}
