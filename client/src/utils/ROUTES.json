@@ -6,5 +6,6 @@
   "delivery": "/delivery",
   "info": "/aboutus",
   "register": "/register",
-  "login": "/login"
+  "login": "/login",
+  "userprofile": "/userprofile"
 }

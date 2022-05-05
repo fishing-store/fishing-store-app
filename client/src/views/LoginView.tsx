@@ -27,6 +27,7 @@ const LoginView = () => {
         axios.post(process.env.REACT_APP_API_URL + "/login/", formData).then((resp) => {
             console.log(resp)
             alert("User logged in succesfully");
+            localStorage.setItem('fishingapp-user-token', resp.data.access);
             navigate("/");
         }).catch((err) => {
             alert(err.response.request.response);

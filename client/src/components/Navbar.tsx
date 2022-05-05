@@ -39,6 +39,9 @@ const Navbar = () => {
       <Link to={ROUTES.info}>
         <Anchor label="About Us" icon={<Icons.Info />} />
       </Link>
+      <Link to={ROUTES.userprofile}>
+        <Anchor label="User profile" icon={<Icons.UserSettings />} />
+      </Link>
     </Nav>
   );
 };

@@ -4,3 +4,4 @@ __pycache__
 fishingstore.db
 fishingstore/media/images
 */.env.*
+.idea

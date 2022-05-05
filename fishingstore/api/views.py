@@ -1,9 +1,15 @@
+from asyncio.windows_events import NULL
 import json
 from uuid import UUID
 
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpRequest
+from rest_framework.views import APIView
+
+from .models import Category, Product, Info
+from .serializers import ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, RegisterSerializer, LoginSerializer
 from rest_framework import generics
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -205,3 +211,15 @@ class LoginView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
+
+
+# Endpoint created for veryfing user authorization
+# Attach access token to get request
+class HelloView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        content = json.dumps(
+            {'message': 'Hello, World!', 'username': request.user.username, 'is_superuser': request.user.is_superuser,
+             'email': request.user.email})
+        return HttpResponse(content)
