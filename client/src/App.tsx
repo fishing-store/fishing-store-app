@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
 import {
   OrderView,
   ProductsView,
@@ -6,8 +6,11 @@ import {
   AddProductView,
   DeliveryView,
   AboutUsView,
+  ProductDetailsView,
+  EditProductView,
   RegisterView,
   LoginView,
+  UserView,
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -40,6 +43,16 @@ const theme = {
 
 const App = () => {
   const [showSidebar, setShowSidebar] = useState(false);
+
+  const ProductWrapper = () => {
+    const { id } = useParams();
+    return <ProductDetailsView id={Number(id)} />
+  };
+
+  const EditProductWrapper = () => {
+    const { id } = useParams();
+    return <EditProductView id={Number(id)} />
+  };
 
   return (
     <Router>
@@ -83,11 +96,17 @@ const App = () => {
                       element={<DeliveryView />}
                     ></Route>
                     <Route path={ROUTES.info} element={<AboutUsView />}></Route>
+                    <Route path={ROUTES.product} element={<ProductWrapper/>}></Route>
+                    <Route path={ROUTES.editproduct} element={<EditProductWrapper/>}></Route>
                     <Route
                       path={ROUTES.register}
                       element={<RegisterView />}
                     ></Route>
                     <Route path={ROUTES.login} element={<LoginView />}></Route>
+                    <Route
+                      path={ROUTES.userprofile}
+                      element={<UserView />}
+                    ></Route>
                   </Routes>
                 </DeliveryProvider>
               </Box>
@@ -98,9 +117,7 @@ const App = () => {
           </Main>
 
           <Footer background="brand" pad="medium" flex={false}>
-            <Text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
-            </Text>
+            <Text>Let's go fishing!</Text>
           </Footer>
         </Box>
       </Grommet>

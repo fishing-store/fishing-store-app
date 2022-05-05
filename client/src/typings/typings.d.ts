@@ -27,6 +27,11 @@ type LoginForm = {
   password: string;
 };
 
+type UserInfo = {
+  username: string;
+  is_superuser: boolean;
+};
+
 type Category = {
   name: string;
 };
