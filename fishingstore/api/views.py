@@ -1,10 +1,16 @@
 import json
 from uuid import UUID
 
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpRequest
-from .models import Product
-from .serializers import ProductSerializer
 from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from .models import Category, Product, Info
+from .serializers import ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, \
+    RegisterSerializer, LoginSerializer
 
 
 class ProductAPIView(generics.ListCreateAPIView):
@@ -13,13 +19,21 @@ class ProductAPIView(generics.ListCreateAPIView):
 
 
 # receiving product as POST in JSON format and writing it to Django database
+@api_view(['POST'])
 def add_product(request: HttpRequest):
     if request.method == "POST":
-        product = ProductSerializer(data=request.body)
+        product = ProductSerializer(data=request.data)
         if product.is_valid():
             product.save()
+            categories = json.loads(request.data.get("categories"))
+            for c in categories:
+                categories_db = Category.objects.filter(name=c)
+                if (len(categories_db) == 0):
+                    Category.objects.create(name=c)
+
             return HttpResponse(status=201)
         else:
+            print(product.errors)
             return HttpResponse(product.errors, status=400)
 
 
@@ -58,6 +72,8 @@ def patch_product(request: HttpRequest, id: UUID):
                 product.description = updated_product.validated_data["description"]
             if "image" in updated_product.validated_data:
                 product.image = updated_product.validated_data["image"]
+            if "count" in updated_product.validated_data:
+                product.image = updated_product.validated_data["count"]
             product.save()
             return HttpResponse(status=200)
         else:
@@ -106,31 +122,36 @@ def add_mockup_products(request: HttpRequest):
             "name": "Fishingrod 1",
             "price": "100",
             "description": "Fishingrod description",
-            "image": "https://www.rei.com/media/product/148527"
+            "image": "https://www.rei.com/media/product/148527",
+            "count": "20"
         },
         {
             "name": "Fishingrod 2",
             "price": "200",
             "description": "Fishingrod description",
-            "image": "https://www.rei.com/media/product/148527"
+            "image": "https://www.rei.com/media/product/148527",
+            "count": "20"
         },
         {
             "name": "Fishingrod 3",
             "price": "300",
             "description": "Fishingrod description",
-            "image": "https://www.rei.com/media/product/148527"
+            "image": "https://www.rei.com/media/product/148527",
+            "count": "20"
         },
         {
             "name": "Fishingrod 4",
             "price": "400",
             "description": "Fishingrod description",
-            "image": "https://www.rei.com/media/product/148527"
+            "image": "https://www.rei.com/media/product/148527",
+            "count": "20"
         },
         {
             "name": "Fishingrod 5",
             "price": "500",
             "description": "Fishingrod description",
-            "image": "https://www.rei.com/media/product/148527"
+            "image": "https://www.rei.com/media/product/148527",
+            "count": "20"
         }
     ]
 
@@ -140,3 +161,47 @@ def add_mockup_products(request: HttpRequest):
             product_object.save()
 
     return HttpResponse(json.dumps(products, indent=4), content_type="application/json")
+
+
+class InfoAPIView(generics.ListCreateAPIView):
+    queryset = Info.objects.all()
+    serializer_class = InfoSerializer
+
+
+def get_info(request: HttpRequest):
+    if request.method == 'GET':
+        information = Info.objects.all()
+        if information:
+            information_serializer = InfoSerializer(information, many=True)
+            return HttpResponse(json.dumps(information_serializer.data, indent=4), content_type="application/json")
+        else:
+            return HttpResponse(status=404)
+
+class CategoriesApiView(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+def get_categories(request: HttpRequest):
+    if request.method == 'GET':
+        categories = Category.objects.all()
+        if categories:
+            category_serializer = CategorySerializer(categories, many=True)
+            return HttpResponse(json.dumps(category_serializer.data, indent=4), content_type="application/json")
+        else:
+            return HttpResponse(status=404)
+
+# User login view
+class MyObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
+
+class LoginView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = LoginSerializer
