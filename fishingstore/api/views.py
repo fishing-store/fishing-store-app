@@ -1,14 +1,16 @@
-from asyncio.windows_events import NULL
 import json
 from uuid import UUID
+
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpRequest
-from .models import Category, Product, Info
-from .serializers import ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, RegisterSerializer, LoginSerializer
 from rest_framework import generics
+from rest_framework.decorators import api_view
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.decorators import api_view
-from django.contrib.auth.models import User
+
+from .models import Category, Product, Info
+from .serializers import ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, \
+    RegisterSerializer, LoginSerializer
 
 
 class ProductAPIView(generics.ListCreateAPIView):
@@ -28,7 +30,7 @@ def add_product(request: HttpRequest):
                 categories_db = Category.objects.filter(name=c)
                 if (len(categories_db) == 0):
                     Category.objects.create(name=c)
-                
+
             return HttpResponse(status=201)
         else:
             print(product.errors)
