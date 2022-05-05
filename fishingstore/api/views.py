@@ -53,7 +53,7 @@ def delete_product(request: HttpRequest, id: UUID):
 
 # put product by id using ProductSerializer
 @api_view(['PUT'])
-def put_product(request: HttpRequest, id: int):
+def put_product(request: HttpRequest, id: UUID):
     if request.method == "PUT":
         product = Product.objects.get(id=id)
         serializer = ProductSerializer(product, data=request.data)
