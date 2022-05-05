@@ -28,6 +28,7 @@ import { Menu, FormClose } from "grommet-icons";
 import { useState } from "react";
 import { AppBar } from "./components/AppBar";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 const theme = {
   global: {
     font: {
@@ -87,10 +88,7 @@ const App = () => {
                       path={ROUTES.register}
                       element={<RegisterView />}
                     ></Route>
-                    <Route
-                      path={ROUTES.login}
-                      element={<LoginView />}
-                    ></Route>
+                    <Route path={ROUTES.login} element={<LoginView />}></Route>
                     <Route
                       path={ROUTES.userprofile}
                       element={<UserView />}
@@ -105,9 +103,7 @@ const App = () => {
           </Main>
 
           <Footer background="brand" pad="medium" flex={false}>
-            <Text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
-            </Text>
+            <Text>Let's go fishing!</Text>
           </Footer>
         </Box>
       </Grommet>

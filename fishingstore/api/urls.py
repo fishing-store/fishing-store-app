@@ -10,6 +10,7 @@ urlpatterns = [
     path('products/<id>', views.get_add_update_product, name='get_add_update_product'),
     path('info/', views.InfoAPIView.as_view()),
     path('info/get', views.get_info, name='get_info'),
+    path('categories', views.get_categories, name='get_categories'),
     path('login/', views.MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('hello/', views.HelloView.as_view(), name='hello'),

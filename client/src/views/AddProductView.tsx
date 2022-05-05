@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, FormControlProps } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import { Typeahead } from "react-bootstrap-typeahead";
 import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
@@ -13,8 +14,15 @@ const AddProductView = () => {
     count: 0,
     price: 0,
     description: "",
+    categories: [],
     image: null,
   });
+
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    api.get("/categories").then((res) => setCategories(res.data));
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProduct((product) => ({
@@ -37,6 +45,7 @@ const AddProductView = () => {
     formData.append("name", product.name);
     formData.append("count", product.count.toString());
     formData.append("price", product.price.toString());
+    formData.append("categories", JSON.stringify(product.categories));
     formData.append("description", product.description);
 
     api.post("products/add", formData).then(() => {
@@ -83,6 +92,25 @@ const AddProductView = () => {
           type="text"
           placeholder="Enter product description"
           onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="productCategories">
+        <Form.Label>Categories</Form.Label>
+        <Typeahead
+          allowNew
+          id="categories-input"
+          multiple
+          newSelectionPrefix="Add a new category "
+          options={categories.map((c) => c.name)}
+          placeholder="Type a category"
+          onChange={(selectedOptions) =>
+            setProduct((product) => ({
+              ...product,
+              categories: selectedOptions.map((o) =>
+                typeof o === "string" ? o : o.label
+              ),
+            }))
+          }
         />
       </Form.Group>
 
