@@ -17,6 +17,7 @@ const EditProductView = ({ id }: Props) => {
     count: 0,
     price: 0,
     description: "",
+    categories: [],
     image: null,
   });
 
@@ -26,7 +27,7 @@ const EditProductView = ({ id }: Props) => {
     };
     fetchData();
   }, []);
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProduct((product) => ({
       ...product,
@@ -74,7 +75,7 @@ const EditProductView = ({ id }: Props) => {
           name="price"
           type="number"
           value={product?.price}
-		  min="0"
+          min="0"
           onChange={handleChange}
         />
       </Form.Group>
@@ -85,7 +86,7 @@ const EditProductView = ({ id }: Props) => {
           name="count"
           type="number"
           value={product?.count}
-		  min="0"
+          min="0"
           onChange={handleChange}
         />
       </Form.Group>
@@ -102,13 +103,9 @@ const EditProductView = ({ id }: Props) => {
 
       <Form.Group className="mb-3" controlId="productImage">
         <Form.Label>Product image</Form.Label>
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="productImage">
-        <Form.Label>Product image</Form.Label>
         <Form.Control name="image" type="file" onChange={handleImage} />
       </Form.Group>
-		  
+
       <Button variant="primary" type="submit">
         Save product
       </Button>
