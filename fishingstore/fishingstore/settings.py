@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import logging
 import sys
+
 import os
 from pathlib import Path
 
