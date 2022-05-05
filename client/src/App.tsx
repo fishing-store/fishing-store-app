@@ -8,6 +8,7 @@ import {
   AboutUsView,
   RegisterView,
   LoginView,
+  UserView,
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -88,6 +89,10 @@ const App = () => {
                       element={<RegisterView />}
                     ></Route>
                     <Route path={ROUTES.login} element={<LoginView />}></Route>
+                    <Route
+                      path={ROUTES.userprofile}
+                      element={<UserView />}
+                    ></Route>
                   </Routes>
                 </DeliveryProvider>
               </Box>
@@ -98,9 +103,7 @@ const App = () => {
           </Main>
 
           <Footer background="brand" pad="medium" flex={false}>
-            <Text>
-            Let's go fishing!
-            </Text>
+            <Text>Let's go fishing!</Text>
           </Footer>
         </Box>
       </Grommet>
