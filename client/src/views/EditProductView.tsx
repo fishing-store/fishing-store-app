@@ -10,6 +10,7 @@ const EditProductView = () => {
   const { id } = useParams();
 
   const [product, setProduct] = useState<Product>({
+    id: "",
     name: "",
     count: 0,
     price: 0,
