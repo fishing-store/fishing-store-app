@@ -19,7 +19,7 @@ const AddToCart = (props: {product: Product, shoppingCart: CartProduct[], addPro
         <Button
             variant="primary"
             style={{ margin: 10 }}
-            disabled={value > 0 ? false : true}
+            disabled={(value > 0 ? false : true) || (value > product.count)}
             onClick={() => addProductToShoppingCard({count: value, product })}
         >
             Add to cart
