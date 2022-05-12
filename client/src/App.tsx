@@ -44,16 +44,6 @@ const theme = {
 const App = () => {
   const [showSidebar, setShowSidebar] = useState(false);
 
-  const ProductWrapper = () => {
-    const { id } = useParams();
-    return <ProductDetailsView id={Number(id)} />
-  };
-
-  const EditProductWrapper = () => {
-    const { id } = useParams();
-    return <EditProductView id={Number(id)} />
-  };
-
   return (
     <Router>
       <Grommet theme={theme} full>
@@ -78,35 +68,17 @@ const App = () => {
               <Box flex align="center" justify="center">
                 <DeliveryProvider>
                   <Routes>
-                    <Route path={ROUTES.order} element={<OrderView />}></Route>
-                    <Route
-                      path={ROUTES.products}
-                      element={<ProductsView />}
-                    ></Route>
-                    <Route
-                      path={ROUTES.cart}
-                      element={<ShoppingCartView />}
-                    ></Route>
-                    <Route
-                      path={ROUTES.addproduct}
-                      element={<AddProductView />}
-                    ></Route>
-                    <Route
-                      path={ROUTES.delivery}
-                      element={<DeliveryView />}
-                    ></Route>
-                    <Route path={ROUTES.info} element={<AboutUsView />}></Route>
-                    <Route path={ROUTES.product} element={<ProductWrapper/>}></Route>
-                    <Route path={ROUTES.editproduct} element={<EditProductWrapper/>}></Route>
-                    <Route
-                      path={ROUTES.register}
-                      element={<RegisterView />}
-                    ></Route>
-                    <Route path={ROUTES.login} element={<LoginView />}></Route>
-                    <Route
-                      path={ROUTES.userprofile}
-                      element={<UserView />}
-                    ></Route>
+                    <Route path={ROUTES.order} element={<OrderView/>}/>
+                    <Route path={ROUTES.products} element={<ProductsView/>}/>
+                    <Route path={ROUTES.cart} element={<ShoppingCartView/>}/>
+                    <Route path={ROUTES.addproduct} element={<AddProductView/>}/>
+                    <Route path={ROUTES.delivery} element={<DeliveryView/>}/>
+                    <Route path={ROUTES.info} element={<AboutUsView/>}/>
+                    <Route path={ROUTES.product} element={<ProductDetailsView/>}/>
+                    <Route path={ROUTES.editproduct} element={<EditProductView />}/>
+                    <Route path={ROUTES.register} element={<RegisterView/>}/>
+                    <Route path={ROUTES.login} element={<LoginView/>}/>
+                    <Route path={ROUTES.userprofile} element={<UserView/>}/>
                   </Routes>
                 </DeliveryProvider>
               </Box>
