@@ -2,8 +2,8 @@ import Button from "react-bootstrap/Button";
 import {CartProduct} from "../views/ProductsView";
 import {useState} from "react";
 
-const AddToCart = (props: {product: Product, shoppingCart: CartProduct[], addProductToShoppingCard: (product: CartProduct) => void}) => {
-    const {product, shoppingCart, addProductToShoppingCard} = props;
+const AddToCart = (props: {product: Product, addProductToShoppingCard: (product: CartProduct) => void}) => {
+    const {product, addProductToShoppingCard} = props;
     const [value, setValue] = useState(0);
 
     return (
@@ -12,8 +12,10 @@ const AddToCart = (props: {product: Product, shoppingCart: CartProduct[], addPro
             placeholder="count"
             value={value}
             type="number"
-            onChange={(event) =>
-                setValue(+event.target.value ? +event.target.value : 0)
+            onChange={(event) => {
+                setValue(((+event.target.value <= product.count) && (+event.target.value >= 0)) ? +event.target.value : 0);
+            }
+
             }
         />
         <Button
