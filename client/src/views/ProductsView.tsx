@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import ROUTES from "../utils/ROUTES.json";
+import {AddToCart} from "../components/AddToCart";
 import { useState, useEffect } from "react";
 import { api } from "../api";
 import { useNavigate } from "react-router-dom";
@@ -13,10 +14,15 @@ enum SortType {
   Name,
 }
 
+export interface CartProduct {
+  count: number;
+  product: Product;
+}
+
 const ProductsView = () => {
   const [products, setProducts] = useState<Product[]>();
   const [defaultProducts, setDefaultProducts] = useState<Product[]>();
-  const [shoppingCart, setShoppingCart] = useState(JSON.parse(localStorage.getItem('shopping-cart') as string));
+  const [shoppingCart, setShoppingCart] = useState<CartProduct[]>(JSON.parse(localStorage.getItem('shopping-cart') as string) ?? []);
   const [isAscending, setIsAscending] = useState(true);
   const [sortType, setSortType] = useState<SortType>();
   const [searchValue, setSearchValue] = useState("");
@@ -33,15 +39,24 @@ const ProductsView = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(shoppingCart));
+    localStorage.setItem('shopping-cart', JSON.stringify(shoppingCart));
   }, [shoppingCart]);
 
   useEffect(() => {
     sort();
   }, [isAscending, sortType]);
 
-  const addProductToShoppingCard = (product: Product) => {
-    setShoppingCart({...product});
+  const addProductToShoppingCard = (product: CartProduct) => {
+    const foundIndex = shoppingCart.findIndex((prod: CartProduct) => product.product.id === prod.product.id);
+    if (!product.count) {
+      return;
+    }
+    if(foundIndex >= 0) {
+      shoppingCart[foundIndex] = product;
+      setShoppingCart([...shoppingCart]);
+    } else {
+      setShoppingCart([...shoppingCart, product]);
+    }
   }
 
   const clearSorting = () => {
@@ -248,13 +263,7 @@ const ProductsView = () => {
               />
             </div>
           </div>
-              <Button
-                  variant="primary"
-                  style={{ margin: 10 }}
-                  onClick={() => addProductToShoppingCard(product)}
-              >
-                Add to cart
-              </Button>
+              <AddToCart addProductToShoppingCard={addProductToShoppingCard} shoppingCart={shoppingCart} product={product} />
             </div>
         ))}
       </div>
