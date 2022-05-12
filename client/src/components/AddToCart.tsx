@@ -12,8 +12,10 @@ const AddToCart = (props: {product: Product, shoppingCart: CartProduct[], addPro
             placeholder="count"
             value={value}
             type="number"
-            onChange={(event) =>
-                setValue(+event.target.value ? +event.target.value : 0)
+            onChange={(event) => {
+                setValue(((+event.target.value <= product.count) && (+event.target.value >= 0)) ? +event.target.value : 0);
+            }
+
             }
         />
         <Button
