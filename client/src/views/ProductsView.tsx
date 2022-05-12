@@ -263,7 +263,7 @@ const ProductsView = () => {
               />
             </div>
           </div>
-              <AddToCart addProductToShoppingCard={addProductToShoppingCard} shoppingCart={shoppingCart} product={product} />
+              <AddToCart addProductToShoppingCard={addProductToShoppingCard} product={product} />
             </div>
         ))}
       </div>

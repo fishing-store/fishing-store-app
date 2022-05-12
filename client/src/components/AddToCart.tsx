@@ -2,8 +2,8 @@ import Button from "react-bootstrap/Button";
 import {CartProduct} from "../views/ProductsView";
 import {useState} from "react";
 
-const AddToCart = (props: {product: Product, shoppingCart: CartProduct[], addProductToShoppingCard: (product: CartProduct) => void}) => {
-    const {product, shoppingCart, addProductToShoppingCard} = props;
+const AddToCart = (props: {product: Product, addProductToShoppingCard: (product: CartProduct) => void}) => {
+    const {product, addProductToShoppingCard} = props;
     const [value, setValue] = useState(0);
 
     return (
