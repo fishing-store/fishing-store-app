@@ -1,38 +1,13 @@
 import {Link} from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
-import {useEffect, useState} from "react";
-import {Box, Text, DataTable, Button, Avatar} from "grommet";
+import {Avatar, Box, Button, DataTable, Text} from "grommet";
 import {ColumnConfig} from "grommet/components/DataTable";
 import {CartProduct} from "./ProductsView";
 import {EditProductQuantity} from "../components/EditProductQuantity";
+import {useShoppingCart} from "../context/ShoppingCart";
 
 const ShoppingCartView = () => {
-    const [shoppingCart, setShoppingCart] = useState<CartProduct[]>(JSON.parse(localStorage.getItem('shopping-cart') as string) ?? []);
-
-    useEffect(() => {
-        localStorage.setItem('shopping-cart', JSON.stringify(shoppingCart));
-    }, [shoppingCart]);
-
-    const addProductToShoppingCard = (product: CartProduct) => {
-        const foundIndex = shoppingCart.findIndex((prod: CartProduct) => product.product.id === prod.product.id);
-        if (!product.count) {
-            return;
-        }
-        if (foundIndex >= 0) {
-            shoppingCart[foundIndex] = product;
-            setShoppingCart([...shoppingCart]);
-        } else {
-            setShoppingCart([...shoppingCart, product]);
-        }
-    }
-    const removeAllProductsFromCart = () => {
-        setShoppingCart([]);
-    };
-
-    const removeProductFromCart = (productId: string) => {
-        const newProducts = shoppingCart.filter((prod: CartProduct) => prod.product.id !== productId);
-        setShoppingCart([...newProducts]);
-    }
+    const {shoppingCart, removeProductFromCart, removeAllProductsFromCart} = useShoppingCart();
     const total = shoppingCart?.map((cartProduct) => cartProduct).reduce((acc, next: CartProduct) => acc + next.product.price * next.count, 0);
 
 
@@ -69,7 +44,7 @@ const ShoppingCartView = () => {
             align: "center",
             header: <Text weight={"bold"}>Ilość</Text>,
             render: (datum: CartProduct) => (
-                <EditProductQuantity product={datum} shoppingCart={shoppingCart} addProductToShoppingCard={addProductToShoppingCard}/>
+                <EditProductQuantity product={datum}/>
             )
         },
         {

@@ -1,27 +1,30 @@
 import {CartProduct} from "../views/ProductsView";
 import {useState} from "react";
-import {Box, Text, Button} from "grommet";
+import {Box, Button, Text} from "grommet";
+import {useShoppingCart} from "../context/ShoppingCart";
 
-const EditProductQuantity = (props: {product: CartProduct, shoppingCart: CartProduct[], addProductToShoppingCard: (product: CartProduct) => void}) => {
-    const {product, shoppingCart, addProductToShoppingCard} = props;
+const EditProductQuantity = (props: {product: CartProduct}) => {
+    const {product} = props;
+    const {addProductToShoppingCard} = useShoppingCart();
     const [value, setValue] = useState(product.count);
+
+    const changeProductQuantity = (quantity : number) => {
+        setValue(value + quantity);
+        product.count = value + quantity;
+        addProductToShoppingCard(product);
+    }
 
     return (
         <Box direction="row">
-                    <Button label='-' onClick={() => {
-                        setValue(value-1);
-                        product.count = value - 1;
-                        addProductToShoppingCard(product);
-                    }} style={{borderRadius: "0px"}}
-                            size={"small"}/>
-                    <Text margin={"small"}>{value}</Text>
-                    <Button label='+' onClick={() => {
-                        setValue(value+1);
-                        product.count = value + 1;
-                        addProductToShoppingCard(product);
-                    }}
-                            style={{borderRadius: "0px", paddingTop: "5px", paddingBottom: '5px'}} size={"small"}/>
-                </Box>
+            <Button label='-' onClick={() => changeProductQuantity(-1)}
+                    disabled={value <= 1}
+                    style={{borderRadius: "0px"}}
+                    size={"small"}/>
+            <Text margin={"small"}>{value}</Text>
+            <Button label='+' onClick={() => changeProductQuantity(1)}
+                    disabled={value >= product.product.count}
+                    style={{borderRadius: "0px"}} size={"small"}/>
+        </Box>
 )};
 
 export { EditProductQuantity };
