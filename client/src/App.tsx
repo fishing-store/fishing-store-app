@@ -1,128 +1,95 @@
-import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {
-  OrderView,
-  ProductsView,
-  ShoppingCartView,
-  AddProductView,
-  DeliveryView,
-  AboutUsView,
-  ProductDetailsView,
-  EditProductView,
-  RegisterView,
-  LoginView,
-  UserView,
+    AboutUsView,
+    AddProductView,
+    DeliveryView,
+    EditProductView,
+    LoginView,
+    OrderView,
+    ProductDetailsView,
+    ProductsView,
+    RegisterView,
+    ShoppingCartView,
+    UserView,
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
-import { DeliveryProvider } from "./DeliveryContext";
+import {DeliveryProvider} from "./context/DeliveryContext";
 import "@fontsource/roboto";
-import {
-  Box,
-  Button,
-  Heading,
-  Grommet,
-  Collapsible,
-  Main,
-  Footer,
-  Text,
-} from "grommet";
-import { Menu, FormClose } from "grommet-icons";
-import { useState } from "react";
-import { AppBar } from "./components/AppBar";
+import {Box, Button, Collapsible, Footer, Grommet, Heading, Main, Text,} from "grommet";
+import {FormClose, Menu} from "grommet-icons";
+import {useState} from "react";
+import {AppBar} from "./components/AppBar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
+import {ShoppingCartProvider} from "./context/ShoppingCart";
+
 const theme = {
-  global: {
-    font: {
-      family: "Roboto",
-      size: "16px",
-      height: "22px",
+    global: {
+        font: {
+            family: "Roboto",
+            size: "16px",
+            height: "22px",
+        },
     },
-  },
 };
 
 const App = () => {
-  const [showSidebar, setShowSidebar] = useState(false);
+    const [showSidebar, setShowSidebar] = useState(false);
 
-  const ProductWrapper = () => {
-    const { id } = useParams();
-    return <ProductDetailsView id={Number(id)} />
-  };
+    return (
+        <Router>
+            <Grommet theme={theme} full>
+                <Box fill>
+                    <AppBar flex={false}>
+                        <Heading level="3" margin="none">
+                            Fishing Store
+                        </Heading>
+                        <Button
+                            icon={!showSidebar ? <Menu/> : <FormClose/>}
+                            onClick={() => setShowSidebar(!showSidebar)}
+                        />
+                    </AppBar>
 
-  const EditProductWrapper = () => {
-    const { id } = useParams();
-    return <EditProductView id={Number(id)} />
-  };
+                    <Main overflow="auto" flex={true}>
+                        <Box
+                            direction="row"
+                            flex
+                            overflow={{horizontal: "hidden"}}
+                            className="scroll-enabled"
+                        >
+                            <Box flex align="center" justify="center">
+                                <ShoppingCartProvider>
+                                    <DeliveryProvider>
+                                        <Routes>
+                                            <Route path={ROUTES.order} element={<OrderView/>}/>
+                                            <Route path={ROUTES.products} element={<ProductsView/>}/>
+                                            <Route path={ROUTES.cart} element={<ShoppingCartView/>}/>
+                                            <Route path={ROUTES.addproduct} element={<AddProductView/>}/>
+                                            <Route path={ROUTES.delivery} element={<DeliveryView/>}/>
+                                            <Route path={ROUTES.info} element={<AboutUsView/>}/>
+                                            <Route path={ROUTES.product} element={<ProductDetailsView/>}/>
+                                            <Route path={ROUTES.editproduct} element={<EditProductView/>}/>
+                                            <Route path={ROUTES.register} element={<RegisterView/>}/>
+                                            <Route path={ROUTES.login} element={<LoginView/>}/>
+                                            <Route path={ROUTES.userprofile} element={<UserView/>}/>
+                                        </Routes>
+                                    </DeliveryProvider>
+                                </ShoppingCartProvider>
+                            </Box>
+                            <Collapsible direction="horizontal" open={showSidebar}>
+                                <Navbar/>
+                            </Collapsible>
+                        </Box>
+                    </Main>
 
-  return (
-    <Router>
-      <Grommet theme={theme} full>
-        <Box fill>
-          <AppBar flex={false}>
-            <Heading level="3" margin="none">
-              Fishing Store
-            </Heading>
-            <Button
-              icon={!showSidebar ? <Menu /> : <FormClose />}
-              onClick={() => setShowSidebar(!showSidebar)}
-            />
-          </AppBar>
-
-          <Main overflow="auto" flex={true}>
-            <Box
-              direction="row"
-              flex
-              overflow={{ horizontal: "hidden" }}
-              className="scroll-enabled"
-            >
-              <Box flex align="center" justify="center">
-                <DeliveryProvider>
-                  <Routes>
-                    <Route path={ROUTES.order} element={<OrderView />}></Route>
-                    <Route
-                      path={ROUTES.products}
-                      element={<ProductsView />}
-                    ></Route>
-                    <Route
-                      path={ROUTES.cart}
-                      element={<ShoppingCartView />}
-                    ></Route>
-                    <Route
-                      path={ROUTES.addproduct}
-                      element={<AddProductView />}
-                    ></Route>
-                    <Route
-                      path={ROUTES.delivery}
-                      element={<DeliveryView />}
-                    ></Route>
-                    <Route path={ROUTES.info} element={<AboutUsView />}></Route>
-                    <Route path={ROUTES.product} element={<ProductWrapper/>}></Route>
-                    <Route path={ROUTES.editproduct} element={<EditProductWrapper/>}></Route>
-                    <Route
-                      path={ROUTES.register}
-                      element={<RegisterView />}
-                    ></Route>
-                    <Route path={ROUTES.login} element={<LoginView />}></Route>
-                    <Route
-                      path={ROUTES.userprofile}
-                      element={<UserView />}
-                    ></Route>
-                  </Routes>
-                </DeliveryProvider>
-              </Box>
-              <Collapsible direction="horizontal" open={showSidebar}>
-                <Navbar />
-              </Collapsible>
-            </Box>
-          </Main>
-
-          <Footer background="brand" pad="medium" flex={false}>
-            <Text>Let's go fishing!</Text>
-          </Footer>
-        </Box>
-      </Grommet>
-    </Router>
-  );
+                    <Footer background="brand" pad="medium" flex={false}>
+                        <Text>Let's go fishing!</Text>
+                    </Footer>
+                </Box>
+            </Grommet>
+        </Router>
+    );
 };
 
 export default App;
