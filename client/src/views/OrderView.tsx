@@ -4,6 +4,7 @@ import { DeliveryContext, DeliveryType } from "../context/DeliveryContext";
 import { useShoppingCart } from "../context/ShoppingCart";
 import { Link } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
+import { api } from "../api";
 
 const OrderView = () => {
 
@@ -14,6 +15,26 @@ const OrderView = () => {
     const { shoppingCart } = useShoppingCart();
 
     const calculateTotalCost = () => shoppingCart.reduce((acc, item) => acc + item.product.price * item.count, 0);
+
+    const sendOrder = () => {
+        const order = {
+            deliveryType: deliveryType,
+            inpostDetails: inpostDetails,
+            name: name,
+            surname: surname,
+            address: address,
+            telephone: telephone,
+            email: email,
+            products: shoppingCart.map(
+                item => ({
+                    product: item.product.id,
+                    count: item.count
+                })
+            ),
+            totalCost: calculateTotalCost(),
+        };
+        api.post("/order", order).then(response => alert(response)).catch(error => alert(error));
+    };
 
     return (
         <Box width="large" pad="medium" gap="medium" wrap>
@@ -116,10 +137,11 @@ const OrderView = () => {
                 )}
             </Box>
 
-            <Box width="medium" pad="medium">
-                <Link to={ROUTES.order}>
-                    <Button primary={true} label={"Confirm order"}/>
+            <Box width="medium" pad="medium" direction="row" gap="medium">
+                <Link to={ROUTES.delivery}>
+                    <Button primary={false} label={"Go back"} />
                 </Link>
+                <Button primary={true} label={"Confirm order"} onClick={sendOrder}/>
             </Box>
         </Box>
     );
