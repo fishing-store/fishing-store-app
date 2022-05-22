@@ -5,7 +5,7 @@ import { Box } from "grommet";
 import jwt_decode, { JwtPayload } from 'jwt-decode'
 import { decode } from "punycode";
 
-interface MyToken {
+export interface MyToken {
     username: string
     is_superuser: boolean
 }

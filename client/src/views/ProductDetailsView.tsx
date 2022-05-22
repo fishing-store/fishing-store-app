@@ -33,9 +33,11 @@ const ProductDetailsView = ({ id }: Props) => {
         overflowWrap: "break-word"
       }}
     >
-          <Link to={`/editproduct/${products?.id}`}>
-            <Button variant="primary">Edit product</Button>
-          </Link>
+          {localStorage['is_superuser'] == "true" ? (
+            <Link to={`/editproduct/${products?.id}`}>
+              <Button variant="primary">Edit product</Button>
+            </Link> ) : ("")
+          }
           <div>
             <strong>Id: {products?.id}</strong>
             <p>Nazwa: {products?.name}</p>

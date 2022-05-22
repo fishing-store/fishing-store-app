@@ -87,17 +87,23 @@ const App = () => {
                       path={ROUTES.cart}
                       element={<ShoppingCartView />}
                     ></Route>
-                    <Route
-                      path={ROUTES.addproduct}
-                      element={<AddProductView />}
-                    ></Route>
+                    {localStorage['is_superuser'] == "true" ? (
+                      <Route
+                        path={ROUTES.addproduct}
+                        element={<AddProductView />}
+                      ></Route>
+                      ) : ("")
+                    }
                     <Route
                       path={ROUTES.delivery}
                       element={<DeliveryView />}
                     ></Route>
                     <Route path={ROUTES.info} element={<AboutUsView />}></Route>
                     <Route path={ROUTES.product} element={<ProductWrapper/>}></Route>
-                    <Route path={ROUTES.editproduct} element={<EditProductWrapper/>}></Route>
+                    {localStorage['is_superuser'] == "true" ? (
+                      <Route path={ROUTES.editproduct} element={<EditProductWrapper/>}></Route>
+                      ) : ("")
+                    }
                     <Route
                       path={ROUTES.register}
                       element={<RegisterView />}
