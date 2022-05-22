@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
 import { Link } from "react-router-dom";
+import { useParams } from 'react-router-dom';
+
 import Button from "react-bootstrap/Button";
 
-type Props = {
-  id: number;
-};
-
-const ProductDetailsView = ({ id }: Props) => {
+const ProductDetailsView = () => {
   const [products, setProduct] = useState<Product>();
-
+  const { id } = useParams();
   useEffect(() => {
     const fetchData = () => {
       api.get(`/products/${id}`).then(({ data }) => setProduct(data));
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   return (
     <div
