@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpRequest
 from rest_framework.views import APIView
 
-from .models import Category, Product, Info
+from .models import Category, Product, Info, Order
 from .serializers import OrderSerializer, ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, RegisterSerializer, LoginSerializer
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -120,6 +120,14 @@ def new_order(request: HttpRequest):
         else:
             logging.critical(order.errors)
             return HttpResponse(order.errors, status=400)
+
+def get_all_orders(request: HttpRequest):
+    if request.method == "GET":
+        orders = Order.objects.all()
+        serializer = OrderSerializer(orders, many=True)
+        return HttpResponse(json.dumps(serializer.data, indent=4), content_type="application/json")
+    else:
+        return HttpResponse(status=405)
 
 # endpoint returing products in JSON format using ProductSerializer
 def get_all_products(request: HttpRequest):
