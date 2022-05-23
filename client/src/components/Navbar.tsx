@@ -21,20 +21,20 @@ const Navbar = () => {
       <Link to={ROUTES.register}>
         <Anchor label="Register" icon={<Icons.UserNew />} />
       </Link>
-      <Link to={ROUTES.order}>
-        <Anchor label="Order" icon={<Icons.List />} />
-      </Link>
       <Link to={ROUTES.products}>
-        <Anchor label="Products" icon={<Icons.ProductHunt />} />
+        <Anchor label="Products" icon={<Icons.ProductHunt />} color="black"/>
       </Link>
       <Link to={ROUTES.cart}>
-        <Anchor label="Cart" icon={<Icons.Cart />} />
+        <Anchor label="Cart" icon={<Icons.Cart />} color="black"/>
+      </Link>
+      <Link to={ROUTES.delivery}>
+        <Anchor label="Delivery view" icon={<Icons.Deliver />} color="black"/>
+      </Link>
+      <Link to={ROUTES.order}>
+        <Anchor label="Confirm order" icon={<Icons.Checkmark />} color="black"/>
       </Link>
       <Link to={ROUTES.addproduct}>
         <Anchor label="Add product" icon={<Icons.Add />} />
-      </Link>
-      <Link to={ROUTES.delivery}>
-        <Anchor label="Delivery view" icon={<Icons.Deliver />} />
       </Link>
       <Link to={ROUTES.info}>
         <Anchor label="About Us" icon={<Icons.Info />} />

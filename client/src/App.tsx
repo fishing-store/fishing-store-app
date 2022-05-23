@@ -63,11 +63,11 @@ const App = () => {
                                 <ShoppingCartProvider>
                                     <DeliveryProvider>
                                         <Routes>
-                                            <Route path={ROUTES.order} element={<OrderView/>}/>
                                             <Route path={ROUTES.products} element={<ProductsView/>}/>
                                             <Route path={ROUTES.cart} element={<ShoppingCartView/>}/>
                                             <Route path={ROUTES.addproduct} element={<AddProductView/>}/>
                                             <Route path={ROUTES.delivery} element={<DeliveryView/>}/>
+                                            <Route path={ROUTES.order} element={<OrderView/>}/>
                                             <Route path={ROUTES.info} element={<AboutUsView/>}/>
                                             <Route path={ROUTES.product} element={<ProductDetailsView/>}/>
                                             <Route path={ROUTES.editproduct} element={<EditProductView/>}/>
