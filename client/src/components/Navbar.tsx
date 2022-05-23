@@ -42,6 +42,9 @@ const Navbar = () => {
       <Link to={ROUTES.userprofile}>
         <Anchor label="User profile" icon={<Icons.UserSettings />} />
       </Link>
+      <Link to={ROUTES.adminOrders}>
+        <Anchor label="Orders" icon={<Icons.Notes />} />
+      </Link>
     </Nav>
   );
 };

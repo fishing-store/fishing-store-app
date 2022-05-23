@@ -2,6 +2,7 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {
     AboutUsView,
     AddProductView,
+    AdminOrdersView,
     DeliveryView,
     EditProductView,
     LoginView,
@@ -73,6 +74,7 @@ const App = () => {
                                             <Route path={ROUTES.register} element={<RegisterView/>}/>
                                             <Route path={ROUTES.login} element={<LoginView/>}/>
                                             <Route path={ROUTES.userprofile} element={<UserView/>}/>
+                                            <Route path={ROUTES.adminOrders} element={<AdminOrdersView/>}/>
                                         </Routes>
                                     </DeliveryProvider>
                                 </ShoppingCartProvider>
