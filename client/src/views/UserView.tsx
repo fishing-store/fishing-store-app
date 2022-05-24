@@ -4,11 +4,7 @@ import Button from "react-bootstrap/Button";
 import { Box } from "grommet";
 import jwt_decode, { JwtPayload } from 'jwt-decode'
 import { decode } from "punycode";
-
-interface MyToken {
-    username: string
-    is_superuser: boolean
-}
+import { MyToken, UserInfo } from "../typings/typings";
 
 const UserView = () => {
     const navigate = useNavigate();
