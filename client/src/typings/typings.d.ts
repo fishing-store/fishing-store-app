@@ -35,3 +35,8 @@ type UserInfo = {
 type Category = {
   name: string;
 };
+
+export interface MyToken {
+  username: string
+  is_superuser: boolean
+};
