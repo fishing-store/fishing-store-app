@@ -23,7 +23,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('id', 'deliveryType', 'products', 'inpostDetails', 'totalCost', 'name', 'email', 'surname', 'telephone', 'address')
+        fields = ('id', 'deliveryType', 'products', 'inpostDetails', 'totalCost', 'name', 'email', 'surname', 'telephone', 'address', 'status')
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 

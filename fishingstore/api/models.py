@@ -45,3 +45,4 @@ class Order(models.Model):
     surname = models.CharField(max_length=200)
     telephone = models.CharField(max_length=11)
     address = models.CharField(max_length=500)
+    status = models.CharField(default="New", max_length=25)

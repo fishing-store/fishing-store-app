@@ -32,6 +32,7 @@ const OrderView = () => {
                 })
             ),
             totalCost: calculateTotalCost(),
+            status: "New"
         };
         api.post("/order", order).then(response => alert(response)).catch(error => alert(error));
     };
