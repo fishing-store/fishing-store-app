@@ -43,3 +43,8 @@ type Orders = {
   email: string;
   totalCost: number;
 }
+
+export interface MyToken {
+  username: string
+  is_superuser: boolean
+};

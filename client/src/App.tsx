@@ -65,7 +65,9 @@ const App = () => {
                                         <Routes>
                                             <Route path={ROUTES.products} element={<ProductsView/>}/>
                                             <Route path={ROUTES.cart} element={<ShoppingCartView/>}/>
+                                            {localStorage['is_superuser'] == "true" ? (
                                             <Route path={ROUTES.addproduct} element={<AddProductView/>}/>
+                                            ) : ("")}
                                             <Route path={ROUTES.delivery} element={<DeliveryView/>}/>
                                             <Route path={ROUTES.order} element={<OrderView/>}/>
                                             <Route path={ROUTES.info} element={<AboutUsView/>}/>
