@@ -25,6 +25,20 @@ services:
       - postgres
     networks:
       - db-net
+  productsservice:
+    restart: always
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:7000"
+    env_file:
+      - ./productsService/.env.development
+    build: productsservice
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "7000:7000"
+    depends_on:
+      - postgres
+    networks:
+      - db-net
   frontend:
     restart: always
     build: client
