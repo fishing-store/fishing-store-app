@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import {api} from "../api";
 import {CaretDown, CaretUp} from "grommet-icons";
 import * as grommet from "grommet";
+import { Product } from "../typings/typings";
 
 enum SortType {
     Price,

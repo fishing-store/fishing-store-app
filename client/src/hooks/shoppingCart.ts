@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import { Product } from "../typings/typings";
 
 interface CartProduct {
     count: number;

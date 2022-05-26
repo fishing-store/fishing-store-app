@@ -2,6 +2,7 @@ import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import { useShoppingCart } from "../context/ShoppingCart";
 import { Box, TextInput } from "grommet";
+import { Product } from "../typings/typings";
 
 const AddToCart = (props: { product: Product }) => {
     const { product } = props;

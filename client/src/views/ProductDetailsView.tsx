@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 
 import Button from "react-bootstrap/Button";
+import { Product } from "../typings/typings";
 
 const ProductDetailsView = () => {
   const [products, setProduct] = useState<Product>();

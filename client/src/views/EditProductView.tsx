@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import {useNavigate, useParams} from "react-router-dom";
 import { api } from "../api";
 import ROUTES from "../utils/ROUTES.json";
+import { Product } from "../typings/typings";
 
 const EditProductView = () => {
   const navigate = useNavigate();
