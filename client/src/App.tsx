@@ -13,6 +13,7 @@ import {
     ShoppingCartView,
     UserOrdersView,
     UserView,
+    OrderConfirmationView,
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -79,6 +80,7 @@ const App = () => {
                                             <Route path={ROUTES.userprofile} element={<UserView/>}/>
                                             <Route path={ROUTES.adminOrders} element={<AdminOrdersView/>}/>
                                             <Route path={ROUTES.userOrders} element={<UserOrdersView/>}/>
+                                            <Route path={ROUTES.orderconfirmation} element={<OrderConfirmationView/>}/>
                                         </Routes>
                                     </DeliveryProvider>
                                 </ShoppingCartProvider>
