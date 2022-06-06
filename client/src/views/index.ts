@@ -10,3 +10,4 @@ export { default as RegisterView } from "./RegisterView";
 export { default as LoginView } from "./LoginView";
 export { default as UserView } from "./UserView";
 export { default as AdminOrdersView } from "./AdminOrdersView";
+export { default as UserOrdersView } from "./UserOrdersView";

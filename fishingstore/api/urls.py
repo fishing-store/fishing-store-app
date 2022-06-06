@@ -15,5 +15,6 @@ urlpatterns = [
     path('order', views.new_order, name='new_order'),
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('hello/', views.HelloView.as_view(), name='hello'),
-    path('adminOrders/', views.get_all_orders, name='get_orders')
+    path('adminOrders/', views.get_all_orders, name='get_orders'),
+    path('userOrders/<email>', views.get_user_orders, name='get_user_orders')
 ]

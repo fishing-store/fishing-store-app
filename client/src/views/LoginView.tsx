@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import jwt_decode, { JwtPayload } from 'jwt-decode'
-import { LoginForm, MyToken } from "../typings/typings";
 
 const LoginView = () => {
     const navigate = useNavigate();

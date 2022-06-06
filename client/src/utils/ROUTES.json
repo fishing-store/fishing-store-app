@@ -10,5 +10,6 @@
   "register": "/register",
   "login": "/login",
   "userprofile": "/userprofile",
-  "adminOrders": "/adminOrders"
+  "adminOrders": "/adminOrders",
+  "userOrders": "/userOrders"
 }

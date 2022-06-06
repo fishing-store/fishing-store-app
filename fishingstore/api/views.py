@@ -129,6 +129,14 @@ def get_all_orders(request: HttpRequest):
     else:
         return HttpResponse(status=405)
 
+def get_user_orders(request: HttpRequest, email):
+    if request.method == "GET":
+        orders = Order.objects.filter(email=email)
+        serializer = OrderSerializer(orders, many=True)
+        return HttpResponse(json.dumps(serializer.data, indent=4), content_type="application/json")
+    else:
+        return HttpResponse(status=405)
+
 # endpoint returing products in JSON format using ProductSerializer
 def get_all_products(request: HttpRequest):
     if request.method == "GET":
