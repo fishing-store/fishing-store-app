@@ -40,14 +40,17 @@ const Navbar = () => {
       <Link to={ROUTES.register}>
         <Anchor label="Register" icon={<Icons.UserNew />} />
       </Link>
-      <Link to={ROUTES.order}>
-        <Anchor label="Order" icon={<Icons.List />} />
-      </Link>
       <Link to={ROUTES.products}>
-        <Anchor label="Products" icon={<Icons.ProductHunt />} />
+        <Anchor label="Products" icon={<Icons.ProductHunt />} color="black"/>
       </Link>
       <Link to={ROUTES.cart}>
-        <Anchor label="Cart" icon={<Icons.Cart />} />
+        <Anchor label="Cart" icon={<Icons.Cart />} color="black"/>
+      </Link>
+      <Link to={ROUTES.delivery}>
+        <Anchor label="Delivery view" icon={<Icons.Deliver />} color="black"/>
+      </Link>
+      <Link to={ROUTES.order}>
+        <Anchor label="Confirm order" icon={<Icons.Checkmark />} color="black"/>
       </Link>
       {localStorage['is_superuser'] == "true" ? (
         <Link to={ROUTES.addproduct}>
@@ -64,6 +67,12 @@ const Navbar = () => {
       <Link to={ROUTES.userprofile}>
         <Anchor label="User profile" icon={<Icons.UserSettings />} />
       </Link>
+      {localStorage['is_superuser'] == "true" ? (
+        <Link to={ROUTES.adminOrders}>
+          <Anchor label="Orders" icon={<Icons.Notes />} />
+        </Link>
+      ) : ("")
+      }
     </Nav>
   );
 };

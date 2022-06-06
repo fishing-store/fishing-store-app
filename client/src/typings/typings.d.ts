@@ -36,6 +36,14 @@ type Category = {
   name: string;
 };
 
+type Orders = {
+  id: string;
+  status: string;
+  deliveryType: string;
+  email: string;
+  totalCost: number;
+}
+
 export interface MyToken {
   username: string
   is_superuser: boolean
