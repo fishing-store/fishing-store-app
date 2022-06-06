@@ -11,6 +11,7 @@ import {
     ProductsView,
     RegisterView,
     ShoppingCartView,
+    UserOrdersView,
     UserView,
 } from "./views";
 import Navbar from "./components/Navbar";
@@ -77,6 +78,7 @@ const App = () => {
                                             <Route path={ROUTES.login} element={<LoginView/>}/>
                                             <Route path={ROUTES.userprofile} element={<UserView/>}/>
                                             <Route path={ROUTES.adminOrders} element={<AdminOrdersView/>}/>
+                                            <Route path={ROUTES.userOrders} element={<UserOrdersView/>}/>
                                         </Routes>
                                     </DeliveryProvider>
                                 </ShoppingCartProvider>

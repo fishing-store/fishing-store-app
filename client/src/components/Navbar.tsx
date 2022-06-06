@@ -52,7 +52,7 @@ const Navbar = () => {
       <Link to={ROUTES.order}>
         <Anchor label="Confirm order" icon={<Icons.Checkmark />} color="black"/>
       </Link>
-      {localStorage['is_superuser'] == "true" ? (
+      {localStorage['is_superuser'] === "true" ? (
         <Link to={ROUTES.addproduct}>
           <Anchor label="Add product" icon={<Icons.Add />} />
         </Link>
@@ -67,7 +67,13 @@ const Navbar = () => {
       <Link to={ROUTES.userprofile}>
         <Anchor label="User profile" icon={<Icons.UserSettings />} />
       </Link>
-      {localStorage['is_superuser'] == "true" ? (
+      {isLogged ? (
+      <Link to={ROUTES.userOrders}>
+        <Anchor label="My orders" icon={<Icons.History />} />
+      </Link>
+      ) : ("")
+      }
+      {localStorage['is_superuser'] === "true" ? (
         <Link to={ROUTES.adminOrders}>
           <Anchor label="Orders" icon={<Icons.Notes />} />
         </Link>

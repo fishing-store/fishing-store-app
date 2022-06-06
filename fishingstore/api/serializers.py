@@ -33,6 +33,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add custom claims
         token['username'] = user.username
+        token['email'] = user.email
         token['is_superuser'] = user.is_superuser
         return token
 
@@ -92,5 +93,6 @@ class LoginSerializer(serializers.ModelSerializer):
             )
         return {
             'username':user.username,
+            'email' : user.email,
             'token': jwt_token
         }

@@ -44,7 +44,8 @@ type Orders = {
   totalCost: number;
 }
 
-export interface MyToken {
+type MyToken = {
   username: string
+  email: string
   is_superuser: boolean
 };
