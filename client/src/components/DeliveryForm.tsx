@@ -1,7 +1,7 @@
 // import { useState } from "react";
 import React from "react";
 import { FormField, TextInput, Form } from "grommet";
-import { DeliveryContext } from "../DeliveryContext";
+import { DeliveryContext } from "../context/DeliveryContext";
 const DeliveryForm = () => {
     const context = React.useContext(DeliveryContext);
     return (

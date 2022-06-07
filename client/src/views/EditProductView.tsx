@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Form, FormControlProps } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { api } from "../api";
 import ROUTES from "../utils/ROUTES.json";
 
-type Props = {
-  id: number;
-};
-
-const EditProductView = ({ id }: Props) => {
+const EditProductView = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [product, setProduct] = useState<Product>({
+    id: "",
     name: "",
     count: 0,
     price: 0,
@@ -23,10 +21,12 @@ const EditProductView = ({ id }: Props) => {
 
   useEffect(() => {
     const fetchData = () => {
-      api.get(`/products/${id}`).then(({ data }) => setProduct(data));
+      api.get(`/products/${id}`).then(({ data }) => {
+        setProduct(data);
+      });
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProduct((product) => ({

@@ -1,5 +1,6 @@
 {
   "order": "/order",
+  "orderconfirmation": "/orderconfirmation",
   "products": "/products",
   "cart": "/cart",
   "addproduct": "/products/add",
@@ -9,5 +10,7 @@
   "editproduct": "/editproduct/:id",
   "register": "/register",
   "login": "/login",
-  "userprofile": "/userprofile"
+  "userprofile": "/userprofile",
+  "adminOrders": "/adminOrders",
+  "userOrders": "/userOrders"
 }

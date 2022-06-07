@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, FormControlProps } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { api } from "../api";
@@ -10,6 +10,7 @@ const AddProductView = () => {
   const navigate = useNavigate();
 
   const [product, setProduct] = useState<Product>({
+      id:"",
     name: "",
     count: 0,
     price: 0,
