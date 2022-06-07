@@ -1,5 +1,6 @@
 {
   "order": "/order",
+  "orderconfirmation": "/orderconfirmation",
   "products": "/products",
   "cart": "/cart",
   "addproduct": "/products/add",
