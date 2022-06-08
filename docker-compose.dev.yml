@@ -3,8 +3,8 @@ services:
   postgres:
     build: services/postgres
     environment:
-      POSTGRES_PASSWORD: 'password'
-      POSTGRES_USER: 'user'
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_USER: "user"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
@@ -21,6 +21,20 @@ services:
       CHOKIDAR_USEPOLLING: "true"
     ports:
       - "8000:8000"
+    depends_on:
+      - postgres
+    networks:
+      - db-net
+  productsservice:
+    restart: always
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:7000"
+    env_file:
+      - ./productsService/.env.development
+    build: productsservice
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "7000:7000"
     depends_on:
       - postgres
     networks:
