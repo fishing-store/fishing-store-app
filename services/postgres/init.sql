@@ -1,2 +1,3 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE DATABASE orderservice;
 CREATE DATABASE productsservice;
