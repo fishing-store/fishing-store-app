@@ -1,24 +1,9 @@
 from rest_framework import serializers
-from .models import Product, Info, Category
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ('id', 'name', 'price', 'description', 'image', 'count', 'categories')
-
-class InfoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Info
-        fields = ('email', 'phoneNumber', 'address', 'openHours')
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ('name',)
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
@@ -30,6 +15,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         token['is_superuser'] = user.is_superuser
         return token
+
+
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -62,30 +49,3 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-
-
-class LoginSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(max_length=255)
-    password = serializers.CharField(max_length=128, write_only=True)
-    token = serializers.CharField(max_length=255, read_only=True)
-
-    def validate(self, data):
-        username = data.get("username", None)
-        password = data.get("password", None)
-        user = authenticate(username=username, password=password)
-        if user is None:
-            raise serializers.ValidationError(
-                'A user with this username and password not found.'
-            )
-        try:
-            payload = JWT_PAYLOAD_HANDLER(user)
-            jwt_token = JWT_ENCODE_HANDLER(payload)
-            update_last_login(None, user)
-        except User.DoesNotExist:
-            raise serializers.ValidationError(
-                'User with given username and password does not exist'
-            )
-        return {
-            'username':user.username,
-            'token': jwt_token
-        }

@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import jwt_decode, { JwtPayload } from 'jwt-decode'
 
 const LoginView = () => {
     const navigate = useNavigate();
@@ -29,8 +28,6 @@ const LoginView = () => {
             console.log(resp)
             alert("User logged in succesfully");
             localStorage.setItem('fishingapp-user-token', resp.data.access);
-            const decodedToken = jwt_decode<MyToken>(resp.data.access)
-            localStorage.setItem('is_superuser', String(decodedToken.is_superuser));
             navigate("/");
         }).catch((err) => {
             alert(err.response.request.response);

@@ -3,8 +3,6 @@ import React from "react";
 import { Text, Box, Button, Menu, Heading, Tag, Layer } from "grommet";
 import { DeliveryContext } from "../context/DeliveryContext";
 import DeliveryForm from "../components/DeliveryForm";
-import { Link } from "react-router-dom";
-import ROUTES from "../utils/ROUTES.json";
 
 enum DeliveryType {
   Store = "In store pick-up",
@@ -117,12 +115,6 @@ const DeliveryView = () => {
             <Box id="easypack-map"></Box>
           </Layer>
         )}
-      </Box>
-
-      <Box width="medium" pad="medium">
-        <Link to={ROUTES.order}>
-            <Button primary={true} label={"Confirm details"}/>
-        </Link>
       </Box>
     </Box>
   );

@@ -200,10 +200,9 @@ const ProductsView = () => {
                     justifyContent: "center",
                 }}
             >
-              {localStorage['is_superuser'] == "true" ? (
                 <Link to={ROUTES.addproduct}>
                     <Button variant="primary">Add new product</Button>
-                </Link>) : ("") }
+                </Link>
                 {products?.map((product) => (
                     <div>
                         <div

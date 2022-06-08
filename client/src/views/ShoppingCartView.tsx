@@ -76,7 +76,7 @@ const ShoppingCartView = () => {
                 <Text weight={"bold"} margin={{right: "medium"}} size={"large"}>Suma: {total}</Text>
             </Box>
             <Box align={"end"}>
-                <Link to={ROUTES.delivery}>
+                <Link to={ROUTES.order}>
                     <Button primary={true} label={"Złóż zamówienie"}/>
                 </Link>
             </Box>
