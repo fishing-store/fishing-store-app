@@ -98,7 +98,7 @@ CONN_MAX_AGE = 5
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": required_env("PRODUCTS_SERVICE_DBNAME"),
+        "NAME": required_env("POSTGRES_DBNAME"),
         "USER": required_env("POSTGRES_USERNAME"),
         "PASSWORD": required_env("POSTGRES_PASSWORD"),
         "HOST": required_env("POSTGRES_URL"),

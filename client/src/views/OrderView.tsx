@@ -143,7 +143,7 @@ const OrderView = () => {
                     <Button primary={false} label={"Go back"} />
                 </Link>
                 <Link to={ROUTES.orderconfirmation}>
-                <Button primary={true} label={"Confirm order"} onClick={sendOrder}/>
+                    <Button primary={true} label={"Confirm order"} onClick={sendOrder}/>
                 </Link>
             </Box>
         </Box>

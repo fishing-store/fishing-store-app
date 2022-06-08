@@ -16,6 +16,6 @@ RUN DJANGO_SUPERUSER_USERNAME=testuser \
 DJANGO_SUPERUSER_PASSWORD=testpass \
 python manage.py createsuperuser --noinput --email admin@example.com
 
-EXPOSE 8000
+EXPOSE 7002
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:7002"]

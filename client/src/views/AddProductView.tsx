@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { Typeahead } from "react-bootstrap-typeahead";
-import { api } from "../api";
+import { productsApi } from "../api";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
 
@@ -22,7 +22,7 @@ const AddProductView = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    api.get("/categories").then((res) => setCategories(res.data));
+      productsApi.get("/categories").then((res) => setCategories(res.data));
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +49,7 @@ const AddProductView = () => {
     formData.append("categories", JSON.stringify(product.categories));
     formData.append("description", product.description);
 
-    api.post("products/add", formData).then(() => {
+      productsApi.post("products/add", formData).then(() => {
       navigate(ROUTES.products);
     });
   };

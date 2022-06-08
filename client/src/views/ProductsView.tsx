@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import ROUTES from "../utils/ROUTES.json";
 import {AddToCart} from "../components/AddToCart";
 import {useEffect, useState} from "react";
-import {api} from "../api";
+import {productsApi} from "../api";
 import {CaretDown, CaretUp} from "grommet-icons";
 import * as grommet from "grommet";
 
@@ -30,7 +30,7 @@ const ProductsView = () => {
     const [countMax, setCountMax] = useState<number | undefined>(undefined);
     const navigate = useNavigate();
     useEffect(() => {
-        api.get("/products/").then(({data}) => {
+        productsApi.get("/products/").then(({data}) => {
             setProducts(data);
             setDefaultProducts([...(data ?? [])]);
         });

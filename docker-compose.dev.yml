@@ -25,6 +25,48 @@ services:
       - postgres
     networks:
       - db-net
+  productsservice:
+    restart: always
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:7003"
+    env_file:
+      - ./productsService/.env.development
+    build: productsService
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "7003:7003"
+    depends_on:
+      - postgres
+    networks:
+      - db-net
+  ordersservice:
+    restart: always
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:7004"
+    env_file:
+      - ./orders/.env.development
+    build: orders
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "7004:7004"
+    depends_on:
+      - postgres
+    networks:
+      - db-net
+  authservice:
+    restart: always
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:7002"
+    env_file:
+      - ./authService/.env.development
+    build: authservice
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "7002:7002"
+    depends_on:
+      - postgres
+    networks:
+      - db-net
   frontend:
     restart: always
     build: client

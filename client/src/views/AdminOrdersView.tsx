@@ -1,13 +1,13 @@
 import {Box, DataTable, Text} from "grommet";
 import {ColumnConfig} from "grommet/components/DataTable";
 import {useEffect, useState} from "react";
-import {api} from "../api";
+import {ordersApi} from "../api";
 
 const AdminOrdersView = () => {
     const [orders, setOrders] = useState<Orders[]>();
 
     useEffect(() => {
-        api.get("/adminOrders/").then(({data}) => {
+        ordersApi.get("/adminOrders/").then(({data}) => {
             setOrders(data);
         });
     }, []);

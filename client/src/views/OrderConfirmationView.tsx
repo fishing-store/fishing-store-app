@@ -1,7 +1,7 @@
 import {Box, Button, DataTable, Text} from "grommet";
 import {ColumnConfig} from "grommet/components/DataTable";
 import {useEffect, useState} from "react";
-import {api} from "../api";
+import {ordersApi} from "../api";
 import jwt_decode from 'jwt-decode'
 
 const OrderConfirmationView = () => {
@@ -10,12 +10,12 @@ const OrderConfirmationView = () => {
   useEffect(() => {
   const token: string = localStorage.getItem('fishingapp-user-token')!;
       const decodedToken = jwt_decode<MyToken>(token)
-      api.get(`/order`).then(({data}) => {
+      ordersApi.get(`/order`).then(({data}) => {
           setOrders(data);
       });
   }, []);
 
-  const columns: ColumnConfig<Orders>[] = [
+    const columns: ColumnConfig<Orders>[] = [
   {
           property: 'id',
           align: "center",

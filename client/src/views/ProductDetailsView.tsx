@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../api";
+import { productsApi } from "../api";
 import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ const ProductDetailsView = () => {
   const { id } = useParams();
   useEffect(() => {
     const fetchData = () => {
-      api.get(`/products/${id}`).then(({ data }) => setProduct(data));
+        productsApi.get(`/products/${id}`).then(({ data }) => setProduct(data));
     };
     fetchData();
   }, [id]);

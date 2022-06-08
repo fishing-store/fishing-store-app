@@ -29,7 +29,7 @@ const RegisterView = () => {
         formData.append("password2", register.password2.toString());
         formData.append("email", register.email.toString());
 
-        axios.post(process.env.REACT_APP_API_URL + "/register/", formData).then((resp) => {
+        axios.post(process.env.REACT_APP_AUTH_URL + "/register/", formData).then((resp) => {
             console.log(resp)
             alert("User created succesfully");
             navigate("/");

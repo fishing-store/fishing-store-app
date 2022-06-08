@@ -2,6 +2,7 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {
     AboutUsView,
     AddProductView,
+    AdminOrdersView,
     DeliveryView,
     EditProductView,
     LoginView,
@@ -10,7 +11,9 @@ import {
     ProductsView,
     RegisterView,
     ShoppingCartView,
+    UserOrdersView,
     UserView,
+    OrderConfirmationView,
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -62,17 +65,22 @@ const App = () => {
                                 <ShoppingCartProvider>
                                     <DeliveryProvider>
                                         <Routes>
-                                            <Route path={ROUTES.order} element={<OrderView/>}/>
                                             <Route path={ROUTES.products} element={<ProductsView/>}/>
                                             <Route path={ROUTES.cart} element={<ShoppingCartView/>}/>
-                                            <Route path={ROUTES.addproduct} element={<AddProductView/>}/>
+                                            {localStorage['is_superuser'] == "true" ? (
+                                                <Route path={ROUTES.addproduct} element={<AddProductView/>}/>
+                                            ) : ("")}
                                             <Route path={ROUTES.delivery} element={<DeliveryView/>}/>
+                                            <Route path={ROUTES.order} element={<OrderView/>}/>
                                             <Route path={ROUTES.info} element={<AboutUsView/>}/>
                                             <Route path={ROUTES.product} element={<ProductDetailsView/>}/>
                                             <Route path={ROUTES.editproduct} element={<EditProductView/>}/>
                                             <Route path={ROUTES.register} element={<RegisterView/>}/>
                                             <Route path={ROUTES.login} element={<LoginView/>}/>
                                             <Route path={ROUTES.userprofile} element={<UserView/>}/>
+                                            <Route path={ROUTES.adminOrders} element={<AdminOrdersView/>}/>
+                                            <Route path={ROUTES.userOrders} element={<UserOrdersView/>}/>
+                                            <Route path={ROUTES.orderconfirmation} element={<OrderConfirmationView/>}/>
                                         </Routes>
                                     </DeliveryProvider>
                                 </ShoppingCartProvider>
