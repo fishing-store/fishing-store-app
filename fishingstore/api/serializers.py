@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Info, Category
+from .models import Product, Info, Category, Order
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
@@ -89,3 +89,8 @@ class LoginSerializer(serializers.ModelSerializer):
             'username':user.username,
             'token': jwt_token
         }
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ('id', 'deliveryType', 'products', 'inpostDetails', 'totalCost', 'name', 'email', 'surname', 'telephone', 'address', 'status')
