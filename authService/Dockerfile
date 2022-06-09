@@ -5,17 +5,17 @@ ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /requirements.txt
 
-RUN pip install --upgrade pip
-RUN pip install -r /requirements.txt
+RUN apt update \
+ && apt install -y libcurl4-openssl-dev libssl-dev gcc \
+ && rm -rf /var/lib/apt/lists/* \
+ && pip install -r /requirements.txt \
+ && useradd auth_be --user-group \
+ && mkdir /backend \
+ && chown -R auth_be:auth_be /backend
 
-COPY ./ /authService
-WORKDIR /authService
+USER auth_be
 
-RUN python manage.py migrate
-RUN DJANGO_SUPERUSER_USERNAME=testuser \
-DJANGO_SUPERUSER_PASSWORD=testpass \
-python manage.py createsuperuser --noinput --email admin@example.com
+COPY ./ /backend
+WORKDIR /backend
 
-EXPOSE 7002
-
-CMD ["python", "manage.py", "runserver", "0.0.0.0:7002"]
+EXPOSE 7004

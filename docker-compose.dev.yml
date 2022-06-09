@@ -27,7 +27,7 @@ services:
       - db-net
   productsservice:
     restart: always
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:7003"
+    command: sh -c "python manage.py migrate && python manage.py makemigrations && python manage.py runserver 0.0.0.0:7003"
     env_file:
       - ./productsService/.env.development
     build: productsService
@@ -41,7 +41,7 @@ services:
       - db-net
   ordersservice:
     restart: always
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:7004"
+    command: sh -c "python manage.py migrate && python manage.py makemigrations && python manage.py runserver 0.0.0.0:7004"
     env_file:
       - ./orders/.env.development
     build: orders
