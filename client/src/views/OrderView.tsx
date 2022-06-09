@@ -4,7 +4,7 @@ import { DeliveryContext, DeliveryType } from "../context/DeliveryContext";
 import { useShoppingCart } from "../context/ShoppingCart";
 import { Link } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
-import { api } from "../api";
+import { ordersApi } from "../api";
 
 const OrderView = () => {
 
@@ -34,7 +34,7 @@ const OrderView = () => {
             totalCost: calculateTotalCost(),
             status: "New"
         };
-        api.post("/order", order).then(response => alert(response)).catch(error => alert(error));
+        ordersApi.post("/order", order).then(response => alert(response)).catch(error => alert(error));
     };
 
     return (
