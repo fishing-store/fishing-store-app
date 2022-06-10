@@ -11,7 +11,8 @@ const RegisterView = () => {
         username: "",
         password: "",
         password2: "",
-        email: ""
+        email: "",
+        number: ""
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,11 +29,24 @@ const RegisterView = () => {
         formData.append("password", register.password.toString());
         formData.append("password2", register.password2.toString());
         formData.append("email", register.email.toString());
+        formData.append("number", register.number.toString());
 
-        axios.post(process.env.REACT_APP_API_URL + "/register/", formData).then((resp) => {
+        let userData = new FormData();
+        userData.append("username", register.username.toString());
+        userData.append("email", register.email.toString());
+        userData.append("number", register.number.toString());
+
+
+        axios.post(process.env.REACT_APP_API_URL + "/register/", formData).then(async (resp) => {
             console.log(resp)
             alert("User created succesfully");
             navigate("/");
+        }).catch((err) => {
+            alert(err.response.request.response);
+            console.log(err.response)
+        })
+
+        axios.post(process.env.REACT_APP_API_URL + "/users/", userData).then(async (resp) => {
         }).catch((err) => {
             alert(err.response.request.response);
             console.log(err.response)
@@ -80,6 +94,15 @@ const RegisterView = () => {
                     name="email"
                     type="email"
                     placeholder="Enter your email"
+                    onChange={handleChange}
+                    />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="number">
+                    <Form.Label>Enter your phone number</Form.Label>
+                    <Form.Control
+                    name="number"
+                    type="number"
+                    placeholder="Enter your phone number"
                     onChange={handleChange}
                     />
             </Form.Group>

@@ -14,6 +14,7 @@ import {
     UserOrdersView,
     UserView,
     OrderConfirmationView,
+    UsersInfoView,
 } from "./views";
 import Navbar from "./components/Navbar";
 import ROUTES from "./utils/ROUTES.json";
@@ -81,6 +82,9 @@ const App = () => {
                                             <Route path={ROUTES.adminOrders} element={<AdminOrdersView/>}/>
                                             <Route path={ROUTES.userOrders} element={<UserOrdersView/>}/>
                                             <Route path={ROUTES.orderconfirmation} element={<OrderConfirmationView/>}/>
+                                            {localStorage['is_superuser'] == "true" ? (
+                                            <Route path={ROUTES.users} element={<UsersInfoView />}/>
+                                            ) : ("")}
                                         </Routes>
                                     </DeliveryProvider>
                                 </ShoppingCartProvider>

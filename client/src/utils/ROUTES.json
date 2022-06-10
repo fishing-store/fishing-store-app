@@ -12,5 +12,6 @@
   "login": "/login",
   "userprofile": "/userprofile",
   "adminOrders": "/adminOrders",
-  "userOrders": "/userOrders"
+  "userOrders": "/userOrders",
+  "users": "/users/get"
 }

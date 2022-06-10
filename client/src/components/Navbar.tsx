@@ -40,6 +40,12 @@ const Navbar = () => {
       <Link to={ROUTES.register}>
         <Anchor label="Register" icon={<Icons.UserNew />} />
       </Link>
+      {localStorage['is_superuser'] === "true" ? (
+      <Link to={ROUTES.users}>
+        <Anchor label="Users" icon={<Icons.User />} />
+      </Link>
+      ) : ("")
+      }
       <Link to={ROUTES.products}>
         <Anchor label="Products" icon={<Icons.ProductHunt />} color="black"/>
       </Link>
