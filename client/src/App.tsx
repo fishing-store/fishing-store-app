@@ -41,6 +41,15 @@ const theme = {
 const App = () => {
     const [showSidebar, setShowSidebar] = useState(false);
 
+    const defaultView = <ProductsView/>;
+    const isSuperUser = localStorage.getItem("is_superuser") === "true";
+    const allowIfSuperUser = (restrictedView: JSX.Element) => {
+        if (isSuperUser)
+            return restrictedView;
+        else
+            return defaultView;
+    };
+
     return (
         <Router>
             <Grommet theme={theme} full>
@@ -68,9 +77,7 @@ const App = () => {
                                         <Routes>
                                             <Route path={ROUTES.products} element={<ProductsView/>}/>
                                             <Route path={ROUTES.cart} element={<ShoppingCartView/>}/>
-                                            {localStorage['is_superuser'] == "true" ? (
-                                            <Route path={ROUTES.addproduct} element={<AddProductView/>}/>
-                                            ) : ("")}
+                                            <Route path={ROUTES.addproduct} element={allowIfSuperUser(<AddProductView/>)}/>
                                             <Route path={ROUTES.delivery} element={<DeliveryView/>}/>
                                             <Route path={ROUTES.order} element={<OrderView/>}/>
                                             <Route path={ROUTES.info} element={<AboutUsView/>}/>
@@ -82,9 +89,7 @@ const App = () => {
                                             <Route path={ROUTES.adminOrders} element={<AdminOrdersView/>}/>
                                             <Route path={ROUTES.userOrders} element={<UserOrdersView/>}/>
                                             <Route path={ROUTES.orderconfirmation} element={<OrderConfirmationView/>}/>
-                                            {localStorage['is_superuser'] == "true" ? (
-                                            <Route path={ROUTES.users} element={<UsersInfoView />}/>
-                                            ) : ("")}
+                                            <Route path={ROUTES.users} element={allowIfSuperUser(<UsersInfoView/>)}/>
                                         </Routes>
                                     </DeliveryProvider>
                                 </ShoppingCartProvider>
