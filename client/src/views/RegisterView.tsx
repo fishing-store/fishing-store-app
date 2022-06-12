@@ -5,8 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
+import { useSnackbar } from 'notistack';
+
 const RegisterView = () => {
     const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
+
     const [register, setRegistration] = useState<RegisterForm>({
         username: "",
         password: "",
@@ -39,17 +43,18 @@ const RegisterView = () => {
 
         axios.post(process.env.REACT_APP_API_URL + "/register/", formData).then(async (resp) => {
             console.log(resp)
-            alert("User created succesfully");
-            navigate("/");
+            enqueueSnackbar("Registration successful", { variant: "success" });
+            enqueueSnackbar("Now you can log in to your new account", { variant: "info", autoHideDuration: 10000 });
+            navigate("/login");
         }).catch((err) => {
-            alert(err.response.request.response);
             console.log(err.response)
+            enqueueSnackbar(err.response.request.response, { variant: "error" });
         })
-
+        
         axios.post(process.env.REACT_APP_API_URL + "/users/", userData).then(async (resp) => {
         }).catch((err) => {
-            alert(err.response.request.response);
             console.log(err.response)
+            enqueueSnackbar(err.response.request.response, { variant: "error" });
         })
 
     }

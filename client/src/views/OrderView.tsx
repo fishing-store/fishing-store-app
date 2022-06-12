@@ -6,13 +6,15 @@ import { Link } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
 import { api } from "../api";
 
-const OrderView = () => {
+import { useSnackbar } from 'notistack';
 
+const OrderView = () => {
     const { deliveryDetails } = React.useContext(DeliveryContext);
     const { deliveryType, inpostDetails } = deliveryDetails;
     const { name, surname, address, telephone, email } = deliveryDetails;
 
     const { shoppingCart } = useShoppingCart();
+    const { enqueueSnackbar } = useSnackbar();
 
     const calculateTotalCost = () => shoppingCart.reduce((acc, item) => acc + item.product.price * item.count, 0);
 
@@ -34,7 +36,9 @@ const OrderView = () => {
             totalCost: calculateTotalCost(),
             status: "New"
         };
-        api.post("/order", order).then(response => alert(response)).catch(error => alert(error));
+        api.post("/order", order)
+            .then(response => enqueueSnackbar(response, {variant: "success"}))
+            .catch(error => enqueueSnackbar(error, {variant: "error"}));
     };
 
     return (

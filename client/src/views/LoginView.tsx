@@ -5,8 +5,12 @@ import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import jwt_decode, { JwtPayload } from 'jwt-decode'
 
-const LoginView = () => {
+import { useSnackbar } from 'notistack';
+
+const LoginView = ({loginCallback}: {loginCallback: () => void}) => {
     const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
+
     const [login, setLogging] = useState<LoginForm>({
         username: "",
         password: ""
@@ -26,15 +30,17 @@ const LoginView = () => {
         formData.append("password", login.password.toString());
 
         axios.post(process.env.REACT_APP_API_URL + "/login/", formData).then((resp) => {
-            console.log(resp)
-            alert("User logged in succesfully");
+            console.log(resp);
             localStorage.setItem('fishingapp-user-token', resp.data.access);
             const decodedToken = jwt_decode<MyToken>(resp.data.access)
             localStorage.setItem('is_superuser', String(decodedToken.is_superuser));
+
+            enqueueSnackbar("Login successful", { variant: "success" });
+            loginCallback();
             navigate("/");
         }).catch((err) => {
-            alert(err.response.request.response);
-            console.log(err.response)
+            console.log(err.response);
+            enqueueSnackbar(err.response.data.detail, { variant: "error" });
         })
 
     }

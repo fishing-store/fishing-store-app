@@ -1,4 +1,5 @@
 {
+  "default": "/",
   "order": "/order",
   "orderconfirmation": "/orderconfirmation",
   "products": "/products",

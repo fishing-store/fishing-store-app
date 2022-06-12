@@ -25,7 +25,7 @@ const DeliveryView = () => {
   React.useEffect(() => {
     const win = window as any;
     win.handlePickedPoint = (point: any) => {
-      console.log({point, deliveryDetails});
+      console.log({ point, deliveryDetails });
       setDeliveryDetails({ ...deliveryDetails, inpostDetails: point, deliveryType: DeliveryType.InPost });
       setShow(false);
     }
@@ -50,6 +50,13 @@ const DeliveryView = () => {
 
     return cleanup;
   }, [show]);
+
+  const allDetailsInserted = () => {
+    if (deliveryType === DeliveryType.InPost && !inpostDetails)
+      return false;
+    const { name, surname, email, address } = deliveryDetails;
+    return name !== "" && surname !== "" && email !== "" && address !== "";
+  };
 
   return (
     <Box width="large" pad="medium" gap="medium" wrap>
@@ -119,10 +126,18 @@ const DeliveryView = () => {
         )}
       </Box>
 
-      <Box width="medium" pad="medium">
-        <Link to={ROUTES.order}>
-            <Button primary={true} label={"Confirm details"}/>
+      <Box direction={"row"} align="center" justify={"around"}>
+        <Link to={ROUTES.cart}>
+          <Button label={"Go back"} />
         </Link>
+        {
+          allDetailsInserted() ? (
+            <Link to={ROUTES.order}>
+              <Button primary={true} label={"Confirm details"} />
+            </Link>
+          ) :
+            <Button active={false} label={"Confirm details"} />
+        }
       </Box>
     </Box>
   );
