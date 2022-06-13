@@ -15,7 +15,7 @@ const UsersInfoView = () => {
 
   return (
     <div>
-      <h1>User list</h1>
+      <div style={{width: "100%", textAlign: 'center'}}><h1>User list</h1></div>
       <div
         style={{
           display: "flex",

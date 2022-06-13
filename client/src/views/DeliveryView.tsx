@@ -5,6 +5,7 @@ import { DeliveryContext } from "../context/DeliveryContext";
 import DeliveryForm from "../components/DeliveryForm";
 import { Link } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
+import { useSnackbar } from 'notistack';
 
 enum DeliveryType {
   Store = "In store pick-up",
@@ -17,7 +18,9 @@ enum PaymentType {
   Blik = "Blik",
 };
 
+
 const DeliveryView = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [show, setShow] = React.useState(false);
 
   const { deliveryDetails, setDeliveryDetails } = React.useContext(DeliveryContext);
@@ -25,7 +28,7 @@ const DeliveryView = () => {
   React.useEffect(() => {
     const win = window as any;
     win.handlePickedPoint = (point: any) => {
-      console.log({point, deliveryDetails});
+      console.log({ point, deliveryDetails });
       setDeliveryDetails({ ...deliveryDetails, inpostDetails: point, deliveryType: DeliveryType.InPost });
       setShow(false);
     }
@@ -50,6 +53,13 @@ const DeliveryView = () => {
 
     return cleanup;
   }, [show]);
+
+  const allDetailsInserted = () => {
+    if (deliveryType === DeliveryType.InPost && !inpostDetails)
+      return false;
+    const { name, surname, email, address, telephone } = deliveryDetails;
+    return name !== "" && surname !== "" && email !== "" && address !== "" && telephone.length === 9;
+  };
 
   return (
     <Box width="large" pad="medium" gap="medium" wrap>
@@ -119,10 +129,18 @@ const DeliveryView = () => {
         )}
       </Box>
 
-      <Box width="medium" pad="medium">
-        <Link to={ROUTES.order}>
-            <Button primary={true} label={"Confirm details"}/>
+      <Box direction={"row"} align="center" justify={"around"}>
+        <Link to={ROUTES.cart}>
+          <Button label={"Go back"} />
         </Link>
+        {
+          allDetailsInserted() ? (
+            <Link to={ROUTES.order}>
+              <Button primary={true} label={"Confirm details"} />
+            </Link>
+          ) :
+            <Button active={false} onClick={() => enqueueSnackbar("Please insert delivery information", {variant: "warning"})} label={"Confirm details"} />
+        }
       </Box>
     </Box>
   );
