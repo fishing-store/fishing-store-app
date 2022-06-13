@@ -16,5 +16,7 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('hello/', views.HelloView.as_view(), name='hello'),
     path('adminOrders/', views.get_all_orders, name='get_orders'),
-    path('userOrders/<email>', views.get_user_orders, name='get_user_orders')
+    path('userOrders/<email>', views.get_user_orders, name='get_user_orders'),
+    path("users/", views.UsersView.as_view()),
+    path("users/get", views.get_all_users, name='get_all_users'),
 ]

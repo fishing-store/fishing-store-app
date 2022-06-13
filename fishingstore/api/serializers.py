@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Info, Category, Order
+from .models import Product, Info, Category, Order, UserInfo
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
@@ -14,6 +14,11 @@ class InfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Info
         fields = ('email', 'phoneNumber', 'address', 'openHours')
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserInfo
+        fields = ('username', 'email', 'number')
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,10 +51,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
+    number = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'email', "is_superuser")
+        fields = ('username', 'password', 'password2', 'email', 'number', "is_superuser")
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
