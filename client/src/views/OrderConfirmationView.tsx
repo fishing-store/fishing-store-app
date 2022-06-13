@@ -3,16 +3,30 @@ import { ColumnConfig } from "grommet/components/DataTable";
 import { useEffect, useState } from "react";
 import { api } from "../api";
 import jwt_decode from 'jwt-decode'
+import { useSnackbar } from 'notistack';
+import { Link } from "react-router-dom";
+import ROUTES from "../utils/ROUTES.json";
 
 const OrderConfirmationView = () => {
     const [orders, setOrders] = useState<Orders[]>();
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
-        // const token: string = localStorage.getItem('fishingapp-user-token')!;
-        // const decodedToken = jwt_decode<MyToken>(token)
-        api.get(`/order`).then(({ data }) => {
-            setOrders(data);
-        }).catch(error => console.warn(error));
+        try {            
+            const token: string = localStorage.getItem('fishingapp-user-token')!;
+            // const decodedToken = jwt_decode<MyToken>(token);
+
+            api.get(`/order`).then((response) => {
+                if (response.status === 200) {
+                    setOrders(response.data);
+                } else {
+                    enqueueSnackbar("Couldn't retrieve order information", { variant: "warning" });
+                }
+            }).catch(error => console.warn(error));
+        } catch (error) {
+            console.error(error);
+            enqueueSnackbar("Unexpected error occurred", { variant: "error" });
+        }
     }, []);
 
     const columns: ColumnConfig<Orders>[] = [
@@ -49,7 +63,9 @@ const OrderConfirmationView = () => {
                         pad={"small"}
                     />
                 </Box>
-                <Button primary={true} label={"Go to payment"} />
+                <Link to={ROUTES.default}>
+                    <Button primary={true} label={"Go to payment"} />
+                </Link>
             </Box>
         </div>
     );

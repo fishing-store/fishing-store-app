@@ -5,6 +5,7 @@ import { DeliveryContext } from "../context/DeliveryContext";
 import DeliveryForm from "../components/DeliveryForm";
 import { Link } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
+import { useSnackbar } from 'notistack';
 
 enum DeliveryType {
   Store = "In store pick-up",
@@ -17,7 +18,9 @@ enum PaymentType {
   Blik = "Blik",
 };
 
+
 const DeliveryView = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [show, setShow] = React.useState(false);
 
   const { deliveryDetails, setDeliveryDetails } = React.useContext(DeliveryContext);
@@ -54,8 +57,8 @@ const DeliveryView = () => {
   const allDetailsInserted = () => {
     if (deliveryType === DeliveryType.InPost && !inpostDetails)
       return false;
-    const { name, surname, email, address } = deliveryDetails;
-    return name !== "" && surname !== "" && email !== "" && address !== "";
+    const { name, surname, email, address, telephone } = deliveryDetails;
+    return name !== "" && surname !== "" && email !== "" && address !== "" && telephone.length === 9;
   };
 
   return (
@@ -136,7 +139,7 @@ const DeliveryView = () => {
               <Button primary={true} label={"Confirm details"} />
             </Link>
           ) :
-            <Button active={false} label={"Confirm details"} />
+            <Button active={false} onClick={() => enqueueSnackbar("Please insert delivery information", {variant: "warning"})} label={"Confirm details"} />
         }
       </Box>
     </Box>

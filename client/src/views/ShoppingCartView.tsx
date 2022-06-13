@@ -67,24 +67,35 @@ const ShoppingCartView = () => {
     return (
         <Box pad="medium" gap="medium" wrap>
             <Text alignSelf={"start"} size={"xlarge"} weight={"bold"}>Your cart</Text>
-            <Box align='center' border={"bottom"}>
-                <DataTable
-                    sortable={true}
-                    columns={columns}
-                    data={shoppingCart}
-                    alignSelf={'center'}
-                    margin={{ vertical: "medium" }}
-                    pad={"small"}
-                />
-            </Box>
-            <Box direction={"row"} align="center" justify={"around"}>
-                <Button label={"Clear cart"} color={"red"} onClick={removeAllProductsFromCart} />
-                <Text weight={"bold"} margin={{ right: "medium" }} size={"large"}>Total: {total}</Text>
-            </Box>
+            {
+                shoppingCart.length > 0 ? (
+                    <Box pad="medium" gap="medium" wrap>
+                        <Box align='center' border={"bottom"}>
+                            <DataTable
+                                sortable={true}
+                                columns={columns}
+                                data={shoppingCart}
+                                alignSelf={'center'}
+                                margin={{ vertical: "medium" }}
+                                pad={"small"}
+                            />
+                        </Box>
+                        <Box direction={"row"} align="center" justify={"around"}>
+                            <Button label={"Clear cart"} color={"red"} onClick={removeAllProductsFromCart} />
+                            <Text weight={"bold"} margin={{ right: "medium" }} size={"large"}>Total: {total}</Text>
+                        </Box>
+                    </Box>
+                ) : <Text size="large" alignSelf={'center'}>Your cart is empty</Text>
+            }
+
             <Box align={"end"}>
-                <Link to={ROUTES.delivery}>
-                    <Button primary={true} label={"Submit order"} />
-                </Link>
+                {
+                    shoppingCart.length > 0 ? (
+                        <Link to={ROUTES.delivery}>
+                            <Button primary={true} label={"Submit order"} />
+                        </Link>
+                    ) : <Button active={false} label={"Submit order"} />
+                }
             </Box>
         </Box>
     );

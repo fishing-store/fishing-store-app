@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Heading, Table, TableBody, TableCell, TableHeader, TableRow, Tag, Text } from "grommet";
 import { DeliveryContext, DeliveryType } from "../context/DeliveryContext";
 import { useShoppingCart } from "../context/ShoppingCart";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
 import { api } from "../api";
 
@@ -15,6 +15,7 @@ const OrderView = () => {
 
     const { shoppingCart } = useShoppingCart();
     const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
 
     const calculateTotalCost = () => shoppingCart.reduce((acc, item) => acc + item.product.price * item.count, 0);
 
@@ -36,9 +37,17 @@ const OrderView = () => {
             totalCost: calculateTotalCost(),
             status: "New"
         };
-        api.post("/order", order)
-            .then(response => enqueueSnackbar(response, {variant: "success"}))
-            .catch(error => enqueueSnackbar(error, {variant: "error"}));
+        api.post("/order", order).then(response => {
+            console.log({ response });
+            console.log(response);
+            if (response.status === 201) {
+                enqueueSnackbar("Order sent", { variant: "success" });
+                navigate(ROUTES.orderconfirmation);
+            }
+            else {
+                enqueueSnackbar(response.toString(), { variant: "error" });
+            }
+        })
     };
 
     return (
@@ -146,9 +155,7 @@ const OrderView = () => {
                 <Link to={ROUTES.delivery}>
                     <Button primary={false} label={"Go back"} />
                 </Link>
-                <Link to={ROUTES.orderconfirmation}>
                 <Button primary={true} label={"Confirm order"} onClick={sendOrder}/>
-                </Link>
             </Box>
         </Box>
     );

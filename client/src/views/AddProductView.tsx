@@ -5,9 +5,11 @@ import { Typeahead } from "react-bootstrap-typeahead";
 import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
+import { useSnackbar } from "notistack";
 
 const AddProductView = () => {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [product, setProduct] = useState<Product>({
       id:"",
@@ -49,8 +51,14 @@ const AddProductView = () => {
     formData.append("categories", JSON.stringify(product.categories));
     formData.append("description", product.description);
 
-    api.post("products/add", formData).then(() => {
-      navigate(ROUTES.products);
+    api.post("products/add", formData).then((response) => {
+      console.log({response});
+      if (response.status === 201) {
+        navigate(ROUTES.products);
+        enqueueSnackbar("Product added successfully", { variant: "success" });
+      }
+      else 
+        enqueueSnackbar("Error adding product", { variant: "error" });
     });
   };
 

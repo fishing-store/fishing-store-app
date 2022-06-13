@@ -39,8 +39,12 @@ const LoginView = ({loginCallback}: {loginCallback: () => void}) => {
             loginCallback();
             navigate("/");
         }).catch((err) => {
-            console.log(err.response);
-            enqueueSnackbar(err.response.data.detail, { variant: "error" });
+            console.log(err);
+            if (err.response)
+                enqueueSnackbar(err.response.data.detail, { variant: "error" });
+            else
+                enqueueSnackbar(err.toString(), { variant: "error" });
+
         })
 
     }

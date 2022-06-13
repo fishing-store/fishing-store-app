@@ -44,7 +44,7 @@ const RegisterView = () => {
         axios.post(process.env.REACT_APP_API_URL + "/register/", formData).then(async (resp) => {
             console.log(resp)
             enqueueSnackbar("Registration successful", { variant: "success" });
-            enqueueSnackbar("Now you can log in to your new account", { variant: "info", autoHideDuration: 10000 });
+            enqueueSnackbar("Now you can log in to your new account", { variant: "info", autoHideDuration: 15000 });
             navigate("/login");
         }).catch((err) => {
             console.log(err.response)
@@ -53,8 +53,11 @@ const RegisterView = () => {
         
         axios.post(process.env.REACT_APP_API_URL + "/users/", userData).then(async (resp) => {
         }).catch((err) => {
-            console.log(err.response)
-            enqueueSnackbar(err.response.request.response, { variant: "error" });
+            console.log(err)
+            if (err.response)
+                enqueueSnackbar(err.response.request.response, { variant: "error" });
+            else
+                enqueueSnackbar(err.toString(), { variant: "error" });
         })
 
     }
