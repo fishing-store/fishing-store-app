@@ -9,13 +9,13 @@ import { api } from "../api";
 import { useSnackbar } from 'notistack';
 
 const OrderView = () => {
+    const navigate = useNavigate();
     const { deliveryDetails } = React.useContext(DeliveryContext);
     const { deliveryType, inpostDetails } = deliveryDetails;
     const { name, surname, address, telephone, email } = deliveryDetails;
 
-    const { shoppingCart } = useShoppingCart();
+    const { shoppingCart, removeAllProductsFromCart } = useShoppingCart();
     const { enqueueSnackbar } = useSnackbar();
-    const navigate = useNavigate();
 
     const calculateTotalCost = () => shoppingCart.reduce((acc, item) => acc + item.product.price * item.count, 0);
 
@@ -38,17 +38,15 @@ const OrderView = () => {
             status: "New"
         };
         api.post("/order", order).then(response => {
-            console.log({ response });
-            console.log(response);
             if (response.status === 201) {
-                enqueueSnackbar("Order sent", { variant: "success" });
-                navigate(ROUTES.orderconfirmation);
+                enqueueSnackbar("Order sent", {variant: "success"});
+                removeAllProductsFromCart();
+                navigate(`/orderconfirmation/${response.data.id}`)
+            } else {
+                enqueueSnackbar("There are not enough products in stock.", {variant: "error"});
             }
-            else {
-                enqueueSnackbar(response.toString(), { variant: "error" });
-            }
-        })
-    };
+        });
+    }
 
     return (
         <Box width="large" pad="medium" gap="medium" wrap>

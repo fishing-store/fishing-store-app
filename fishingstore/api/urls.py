@@ -13,10 +13,12 @@ urlpatterns = [
     path('categories', views.get_categories, name='get_categories'),
     path('login/', views.MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
     path('order', views.new_order, name='new_order'),
+    path('order-status/<id>', views.get_order, name='get_order'),
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('hello/', views.HelloView.as_view(), name='hello'),
     path('adminOrders/', views.get_all_orders, name='get_orders'),
     path('userOrders/<email>', views.get_user_orders, name='get_user_orders'),
     path("users/", views.UsersView.as_view()),
     path("users/get", views.get_all_users, name='get_all_users'),
+    path("change-order-state/<id>", views.change_order_state, name="change_order_state")
 ]

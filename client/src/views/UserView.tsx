@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import { Box } from "grommet";
-import jwt_decode, { JwtPayload } from 'jwt-decode'
-import { decode } from "punycode";
+import { Box, Text } from "grommet";
+import jwt_decode from 'jwt-decode'
 import UserOrdersView from "./UserOrdersView";
 
 const UserView = () => {
-    const navigate = useNavigate();
     const [user, setUser] = useState<UserInfo>({
         username: "",
         is_superuser: false
@@ -16,7 +12,6 @@ const UserView = () => {
         try {
         const token: string = localStorage.getItem('fishingapp-user-token')!;
         const decodedToken = jwt_decode<MyToken>(token)
-        console.log(decodedToken.is_superuser)
         setUser({username: decodedToken.username, is_superuser: decodedToken.is_superuser})
         } catch (error) {
             console.log(error)
@@ -24,16 +19,14 @@ const UserView = () => {
     }, []);
 
     return (
-        <div>
-            <Box>
+        <Box>
+            <Box align='center' pad="xlarge" >
             <h1>User information</h1>
-            <p>Username:{user?.username}</p>
-            <p>Is admin?: {user?.is_superuser.toString()}</p>
+            <Text>Username: <b>{user?.username}</b></Text>
+            <Text>Is admin?: <b>{user?.is_superuser.toString()}</b></Text>
             </Box>
-            <Box>
-                <UserOrdersView/>
-            </Box>
-        </div>
+            <UserOrdersView/>
+        </Box>
     );
 };
 

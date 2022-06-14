@@ -3,6 +3,7 @@ import { ColumnConfig } from "grommet/components/DataTable";
 import { useEffect, useState } from "react";
 import { api } from "../api";
 import jwt_decode from 'jwt-decode'
+import {useParams} from "react-router-dom";
 import { useSnackbar } from 'notistack';
 import { Link } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
@@ -10,13 +11,13 @@ import ROUTES from "../utils/ROUTES.json";
 const OrderConfirmationView = () => {
     const [orders, setOrders] = useState<Orders[]>();
     const { enqueueSnackbar } = useSnackbar();
-
+    const { id } = useParams();
     useEffect(() => {
-        try {            
+        try {
             const token: string = localStorage.getItem('fishingapp-user-token')!;
             // const decodedToken = jwt_decode<MyToken>(token);
 
-            api.get(`/order`).then((response) => {
+            api.get(`/order-status/${id}`).then(response => {
                 if (response.status === 200) {
                     setOrders(response.data);
                 } else {
@@ -24,7 +25,6 @@ const OrderConfirmationView = () => {
                 }
             }).catch(error => console.warn(error));
         } catch (error) {
-            console.error(error);
             enqueueSnackbar("Unexpected error occurred", { variant: "error" });
         }
     }, []);
