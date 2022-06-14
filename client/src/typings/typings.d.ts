@@ -20,6 +20,7 @@ type RegisterForm = {
   password: string;
   password2: string;
   email: string;
+  number: string;
 };
 
 type LoginForm = {
@@ -31,6 +32,12 @@ type UserInfo = {
   username: string;
   is_superuser: boolean;
 };
+
+type User = {
+  username: string;
+  email: string;
+  number: string;
+}
 
 type Category = {
   name: string;

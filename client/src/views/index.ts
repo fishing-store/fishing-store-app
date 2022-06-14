@@ -12,3 +12,4 @@ export { default as UserView } from "./UserView";
 export { default as AdminOrdersView } from "./AdminOrdersView";
 export { default as UserOrdersView } from "./UserOrdersView";
 export { default as OrderConfirmationView } from "./OrderConfirmationView";
+export { default as UsersInfoView } from "./UsersInfoView";

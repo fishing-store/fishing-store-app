@@ -1,31 +1,16 @@
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import {
-    AboutUsView,
-    AddProductView,
-    AdminOrdersView,
-    DeliveryView,
-    EditProductView,
-    LoginView,
-    OrderView,
-    ProductDetailsView,
-    ProductsView,
-    RegisterView,
-    ShoppingCartView,
-    UserOrdersView,
-    UserView,
-    OrderConfirmationView,
-} from "./views";
+import { BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import ROUTES from "./utils/ROUTES.json";
-import {DeliveryProvider} from "./context/DeliveryContext";
+import { DeliveryProvider } from "./context/DeliveryContext";
 import "@fontsource/roboto";
-import {Box, Button, Collapsible, Footer, Grommet, Heading, Main, Text,} from "grommet";
-import {FormClose, Menu} from "grommet-icons";
-import {useState} from "react";
-import {AppBar} from "./components/AppBar";
+import { Box, Button, Collapsible, Footer, Grommet, Heading, Main, Text, } from "grommet";
+import { FormClose, Menu } from "grommet-icons";
+import { useEffect, useState } from "react";
+import { AppBar } from "./components/AppBar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import {ShoppingCartProvider} from "./context/ShoppingCart";
+import { ShoppingCartProvider } from "./context/ShoppingCart";
+import AppRoutes from "./AppRoutes";
+import { useSnackbar } from 'notistack';
 
 const theme = {
     global: {
@@ -37,9 +22,31 @@ const theme = {
     },
 };
 
+
 const App = () => {
     const [showSidebar, setShowSidebar] = useState(false);
+    const { enqueueSnackbar } = useSnackbar();
 
+    const superUserItemName = "is_superuser";
+    const userItemName = "fishingapp-user-token";
+    
+    const checkIfLoggedInSet = () => {
+        return localStorage.getItem(userItemName) !== null;
+    };
+
+    const [isLogged, setIsLogged] = useState(checkIfLoggedInSet());
+
+    const logout = () => {
+        localStorage.removeItem(userItemName);
+        localStorage.removeItem(superUserItemName);
+        setIsLogged(false);
+        enqueueSnackbar("Logout successful", { variant: "success" });
+    }
+
+    const login = () => { setIsLogged(true) };
+    
+    const isSuperUser = localStorage.getItem(superUserItemName) === "true";
+    
     return (
         <Router>
             <Grommet theme={theme} full>
@@ -49,7 +56,7 @@ const App = () => {
                             Fishing Store
                         </Heading>
                         <Button
-                            icon={!showSidebar ? <Menu/> : <FormClose/>}
+                            icon={!showSidebar ? <Menu /> : <FormClose />}
                             onClick={() => setShowSidebar(!showSidebar)}
                         />
                     </AppBar>
@@ -58,35 +65,25 @@ const App = () => {
                         <Box
                             direction="row"
                             flex
-                            overflow={{horizontal: "hidden"}}
+                            overflow={{ horizontal: "hidden" }}
                             className="scroll-enabled"
                         >
                             <Box flex align="center" justify="center">
                                 <ShoppingCartProvider>
                                     <DeliveryProvider>
-                                        <Routes>
-                                            <Route path={ROUTES.products} element={<ProductsView/>}/>
-                                            <Route path={ROUTES.cart} element={<ShoppingCartView/>}/>
-                                            {localStorage['is_superuser'] == "true" ? (
-                                                <Route path={ROUTES.addproduct} element={<AddProductView/>}/>
-                                            ) : ("")}
-                                            <Route path={ROUTES.delivery} element={<DeliveryView/>}/>
-                                            <Route path={ROUTES.order} element={<OrderView/>}/>
-                                            <Route path={ROUTES.info} element={<AboutUsView/>}/>
-                                            <Route path={ROUTES.product} element={<ProductDetailsView/>}/>
-                                            <Route path={ROUTES.editproduct} element={<EditProductView/>}/>
-                                            <Route path={ROUTES.register} element={<RegisterView/>}/>
-                                            <Route path={ROUTES.login} element={<LoginView/>}/>
-                                            <Route path={ROUTES.userprofile} element={<UserView/>}/>
-                                            <Route path={ROUTES.adminOrders} element={<AdminOrdersView/>}/>
-                                            <Route path={ROUTES.userOrders} element={<UserOrdersView/>}/>
-                                            <Route path={ROUTES.orderconfirmation} element={<OrderConfirmationView/>}/>
-                                        </Routes>
+                                        <AppRoutes
+                                            loginCallback={login}
+                                            isSuperUser={isSuperUser}
+                                        />
                                     </DeliveryProvider>
                                 </ShoppingCartProvider>
                             </Box>
                             <Collapsible direction="horizontal" open={showSidebar}>
-                                <Navbar/>
+                                <Navbar 
+                                    isSuperUser={isSuperUser}
+                                    isLogged={isLogged}
+                                    logout={logout}
+                                />
                             </Collapsible>
                         </Box>
                     </Main>

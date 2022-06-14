@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpRequest
 from rest_framework.views import APIView
 
-from .models import Category, Product, Info
-from .serializers import ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, RegisterSerializer, LoginSerializer
+from .models import Category, Product, Info, Order, UserInfo
+from .serializers import OrderSerializer, ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, RegisterSerializer, LoginSerializer
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import api_view
@@ -15,7 +15,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Category, Product, Info
 from .serializers import ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, \
-    RegisterSerializer, LoginSerializer
+    RegisterSerializer, LoginSerializer, UserInfoSerializer
 
 
 class ProductAPIView(generics.ListCreateAPIView):
@@ -212,6 +212,21 @@ class LoginView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
+
+
+class UsersView(generics.ListCreateAPIView):
+    queryset = UserInfo.objects.all()
+    serializer_class = UserInfoSerializer
+
+def get_all_users(request: HttpRequest):
+    if request.method == 'GET':
+        information = UserInfo.objects.all()
+        if information:
+            information_serializer = UserInfoSerializer(information, many=True)
+            return HttpResponse(json.dumps(information_serializer.data, indent=4), content_type="application/json")
+        else:
+            return HttpResponse(status=404)
+
 
 
 # Endpoint created for veryfing user authorization

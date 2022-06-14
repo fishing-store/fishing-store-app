@@ -18,7 +18,10 @@ const authApi = axios.create({
 
 productsApi.interceptors.response.use(
   (response: AxiosResponse) => response,
-  (error: AxiosError) => console.log(error)
+  (error: AxiosError) =>  {
+    console.warn(error);
+    return error;
+  }
 );
 
 ordersApi.interceptors.response.use(

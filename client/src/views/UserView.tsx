@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import { Box } from "grommet";
 import jwt_decode, { JwtPayload } from 'jwt-decode'
 import { decode } from "punycode";
+import UserOrdersView from "./UserOrdersView";
 
 interface MyToken {
     username: string
@@ -30,9 +31,12 @@ const UserView = () => {
     return (
         <div>
             <Box>
-            <h1>User info</h1>
+            <h1>User information</h1>
             <p>Username:{user?.username}</p>
             <p>Is admin?: {user?.is_superuser.toString()}</p>
+            </Box>
+            <Box>
+                <UserOrdersView/>
             </Box>
         </div>
     );

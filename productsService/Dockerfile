@@ -16,4 +16,7 @@ USER products_service_be
 COPY ./ /backend
 WORKDIR /backend
 
+USER root
+RUN chmod -R a+X /backend/media/images
+
 EXPOSE 7003

@@ -204,7 +204,7 @@ const ProductsView = () => {
                     <Button variant="primary">Add new product</Button>
                 </Link>
                 {products?.map((product) => (
-                    <div>
+                    <div key={product?.id}>
                         <div
                             style={{
                                 flexDirection: "column",

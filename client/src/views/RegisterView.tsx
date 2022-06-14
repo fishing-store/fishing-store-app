@@ -5,13 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
+import { useSnackbar } from 'notistack';
+
 const RegisterView = () => {
     const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
+
     const [register, setRegistration] = useState<RegisterForm>({
         username: "",
         password: "",
         password2: "",
-        email: ""
+        email: "",
+        number: ""
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,14 +33,31 @@ const RegisterView = () => {
         formData.append("password", register.password.toString());
         formData.append("password2", register.password2.toString());
         formData.append("email", register.email.toString());
+        formData.append("number", register.number.toString());
 
-        axios.post(process.env.REACT_APP_AUTH_URL + "/register/", formData).then((resp) => {
+        let userData = new FormData();
+        userData.append("username", register.username.toString());
+        userData.append("email", register.email.toString());
+        userData.append("number", register.number.toString());
+
+
+        axios.post(process.env.REACT_APP_API_URL + "/register/", formData).then(async (resp) => {
             console.log(resp)
-            alert("User created succesfully");
-            navigate("/");
+            enqueueSnackbar("Registration successful", { variant: "success" });
+            enqueueSnackbar("Now you can log in to your new account", { variant: "info", autoHideDuration: 15000 });
+            navigate("/login");
         }).catch((err) => {
-            alert(err.response.request.response);
             console.log(err.response)
+            enqueueSnackbar(err.response.request.response, { variant: "error" });
+        })
+        
+        axios.post(process.env.REACT_APP_API_URL + "/users/", userData).then(async (resp) => {
+        }).catch((err) => {
+            console.log(err)
+            if (err.response)
+                enqueueSnackbar(err.response.request.response, { variant: "error" });
+            else
+                enqueueSnackbar(err.toString(), { variant: "error" });
         })
 
     }
@@ -80,6 +102,15 @@ const RegisterView = () => {
                     name="email"
                     type="email"
                     placeholder="Enter your email"
+                    onChange={handleChange}
+                    />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="number">
+                    <Form.Label>Enter your phone number</Form.Label>
+                    <Form.Control
+                    name="number"
+                    type="number"
+                    placeholder="Enter your phone number"
                     onChange={handleChange}
                     />
             </Form.Group>

@@ -44,3 +44,8 @@ class Order(models.Model):
     telephone = models.CharField(max_length=11)
     address = models.CharField(max_length=500)
     status = models.CharField(default="New", max_length=25)
+
+class UserInfo(models.Model):
+    username = models.CharField(max_length=200)
+    email = models.CharField(max_length=100)
+    number = models.CharField(max_length=9)
