@@ -41,7 +41,7 @@ services:
       - db-net
   authservice:
     restart: always
-    command: sh -c "python manage.py migrate  && python manage.py runserver 0.0.0.0:7002"
+    command: sh -c "python manage.py migrate && python manage.py createsuperuser --noinput --email admin@example.com && python manage.py runserver 0.0.0.0:7002"
     env_file:
       - ./authService/.env.development
     build: authservice
