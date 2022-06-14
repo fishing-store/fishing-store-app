@@ -2,7 +2,6 @@ import uuid
 from django.db import models
 from jsonfield import JSONField
 import time
-from django.contrib.auth.models import User
 
 
 def upload_path(instance, filename):
@@ -32,7 +31,6 @@ class Info(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
-
 
 class Order(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)

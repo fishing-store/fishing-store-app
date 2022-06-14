@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { api } from "../api";
+import { api, authApi } from "../api";
 
 const UsersInfoView = () => {
   const [users, setUsers] = useState<User[]>();
   useEffect(() => {
     const fetchData = () => {
-      api.get("/users/get").then(({ data }) => {
+      authApi.get("/users/get").then(({ data }) => {
         console.log({ data })
         setUsers(data)
       });

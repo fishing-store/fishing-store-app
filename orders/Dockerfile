@@ -16,4 +16,4 @@ USER orders_be
 COPY ./ /backend
 WORKDIR /backend
 
-EXPOSE 7001
+EXPOSE 7004

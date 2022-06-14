@@ -4,7 +4,7 @@ import { DeliveryContext, DeliveryType } from "../context/DeliveryContext";
 import { useShoppingCart } from "../context/ShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
-import { api } from "../api";
+import { ordersApi } from "../api";
 
 import { useSnackbar } from 'notistack';
 
@@ -37,9 +37,8 @@ const OrderView = () => {
             totalCost: calculateTotalCost(),
             status: "New"
         };
-        api.post("/order", order).then(response => {
+        ordersApi.post("/order", order).then(response => {
             console.log({ response });
-            console.log(response);
             if (response.status === 201) {
                 enqueueSnackbar("Order sent", { variant: "success" });
                 navigate(ROUTES.orderconfirmation);

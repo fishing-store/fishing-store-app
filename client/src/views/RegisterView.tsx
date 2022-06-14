@@ -6,6 +6,7 @@ import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
 import { useSnackbar } from 'notistack';
+import { authApi } from "../api";
 
 const RegisterView = () => {
     const navigate = useNavigate();
@@ -41,7 +42,7 @@ const RegisterView = () => {
         userData.append("number", register.number.toString());
 
 
-        axios.post(process.env.REACT_APP_API_URL + "/register/", formData).then(async (resp) => {
+        authApi.post("/register/", formData).then(async (resp) => {
             console.log(resp)
             enqueueSnackbar("Registration successful", { variant: "success" });
             enqueueSnackbar("Now you can log in to your new account", { variant: "info", autoHideDuration: 15000 });
@@ -51,7 +52,7 @@ const RegisterView = () => {
             enqueueSnackbar(err.response.request.response, { variant: "error" });
         })
         
-        axios.post(process.env.REACT_APP_API_URL + "/users/", userData).then(async (resp) => {
+        authApi.post("/users/", userData).then(async (resp) => {
         }).catch((err) => {
             console.log(err)
             if (err.response)

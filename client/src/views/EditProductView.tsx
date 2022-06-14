@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {useNavigate, useParams} from "react-router-dom";
-import { api } from "../api";
+import { productsApi } from "../api";
 import ROUTES from "../utils/ROUTES.json";
 
 const EditProductView = () => {
@@ -21,7 +21,7 @@ const EditProductView = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      api.get(`/products/${id}`).then(({ data }) => {
+      productsApi.get(`/products/${id}`).then(({ data }) => {
         setProduct(data);
       });
     };
@@ -52,7 +52,7 @@ const EditProductView = () => {
     formData.append("price", product.price.toString());
     formData.append("description", product.description);
 
-    api.put("saveProduct/" + id, formData).then(() => {
+    productsApi.put("saveProduct/" + id, formData).then(() => {
       navigate(ROUTES.products);
     });
   };

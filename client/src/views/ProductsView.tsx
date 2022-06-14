@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import ROUTES from "../utils/ROUTES.json";
 import {AddToCart} from "../components/AddToCart";
 import {useEffect, useState} from "react";
-import {api} from "../api";
+import {productsApi} from "../api";
 import {CaretDown, CaretUp} from "grommet-icons";
 import * as grommet from "grommet";
 
@@ -30,7 +30,7 @@ const ProductsView = () => {
     const [countMax, setCountMax] = useState<number | undefined>(undefined);
     const navigate = useNavigate();
     useEffect(() => {
-        api.get("/products/").then(({data}) => {
+        productsApi.get("/products/").then(({data}) => {
             setProducts(data);
             setDefaultProducts([...(data ?? [])]);
         });
@@ -200,10 +200,9 @@ const ProductsView = () => {
                     justifyContent: "center",
                 }}
             >
-              {localStorage['is_superuser'] == "true" ? (
                 <Link to={ROUTES.addproduct}>
                     <Button variant="primary">Add new product</Button>
-                </Link>) : ("") }
+                </Link>
                 {products?.map((product) => (
                     <div key={product?.id}>
                         <div
@@ -228,14 +227,14 @@ const ProductsView = () => {
                                 <p>Cena: {product?.price}</p>
                                 <p>Opis: {product?.description}</p>
                                 <p>Liczba: {product?.count}</p>
-                                {product?.categories && (
+                                {/* {product?.categories && (
                                     <p>
                                         Kategorie: &nbsp;
                                         {JSON.parse(product?.categories.toString()).map(
                                             (c: string) => `${c} `
                                         )}
                                     </p>
-                                )}
+                                )} */}
                             </div>
                             <div>
                                 <img

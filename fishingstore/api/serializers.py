@@ -23,12 +23,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('name', )
-
-class OrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = ('id', 'deliveryType', 'products', 'inpostDetails', 'totalCost', 'name', 'email', 'surname', 'telephone', 'address', 'status')
+        fields = ('name',)
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
@@ -38,7 +33,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add custom claims
         token['username'] = user.username
-        token['email'] = user.email
         token['is_superuser'] = user.is_superuser
         return token
 
@@ -99,6 +93,10 @@ class LoginSerializer(serializers.ModelSerializer):
             )
         return {
             'username':user.username,
-            'email' : user.email,
             'token': jwt_token
         }
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ('id', 'deliveryType', 'products', 'inpostDetails', 'totalCost', 'name', 'email', 'surname', 'telephone', 'address', 'status')

@@ -1,7 +1,7 @@
 import { Box, Button, DataTable, Text } from "grommet";
 import { ColumnConfig } from "grommet/components/DataTable";
 import { useEffect, useState } from "react";
-import { api } from "../api";
+import { api, ordersApi } from "../api";
 import jwt_decode from 'jwt-decode'
 import { useSnackbar } from 'notistack';
 import { Link } from "react-router-dom";
@@ -16,7 +16,7 @@ const OrderConfirmationView = () => {
             const token: string = localStorage.getItem('fishingapp-user-token')!;
             // const decodedToken = jwt_decode<MyToken>(token);
 
-            api.get(`/order`).then((response) => {
+            ordersApi.get(`/order`).then((response) => {
                 if (response.status === 200) {
                     setOrders(response.data);
                 } else {

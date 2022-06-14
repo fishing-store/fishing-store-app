@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { Typeahead } from "react-bootstrap-typeahead";
-import { api } from "../api";
+import { productsApi } from "../api";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../utils/ROUTES.json";
 import { useSnackbar } from "notistack";
@@ -21,11 +21,11 @@ const AddProductView = () => {
     image: null,
   });
 
-  const [categories, setCategories] = useState<Category[]>([]);
+  // const [categories, setCategories] = useState<Category[]>([]);
 
-  useEffect(() => {
-    api.get("/categories").then((res) => setCategories(res.data));
-  }, []);
+  // useEffect(() => {
+  //     productsApi.get("/categories").then((res) => setCategories(res.data));
+  // }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProduct((product) => ({
@@ -48,10 +48,10 @@ const AddProductView = () => {
     formData.append("name", product.name);
     formData.append("count", product.count.toString());
     formData.append("price", product.price.toString());
-    formData.append("categories", JSON.stringify(product.categories));
+    // formData.append("categories", JSON.stringify(product.categories));
     formData.append("description", product.description);
 
-    api.post("products/add", formData).then((response) => {
+      productsApi.post("products/add", formData).then((response) => {
       console.log({response});
       if (response.status === 201) {
         navigate(ROUTES.products);
@@ -103,7 +103,7 @@ const AddProductView = () => {
           onChange={handleChange}
         />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="productCategories">
+      {/* <Form.Group className="mb-3" controlId="productCategories">
         <Form.Label>Categories</Form.Label>
         <Typeahead
           allowNew
@@ -121,7 +121,7 @@ const AddProductView = () => {
             }))
           }
         />
-      </Form.Group>
+      </Form.Group> */}
 
       <Form.Group className="mb-3" controlId="productImage">
         <Form.Label>Product image</Form.Label>

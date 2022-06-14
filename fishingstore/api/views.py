@@ -52,8 +52,6 @@ def delete_product(request: HttpRequest, id: UUID):
         return HttpResponse(status=404)
 
 # put product by id using ProductSerializer
-
-
 @api_view(['PUT'])
 def put_product(request: HttpRequest, id: UUID):
     if request.method == "PUT":
@@ -67,8 +65,6 @@ def put_product(request: HttpRequest, id: UUID):
             return HttpResponse(serializer.errors, status=400)
 
 # patch product by id only if field is defined in request body
-
-
 def patch_product(request: HttpRequest, id: UUID):
     product = Product.objects.get(id=id)
     if product:
@@ -105,37 +101,6 @@ def get_add_update_product(request: HttpRequest, id: UUID):
     else:
         return HttpResponse(status=405)
 
-import logging
-
-def new_order(request: HttpRequest):
-    logging.warning(request.body)
-    if request.method == "POST":
-        data = json.loads(request.body)
-        data["products"] = json.dumps(data["products"])
-        data["inpostDetails"] = json.dumps(data["inpostDetails"])
-        order = OrderSerializer(data=data)
-        if order.is_valid():
-            order.save()
-            return HttpResponse(status=201)
-        else:
-            logging.critical(order.errors)
-            return HttpResponse(order.errors, status=400)
-
-def get_all_orders(request: HttpRequest):
-    if request.method == "GET":
-        orders = Order.objects.all()
-        serializer = OrderSerializer(orders, many=True)
-        return HttpResponse(json.dumps(serializer.data, indent=4), content_type="application/json")
-    else:
-        return HttpResponse(status=405)
-
-def get_user_orders(request: HttpRequest, email):
-    if request.method == "GET":
-        orders = Order.objects.filter(email=email)
-        serializer = OrderSerializer(orders, many=True)
-        return HttpResponse(json.dumps(serializer.data, indent=4), content_type="application/json")
-    else:
-        return HttpResponse(status=405)
 
 # endpoint returing products in JSON format using ProductSerializer
 def get_all_products(request: HttpRequest):
@@ -157,6 +122,54 @@ def get_product(request: HttpRequest, id):
         return HttpResponse(status=404)
 
 
+# endpoint writing 5 fishingrods as products to Django database
+def add_mockup_products(request: HttpRequest):
+    products = [
+        {
+            "name": "Fishingrod 1",
+            "price": "100",
+            "description": "Fishingrod description",
+            "image": "https://www.rei.com/media/product/148527",
+            "count": "20"
+        },
+        {
+            "name": "Fishingrod 2",
+            "price": "200",
+            "description": "Fishingrod description",
+            "image": "https://www.rei.com/media/product/148527",
+            "count": "20"
+        },
+        {
+            "name": "Fishingrod 3",
+            "price": "300",
+            "description": "Fishingrod description",
+            "image": "https://www.rei.com/media/product/148527",
+            "count": "20"
+        },
+        {
+            "name": "Fishingrod 4",
+            "price": "400",
+            "description": "Fishingrod description",
+            "image": "https://www.rei.com/media/product/148527",
+            "count": "20"
+        },
+        {
+            "name": "Fishingrod 5",
+            "price": "500",
+            "description": "Fishingrod description",
+            "image": "https://www.rei.com/media/product/148527",
+            "count": "20"
+        }
+    ]
+
+    for product in products:
+        product_object = ProductSerializer(data=product)
+        if product_object.is_valid():
+            product_object.save()
+
+    return HttpResponse(json.dumps(products, indent=4), content_type="application/json")
+
+
 class InfoAPIView(generics.ListCreateAPIView):
     queryset = Info.objects.all()
     serializer_class = InfoSerializer
@@ -170,7 +183,6 @@ def get_info(request: HttpRequest):
             return HttpResponse(json.dumps(information_serializer.data, indent=4), content_type="application/json")
         else:
             return HttpResponse(status=404)
-
 
 class CategoriesApiView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
@@ -186,17 +198,15 @@ def get_categories(request: HttpRequest):
         else:
             return HttpResponse(status=404)
 
-
+# User login view
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
-
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
-
 
 class LoginView(generics.CreateAPIView):
     queryset = User.objects.all()

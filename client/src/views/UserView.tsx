@@ -6,6 +6,11 @@ import jwt_decode, { JwtPayload } from 'jwt-decode'
 import { decode } from "punycode";
 import UserOrdersView from "./UserOrdersView";
 
+interface MyToken {
+    username: string
+    is_superuser: boolean
+}
+
 const UserView = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState<UserInfo>({
