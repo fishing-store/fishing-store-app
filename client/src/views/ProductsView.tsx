@@ -238,7 +238,7 @@ const ProductsView = () => {
                             </div>
                             <div>
                                 <img
-                                    src={`${process.env.REACT_APP_PRODUCTS_URL}${product?.image}`}
+                                    src={`${process.env.REACT_APP_IMG_BASE_URL}${product?.image}`}
                                     width={100}
                                     alt="Zdjęcie produktu"
                                 />
