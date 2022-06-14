@@ -1,7 +1,8 @@
-import {Box, DataTable, Text} from "grommet";
+import {Box, DataTable, Text, Select} from "grommet";
 import {ColumnConfig} from "grommet/components/DataTable";
 import {useEffect, useState} from "react";
 import {api} from "../api";
+import ROUTES from "../utils/ROUTES.json";
 
 const AdminOrdersView = () => {
     const [orders, setOrders] = useState<Orders[]>();
@@ -25,9 +26,35 @@ const AdminOrdersView = () => {
             property: 'status',
             align: "center",
             header: <Text weight={"bold"}>Status</Text>,
-            render: (datum: Orders) => (
-                <Text>{datum.status}</Text>
-            ),
+            render: (datum: Orders) => {
+
+                return (<Select
+      options={['New', 'Sent', 'Closed']}
+      value={datum.status}
+      onChange={({ option }) => {
+          setOrders(prevState => {
+              const newState = prevState?.map(order => {
+                  if(order.id === datum.id){
+                      return {...order, status: option}
+                  }
+                  return order;
+              });
+              return newState;
+          })
+          const formData = new FormData()
+          formData.append("status", "Sent");
+          api.post(`change-order-state/${datum.id}`, {"status": option}).then((response) => {
+      console.log({response});
+      if (response.status === 201) {
+        console.log("SUCCESS")
+      }
+      else
+        console.log("ERROR")
+    });
+      }
+      }
+    />)
+            }
         },
         {
             property: 'user',
@@ -58,6 +85,7 @@ const AdminOrdersView = () => {
     return (
         <Box pad="medium" gap="medium" wrap>
             <Box align='center' border={"bottom"}>
+                <Text weight={"bold"} size={"xxlarge"}>All orders</Text>
                 <DataTable sortable={true} columns={columns} data={orders} alignSelf={'center'}
                            margin={{vertical: "medium"}} pad={"small"}/>
             </Box>

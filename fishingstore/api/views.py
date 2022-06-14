@@ -1,21 +1,21 @@
 import json
+import logging
 from uuid import UUID
 
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, JsonResponse
 from rest_framework.views import APIView
 
-from .models import Category, Product, Info, Order, UserInfo
-from .serializers import OrderSerializer, ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, RegisterSerializer, LoginSerializer
+from .models import Order, UserInfo
+from .serializers import OrderSerializer, UserInfoSerializer
 from rest_framework import generics
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view
-from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Category, Product, Info
 from .serializers import ProductSerializer, InfoSerializer, CategorySerializer, MyTokenObtainPairSerializer, \
-    RegisterSerializer, LoginSerializer, UserInfoSerializer
+    RegisterSerializer, LoginSerializer
 
 
 class ProductAPIView(generics.ListCreateAPIView):
@@ -51,6 +51,7 @@ def delete_product(request: HttpRequest, id: UUID):
     else:
         return HttpResponse(status=404)
 
+
 # put product by id using ProductSerializer
 
 
@@ -65,6 +66,7 @@ def put_product(request: HttpRequest, id: UUID):
         else:
             print(serializer.errors)
             return HttpResponse(serializer.errors, status=400)
+
 
 # patch product by id only if field is defined in request body
 
@@ -105,21 +107,28 @@ def get_add_update_product(request: HttpRequest, id: UUID):
     else:
         return HttpResponse(status=405)
 
-import logging
 
 def new_order(request: HttpRequest):
-    logging.warning(request.body)
     if request.method == "POST":
         data = json.loads(request.body)
-        data["products"] = json.dumps(data["products"])
+        products = data["products"]
+        data["products"] = json.dumps(products)
         data["inpostDetails"] = json.dumps(data["inpostDetails"])
         order = OrderSerializer(data=data)
+        for product in products:
+            order_product = Product.objects.get(id=product['product'])
+            if order_product.count - product['count'] >= 0:
+                order_product.count -= product['count']
+                order_product.save()
+            else:
+                return HttpResponse({"message": "There are not enough products in stock"}, status=400)
         if order.is_valid():
             order.save()
-            return HttpResponse(status=201)
+            return HttpResponse(json.dumps(order.data, indent=4), content_type="application/json", status=201)
         else:
             logging.critical(order.errors)
             return HttpResponse(order.errors, status=400)
+
 
 def get_all_orders(request: HttpRequest):
     if request.method == "GET":
@@ -129,6 +138,7 @@ def get_all_orders(request: HttpRequest):
     else:
         return HttpResponse(status=405)
 
+
 def get_user_orders(request: HttpRequest, email):
     if request.method == "GET":
         orders = Order.objects.filter(email=email)
@@ -137,6 +147,24 @@ def get_user_orders(request: HttpRequest, email):
     else:
         return HttpResponse(status=405)
 
+
+def get_order(request: HttpRequest, id: UUID):
+    if request.method == "GET":
+        order = Order.objects.filter(id=id).first()
+        serializer = OrderSerializer(order)
+        return HttpResponse(json.dumps(serializer.data, indent=4), content_type="application/json")
+    else:
+        return HttpResponse(status=405)
+
+def change_order_state(request: HttpRequest, id: UUID):
+    if request.method == "POST":
+        order = Order.objects.get(id=id)
+        print(order.status)
+        status = json.loads(request.body)['status']
+        print(status)
+        order.status = status
+        order.save()
+        return HttpResponse(status=200)
 # endpoint returing products in JSON format using ProductSerializer
 def get_all_products(request: HttpRequest):
     if request.method == "GET":
@@ -204,21 +232,6 @@ class LoginView(generics.CreateAPIView):
     serializer_class = LoginSerializer
 
 
-class UsersView(generics.ListCreateAPIView):
-    queryset = UserInfo.objects.all()
-    serializer_class = UserInfoSerializer
-
-def get_all_users(request: HttpRequest):
-    if request.method == 'GET':
-        information = UserInfo.objects.all()
-        if information:
-            information_serializer = UserInfoSerializer(information, many=True)
-            return HttpResponse(json.dumps(information_serializer.data, indent=4), content_type="application/json")
-        else:
-            return HttpResponse(status=404)
-
-
-
 # Endpoint created for veryfing user authorization
 # Attach access token to get request
 class HelloView(APIView):
@@ -229,3 +242,18 @@ class HelloView(APIView):
             {'message': 'Hello, World!', 'username': request.user.username, 'is_superuser': request.user.is_superuser,
              'email': request.user.email})
         return HttpResponse(content)
+
+
+class UsersView(generics.ListCreateAPIView):
+    queryset = UserInfo.objects.all()
+    serializer_class = UserInfoSerializer
+
+
+def get_all_users(request: HttpRequest):
+    if request.method == 'GET':
+        information = UserInfo.objects.all()
+        if information:
+            information_serializer = UserInfoSerializer(information, many=True)
+            return HttpResponse(json.dumps(information_serializer.data, indent=4), content_type="application/json")
+        else:
+            return HttpResponse(status=404)

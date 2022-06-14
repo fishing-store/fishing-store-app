@@ -9,4 +9,5 @@ urlpatterns = [
     path('saveProduct/<id>', views.put_product, name='put_product'),
     path('products/<id>', views.get_add_update_product, name='get_add_update_product'),
     path('categories', views.get_categories, name='get_categories'),
+    path('fetch-products', views.fetch_products, name='fetch_products')
 ]

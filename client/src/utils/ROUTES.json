@@ -1,7 +1,7 @@
 {
   "default": "/",
   "order": "/order",
-  "orderconfirmation": "/orderconfirmation",
+  "orderconfirmation": "/orderconfirmation/:id",
   "products": "/products",
   "cart": "/cart",
   "addproduct": "/products/add",

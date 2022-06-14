@@ -62,6 +62,20 @@ def put_product(request: HttpRequest, id: UUID):
             print(serializer.errors)
             return HttpResponse(serializer.errors, status=400)
 
+@api_view(['POST'])
+def fetch_products(request: HttpRequest):
+    if request.method == "POST":
+        products = request.data['products']
+        products = json.loads(products)
+        for product in products:
+            order_product = Product.objects.get(id=product['product'])
+            if order_product.count - product['count'] >= 0:
+                order_product.count -= product['count']
+                order_product.save()
+            else:
+                return HttpResponse({"message": "There are not enough products in stock"}, status=400)
+        return HttpResponse(status=200)
+
 # patch product by id only if field is defined in request body
 def patch_product(request: HttpRequest, id: UUID):
     product = Product.objects.get(id=id)
