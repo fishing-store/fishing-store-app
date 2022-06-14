@@ -3,8 +3,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-
+import jwt_decode from 'jwt-decode'
 import { useSnackbar } from 'notistack';
+import { authApi } from "../api";
 
 const LoginView = ({loginCallback}: {loginCallback: () => void}) => {
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ const LoginView = ({loginCallback}: {loginCallback: () => void}) => {
         formData.append("username", login.username.toString());
         formData.append("password", login.password.toString());
 
-        axios.post(process.env.REACT_APP_API_URL + "/login/", formData).then((resp) => {
+        authApi.post("/login/", formData).then((resp) => {
             console.log(resp);
             localStorage.setItem('fishingapp-user-token', resp.data.access);
             const decodedToken = jwt_decode<MyToken>(resp.data.access)

@@ -227,18 +227,18 @@ const ProductsView = () => {
                                 <p>Cena: {product?.price}</p>
                                 <p>Opis: {product?.description}</p>
                                 <p>Liczba: {product?.count}</p>
-                                {product?.categories && (
+                                {/* {product?.categories && (
                                     <p>
                                         Kategorie: &nbsp;
                                         {JSON.parse(product?.categories.toString()).map(
                                             (c: string) => `${c} `
                                         )}
                                     </p>
-                                )}
+                                )} */}
                             </div>
                             <div>
                                 <img
-                                    src={`${process.env.REACT_APP_IMG_BASE_URL}${product?.image}`}
+                                    src={`${process.env.REACT_APP_PRODUCTS_URL}${product?.image}`}
                                     width={100}
                                     alt="Zdjęcie produktu"
                                 />
